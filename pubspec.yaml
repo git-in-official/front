@@ -108,3 +108,17 @@ flutter:
           weight: 300
         - asset: assets/fonts/NotoSansKR-Thin.otf
           weight: 100
+    - family: KoPubBatangPro
+      fonts:
+        - asset: assets/fonts/KoPub Batang_Pro Bold.otf
+          weight: 900
+        - asset: assets/fonts/KoPub Batang_Pro Light.otf
+          weight: 700
+        - asset: assets/fonts/KoPub Batang_Pro Medium.otf
+          weight: 500
+        - asset: assets/fonts/KoPub Dotum_Pro Bold.otf
+          weight: 400
+        - asset: assets/fonts/KoPub Dotum_Pro Light.otf
+          weight: 300
+        - asset: assets/fonts/KoPub Dotum_Pro Medium.otf
+          weight: 100
