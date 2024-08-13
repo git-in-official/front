@@ -51,6 +51,23 @@ class EmotionView extends GetView<EmotionViewModel> {
                               color: const Color(0xFF3B3731),
                               width: 1.5,
                             ),
+                            boxShadow: isSelected
+                                ? [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                offset: const Offset(-4, -4),
+                                blurRadius: 10.0,
+                                spreadRadius: 1.0,
+                              ),
+                            ]
+                                : [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                offset: const Offset(4, 4),
+                                blurRadius: 10.0,
+                                spreadRadius: 1.0,
+                              ),
+                            ],
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(14.0),
