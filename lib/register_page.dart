@@ -41,7 +41,7 @@ class _AnimatedPositionedLogoState extends State<AnimatedPositionedLogo> {
   void initState() {
     super.initState();
     _small = true; // 애니메이션을 페이지 로드와 동시에 시작
-    // _loadToken();
+    _loadToken();
   }
 
   Future<void> _loadToken() async {
@@ -136,7 +136,7 @@ class _AnimatedPositionedLogoState extends State<AnimatedPositionedLogo> {
                                 SizedBox(height: 16),
                                 ElevatedButton(
                                   onPressed: () {
-                                    // _onSubmit();
+                                    _onSubmit();
                                     },
                                   style: ElevatedButton.styleFrom(
                                     // backgroundColor: _hasText ? Color(0xff373430) : Color(0xff9E9E9E),
