@@ -1,9 +1,16 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:to_morrow_front/register_page.dart';
+import 'package:to_morrow_front/repository/global_controller.dart';
+import 'package:to_morrow_front/repository/login_controller.dart';
 
 class SplashPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -212,18 +219,27 @@ class _AnimatedSlideTextState extends State<AnimatedSlideText>
 }
 
 class AnimatedLogin extends StatefulWidget {
+
   @override
   _AnimatedLogin createState() => _AnimatedLogin();
 }
 
 class _AnimatedLogin extends State<AnimatedLogin>
     with SingleTickerProviderStateMixin {
+
+
   late final AnimationController _fadeController;
   late final Animation<double> _fadeAnimation;
+
+  final _global = Get.find<GlobalController>();
+
+  final LoginController loginController = Get.find<LoginController>();
 
   @override
   void initState() {
     super.initState();
+
+
     _fadeController = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
@@ -252,6 +268,11 @@ class _AnimatedLogin extends State<AnimatedLogin>
 
   @override
   Widget build(BuildContext context) {
+
+    if (_global.user.value.loginPlatform != LoginPlatform.none) {
+      return SizedBox.shrink();
+    }
+
     return FadeTransition(
         opacity: _fadeAnimation,
         child: Column(
@@ -285,7 +306,7 @@ class _AnimatedLogin extends State<AnimatedLogin>
               children: [
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(_createRoute());
+                    loginController.signInWithGoogle();
                   },
                   child: Image.asset(
                     'assets/images/googleLogin.png',
