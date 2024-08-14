@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:to_morrow_front/repository/login_controller.dart';
 
 class RegisterPage extends StatelessWidget {
   @override
@@ -23,14 +26,36 @@ class AnimatedPositionedLogo extends StatefulWidget {
 
 class _AnimatedPositionedLogoState extends State<AnimatedPositionedLogo> {
   bool _small = false;
+  String? accessToken;
+
+  final LoginController loginController = Get.find<LoginController>();
+  final TextEditingController _nameController = TextEditingController();
+
+  @override
+  void dispose() {
+    _nameController.dispose(); // 컨트롤러 메모리 해제
+    super.dispose();
+  }
 
   @override
   void initState() {
     super.initState();
     _small = true; // 애니메이션을 페이지 로드와 동시에 시작
+    // _loadToken();
   }
 
-  // _hasText
+  Future<void> _loadToken() async {
+    final authService = AuthService();
+    final tokens = await authService.loadTokens();
+    setState(() {
+      accessToken = tokens['accessToken'].toString();
+    });
+  }
+
+  void _onSubmit() {
+    final name = _nameController.text;
+    loginController.goToSignup(accessToken!, name);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +102,8 @@ class _AnimatedPositionedLogoState extends State<AnimatedPositionedLogo> {
                             padding: EdgeInsets.symmetric(horizontal: 20),
                             child: Column(
                               children: [
-                                const TextField(
+                                TextField(
+                                  controller: _nameController,
                                   style: TextStyle(
                                     decoration: TextDecoration.none,
                                     decorationThickness: 0,
@@ -109,7 +135,9 @@ class _AnimatedPositionedLogoState extends State<AnimatedPositionedLogo> {
                                 ),
                                 SizedBox(height: 16),
                                 ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    // _onSubmit();
+                                    },
                                   style: ElevatedButton.styleFrom(
                                     // backgroundColor: _hasText ? Color(0xff373430) : Color(0xff9E9E9E),
                                     backgroundColor: Color(0xff9E9E9E), // Button background color

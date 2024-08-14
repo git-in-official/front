@@ -10,9 +10,11 @@ import 'package:to_morrow_front/repository/global_controller.dart';
 import 'package:to_morrow_front/repository/login_controller.dart';
 
 class SplashPage extends StatelessWidget {
-
+  final LoginController loginController = Get.find<LoginController>();
   @override
   Widget build(BuildContext context) {
+    loginController. signOut();
+
     return Scaffold(
       backgroundColor: Color(0xffE6E2DB),
       body: Stack(
@@ -317,10 +319,11 @@ class _AnimatedLogin extends State<AnimatedLogin>
                 SizedBox(width: 20),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => RegisterPage()),
-                    );
+                    loginController.signOut();
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => RegisterPage()),
+                    // );
                   },
                   child: Image.asset('assets/images/appleLogin.png',
                       width: 48, height: 48),
