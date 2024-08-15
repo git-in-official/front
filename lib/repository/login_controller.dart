@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
-import 'package:to_morrow_front/register_page.dart';
+import 'package:to_morrow_front/ui/component/register_page.dart';
 
 import 'global_controller.dart';
 
@@ -138,6 +138,7 @@ class LoginController extends GetxController {
       if (response.statusCode >= 200 && response.statusCode < 300) {
         print("signUp successful : ${response.body}");
         // 메인페이지로 ㄱ
+        // Get.to(() => MainPage());
 
       } else {
         print("Failed to login: ${response.statusCode}, ${response.body}");

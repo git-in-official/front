@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:to_morrow_front/register_page.dart';
+import 'package:to_morrow_front/ui/component/register_page.dart';
 import 'package:to_morrow_front/repository/global_controller.dart';
 import 'package:to_morrow_front/repository/login_controller.dart';
 
@@ -13,7 +13,6 @@ class SplashPage extends StatelessWidget {
   final LoginController loginController = Get.find<LoginController>();
   @override
   Widget build(BuildContext context) {
-    loginController. signOut();
 
     return Scaffold(
       backgroundColor: Color(0xffE6E2DB),
@@ -30,7 +29,7 @@ class SplashPage extends StatelessWidget {
                   'TO.MORROW',
                   style: TextStyle(
                     fontSize: 30.0,
-                    fontFamily: 'KoPubWorldBatang',
+                    fontFamily: 'KoPubBatangPro',
                     fontWeight: FontWeight.bold,
                     color: color,
                   ),
@@ -64,7 +63,7 @@ class SplashPage extends StatelessWidget {
                   'From.You',
                   style: TextStyle(
                     fontSize: 30.0,
-                    fontFamily: 'KoPubWorldBatang',
+                    fontFamily: 'KoPubBatangPro',
                     fontWeight: FontWeight.bold,
                     color: color,
                   ),
@@ -204,7 +203,6 @@ class _AnimatedSlideTextState extends State<AnimatedSlideText>
                     textAlign: TextAlign.right,
                     style: TextStyle(
                       fontSize: 16.0,
-                      fontFamily: 'KoPubWorldBatang',
                       fontWeight: FontWeight.bold,
                     ),
                   )
@@ -308,7 +306,7 @@ class _AnimatedLogin extends State<AnimatedLogin>
               children: [
                 GestureDetector(
                   onTap: () {
-                    loginController.signInWithGoogle();
+                    // loginController.signInWithGoogle();
                   },
                   child: Image.asset(
                     'assets/images/googleLogin.png',
@@ -319,11 +317,11 @@ class _AnimatedLogin extends State<AnimatedLogin>
                 SizedBox(width: 20),
                 GestureDetector(
                   onTap: () {
-                    loginController.signOut();
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => RegisterPage()),
-                    // );
+                    // loginController.signOut();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RegisterPage()),
+                    );
                   },
                   child: Image.asset('assets/images/appleLogin.png',
                       width: 48, height: 48),
