@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:to_morrow_front/ui/widgets/my_page_appBar.dart';
 
+// 계정 및 프로필 스크린
 class MyPage extends StatelessWidget {
   const MyPage({super.key});
 
