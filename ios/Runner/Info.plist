@@ -45,5 +45,20 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	 <key>CFBundleURLTypes</key> <!-- 앱이 특정 URL 스키마를 처리할 수 있도록 설정 -->
+                <array>
+                    <dict>
+                        <key>CFBundleURLSchemes</key>
+                        <array>
+                            <!-- google login  -->
+                            <string>com.googleusercontent.apps.701413578713-ler7cu7k064jb91s7boic79jtajdkho5</string>
+                        </array>
+                    </dict>
+                </array>
+                <key>LSApplicationQueriesSchemes</key>  <!-- 앱이 외부 앱을 호출할 수 있도록 허용-->
+                <array>
+                    <string>spotify</string>
+                    <string>youtube_api_test</string>
+                </array>
 </dict>
 </plist>
