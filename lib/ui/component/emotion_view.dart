@@ -24,7 +24,7 @@ class EmotionView extends GetView<EmotionViewModel> {
                   color: Colors.black,
                   fontSize: 18.0,
                   fontFamily: 'KoPubBatangPro',
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
               const SizedBox(height: 40),
@@ -34,7 +34,7 @@ class EmotionView extends GetView<EmotionViewModel> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 16.0,
                     mainAxisSpacing: 16.0,
-                    childAspectRatio: 1.4,
+                    childAspectRatio: 1.34,
                   ),
                   itemCount: controller.emotions.length,
                   itemBuilder: (context, index) {
@@ -49,23 +49,21 @@ class EmotionView extends GetView<EmotionViewModel> {
                             borderRadius: BorderRadius.circular(20.0),
                             border: Border.all(
                               color: const Color(0xFF3B3731),
-                              width: 1.5,
+                              width: 1.0,
                             ),
                             boxShadow: isSelected
                                 ? [
                               BoxShadow(
                                 color: Colors.black.withOpacity(0.2),
-                                offset: const Offset(-4, -4),
-                                blurRadius: 10.0,
-                                spreadRadius: 1.0,
+                                offset: const Offset(-2, -2),
+                                blurRadius: 5.0,
                               ),
                             ]
                                 : [
                               BoxShadow(
                                 color: Colors.black.withOpacity(0.2),
-                                offset: const Offset(4, 4),
-                                blurRadius: 10.0,
-                                spreadRadius: 1.0,
+                                offset: const Offset(2, 2),
+                                blurRadius: 5.0,
                               ),
                             ],
                           ),
@@ -88,7 +86,7 @@ class EmotionView extends GetView<EmotionViewModel> {
                                   style: TextStyle(
                                     fontSize: 18.0,
                                     fontFamily: 'KoPubBatangPro',
-                                    fontWeight: FontWeight.w700,
+                                    fontWeight: FontWeight.w500,
                                     color: isSelected ? const Color(0xFFE6E2DB) : const Color(0xFF373430),
                                   ),
                                 ),
@@ -99,7 +97,7 @@ class EmotionView extends GetView<EmotionViewModel> {
                                   style: TextStyle(
                                     fontSize: 13.0,
                                     fontFamily: 'KoPubBatangPro',
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.w400,
                                     color: isSelected ? const Color(0xFFE6E2DB) : const Color(0xFF373430),
                                   ),
                                 ),
