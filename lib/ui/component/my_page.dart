@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:to_morrow_front/ui/component/my_designation.dart';
 
 // 계정 및 프로필 스크린
 class MyPage extends StatelessWidget {
@@ -213,7 +215,9 @@ class MyPage extends StatelessWidget {
                 Row(
                   children: [
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.to(MyDesignation());
+                      },
                       child: const Row(
                         children: [
                           Text(
