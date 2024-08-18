@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/svg.dart';
 
 // 계정 및 프로필 스크린
 class MyPage extends StatelessWidget {
@@ -85,12 +87,12 @@ class MyPage extends StatelessWidget {
                               ),
                               child: Row(
                                 children: [
-                                  Container(
-                                    width: 20,
-                                    height: 20,
-                                    color: Colors.white, // 잉크 개수를 나타내는 컨테이너
+                                  SvgPicture.asset(
+                                    'assets/icons/main_menu/ink_icon.svg',
+                                    width: 24.0,
+                                    height: 24.0,
                                   ),
-                                  const SizedBox(width: 8), // 흰색이랑 350 잉크 사이 간격
+                                  const SizedBox(width: 6), // 흰색이랑 350 잉크 사이 간격
                                   Container(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 7, vertical: 4),
@@ -205,7 +207,7 @@ class MyPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
-                  '칭호',
+                  '업적',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 Row(
