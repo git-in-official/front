@@ -26,45 +26,7 @@ class Maintab extends StatelessWidget {
             children: [
               //배너 위치
               Container(height: 66, color: Colors.blueAccent),
-              //감정 변경
-              InkWell(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) => EmotionChangeModal(),
-                  );
-                },
-                //이미지 변경
-                child: Obx(() {
-                  final imagePaths = [
-                    'assets/images/icon-happy.png',
-                    'assets/images/icon-sad.png',
-                    'assets/images/icon-fear.png',
-                    'assets/images/icon-anger.png',
-                    'assets/images/icon-expect.png',
-                    'assets/images/icon-trust.png',
-                    'assets/images/icon-dontno.png',
-                  ];
-                  final selectedIndex =
-                      tabController.selectedEmotionIndex.value;
-                  return Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 11),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          selectedIndex >= 0
-                              ? imagePaths[selectedIndex]
-                              : 'assets/images/icon-happy.png',
-                          width: 24,
-                          height: 24,
-                        ),
-                        SizedBox(width: 8),
-                        Text('감정선택', style: TextStyle(fontSize: 14)),
-                      ],
-                    ),
-                  );
-                }),
-              ),
+
               Expanded(
                 child: IndexedStack(
                   index: 0,
@@ -84,69 +46,75 @@ class Maintab extends StatelessWidget {
               ? _showBottomSheet(context)
               : SizedBox.shrink();
         }),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: 0,
-          onTap: (index) {
-            //가운데 버튼
-            if (index == 1) {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) => CircleMenuDialog(),
-              );
-            }
-            //메뉴버튼
-            if (index == 2) {
-              tabController.showSecondBottomSheet.value =
-                  !tabController.showSecondBottomSheet.value;
-            }
-          },
-          items: [
-            BottomNavigationBarItem(
-              icon: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset('assets/images/home.png', width: 24, height: 24),
-                  const Text(
-                    '홈으로',
-                    style: TextStyle(fontSize: 10),
+        bottomNavigationBar: Container(
+            decoration: const BoxDecoration(
+              border:
+                  Border(top: BorderSide(color: Color(0xffD0CDC8), width: 1.0)),
+            ),
+            child: BottomNavigationBar(
+              currentIndex: 0,
+              onTap: (index) {
+                //가운데 버튼
+                if (index == 1) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) => CircleMenuDialog(),
+                  );
+                }
+                //메뉴버튼
+                if (index == 2) {
+                  tabController.showSecondBottomSheet.value =
+                      !tabController.showSecondBottomSheet.value;
+                }
+              },
+              items: [
+                BottomNavigationBarItem(
+                  icon: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset('assets/images/home.png',
+                          width: 24, height: 24),
+                      const Text(
+                        '홈으로',
+                        style: TextStyle(fontSize: 10),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset('assets/images/home-ment.png',
-                      width: 44, height: 44),
-                ],
-              ),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset('assets/images/menu.png', width: 24, height: 24),
-                  const Text(
-                    '메뉴',
-                    style: TextStyle(fontSize: 10),
+                  label: '',
+                ),
+                BottomNavigationBarItem(
+                  icon: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset('assets/images/home-ment.png',
+                          width: 44, height: 44),
+                    ],
                   ),
-                ],
-              ),
-              label: '',
-            ),
-          ],
-          selectedItemColor: Colors.black,
-          unselectedItemColor: Colors.black,
-          selectedLabelStyle: null,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: const Color(0xffE6E2DB),
-          elevation: 0,
-        ),
+                  label: '',
+                ),
+                BottomNavigationBarItem(
+                  icon: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset('assets/images/menu.png',
+                          width: 24, height: 24),
+                      const Text(
+                        '메뉴',
+                        style: TextStyle(fontSize: 10),
+                      ),
+                    ],
+                  ),
+                  label: '',
+                ),
+              ],
+              selectedItemColor: Colors.black,
+              unselectedItemColor: Colors.black,
+              selectedLabelStyle: null,
+              showSelectedLabels: false,
+              showUnselectedLabels: false,
+              type: BottomNavigationBarType.fixed,
+              backgroundColor: const Color(0xffE6E2DB),
+            )),
       ),
     );
   }
