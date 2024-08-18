@@ -10,20 +10,18 @@ class MyDesignation extends StatelessWidget {
       backgroundColor: const Color(0xFFE6E2DB),
       appBar: AppBar(
         backgroundColor: const Color(0xFFE6E2DB),
-        title: Row(
+         titleSpacing: 16,
+        // leadingWidth: 40.0,
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            IconButton(
-              icon: const Icon(Icons.arrow_back_ios_new),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            const SizedBox(width: 1),
             const Text(
-              '칭호',
-              style: TextStyle(
-                  fontFamily: 'KoPubBatangPro', fontWeight: FontWeight.w700),
-            ),
+                  '업적',
+                  style: TextStyle(
+                    fontFamily: 'KoPubBatangPro',
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
           ],
         ),
         bottom: PreferredSize(
@@ -36,7 +34,6 @@ class MyDesignation extends StatelessWidget {
         ),
       ),
       body: const MyRepresentativeBadge(),
-
     );
   }
 }
