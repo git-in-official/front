@@ -4,9 +4,21 @@ import 'package:flutter/material.dart';
 class CircleMenuDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      backgroundColor: Colors.transparent,
-      child: CircleMenu(),
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop(); // 다이얼로그 닫기
+          },
+          child: Container(
+            color: Colors.transparent,
+            width: double.infinity,
+            height: double.infinity,
+          ),
+        ),
+        CircleMenu(),
+      ],
     );
   }
 }
@@ -14,42 +26,41 @@ class CircleMenuDialog extends StatelessWidget {
 class CircleMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Center(
+    return Positioned(
+      bottom: -14, // 화면 하단보다 -14만큼 아래로 위치
+      child: Container(
+        width: 300,
+        height: 300,
+        decoration: BoxDecoration(
+          color: Color(0xFFE6E2DB),
+          shape: BoxShape.circle,
+          border: Border.all(color: Color(0xFFE7E6E4), width: 1),
+        ),
         child: Stack(
           alignment: Alignment.center,
           children: [
-            // 큰 원형 배경
-            Container(
-              width: 300,
-              height: 300,
-              decoration: BoxDecoration(
-                color: Color(0xFFE6E2DB),
-                shape: BoxShape.circle,
-                border: Border.all(color: Color(0xFFE7E6E4), width: 1),
-              ),
-              child: CustomPaint(
-                painter: CircleDiagonalLinePainter(),
-              ),
+            CustomPaint(
+              size: Size(300, 300),
+              painter: CircleDiagonalLinePainter(),
             ),
             // 작은 원형 버튼들
             Positioned(
               top: 33,
-              child: CircleButton(icon: Icons.person, label: "단어"),
+              child: CircleButton(imagePath: 'assets/images/title.png', label: "제목"),
             ),
             Positioned(
               bottom: 33,
-              child: CircleButton(icon: Icons.menu_book_sharp, label: "소리"),
+              child: CircleButton(imagePath: 'assets/images/sounds.png', label: "소리"),
             ),
             Positioned(
               left: 33,
-              child: CircleButton(icon: Icons.store, label: "제목"),
+              child: CircleButton(imagePath: 'assets/images/word.png', label: "단어"),
             ),
             Positioned(
               right: 33,
-              child: CircleButton(icon: Icons.smart_display, label: "영상"),
+              child: CircleButton(imagePath: 'assets/images/media.png', label: "영상"),
             ),
+
             // 중앙 아이콘
             Container(
               width: 100,
@@ -66,7 +77,12 @@ class CircleMenu extends StatelessWidget {
                     color: Color(0xFFE6E2DB),
                     shape: BoxShape.circle,
                   ),
-                  child: Image.asset('assets/images/icon.png', width: 24, height: 24),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Image.asset('assets/images/icon.png', width: 24, height: 24),
+                  ),
                 ),
               ),
             ),
@@ -78,30 +94,33 @@ class CircleMenu extends StatelessWidget {
 }
 
 class CircleButton extends StatelessWidget {
-  final IconData icon;
+  final String imagePath;
   final String label;
 
-  const CircleButton({required this.icon, required this.label});
+  const CircleButton({required this.imagePath, required this.label});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Container(
-          width: 45,
-          height: 45,
-          child: Icon(icon, color: Colors.black, size: 26),
-        ),
-        Text(
-          label,
-          style: TextStyle(
-            fontFamily: 'KoPub Batang',
-            fontSize: 10,
-            color: Color(0xFF333333),
-          ),
-        ),
-      ],
+    return SizedBox(
+      height: 56,
+      width: 56,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(imagePath, color: Color(0xff373430), width: 24, height: 24),
+          SizedBox(height: 4),
+      Material(
+    type: MaterialType.transparency,
+         child:  Text(
+            label,
+            style: const TextStyle(
+              fontSize: 10,
+              overflow: TextOverflow.visible,
+              color: Color(0xFF373430),
+            ),
+          )),
+        ],
+      ),
     );
   }
 }
@@ -110,8 +129,8 @@ class CircleDiagonalLinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Color(0xFFBDBDBD)
-      ..strokeWidth = 1;
+      ..color = const Color(0xFFD0CDC8)
+      ..strokeWidth = 1; // 선의 두께
 
     // 원의 중심
     final center = Offset(size.width / 2, size.height / 2);
