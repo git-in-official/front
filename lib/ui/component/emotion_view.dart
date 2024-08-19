@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:to_morrow_front/ui/component/write_edit_view.dart';
 import 'package:to_morrow_front/ui/view_model/emotion_view_model.dart';
 
 
@@ -46,7 +47,7 @@ class EmotionView extends GetView<EmotionViewModel> {
                         child: Container(
                           decoration: BoxDecoration(
                             color: isSelected ? const Color(0xFF373430) : const Color(0xFFE6E2DB),
-                            borderRadius: BorderRadius.circular(20.0),
+                            borderRadius: BorderRadius.circular(16.0),
                             border: Border.all(
                               color: const Color(0xFF3B3731),
                               width: 1.0,
@@ -110,6 +111,37 @@ class EmotionView extends GetView<EmotionViewModel> {
                   },
                 ),
               ),
+              Obx(() {
+                final isButton = controller.selectedEmotion.value != null;
+                return GestureDetector(
+                  onTap: isButton
+                      ? () {
+                    // 다음 페이지 이동
+                    Get.to('');
+                  }
+                      : null,
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 24.0),
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    decoration: BoxDecoration(
+                      color: isButton
+                          ? const Color(0xFF373430)
+                          : const Color(0xFF373430).withOpacity(0.6),
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    alignment: Alignment.center,
+                    child: const Text(
+                      '입력 완료',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                        fontFamily: 'KoPubBatangPro',
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                );
+              }),
             ],
           ),
         ),
