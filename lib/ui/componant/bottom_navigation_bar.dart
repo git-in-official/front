@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:to_morrow_front/ui/componant/speech_bubble.dart';
 
 import '../../maintab_controller.dart';
 import 'circle_button.dart';
-import 'emotion_change_modal.dart';
 import 'main_home_page.dart';
 
 class Maintab extends StatelessWidget {
@@ -21,24 +21,38 @@ class Maintab extends StatelessWidget {
       ),
       child: Scaffold(
         backgroundColor: Color(0xffE6E2DB),
-        body: SafeArea(
-          child: Column(
-            children: [
-              //배너 위치
-              Container(height: 66, color: Colors.blueAccent),
+        body: Stack(
+          children: [
+            SafeArea(
+              child: Column(
+                children: [
+                  // 배너 위치
+                  Container(height: 66, color: Colors.blueAccent),
 
-              Expanded(
-                child: IndexedStack(
-                  index: 0,
-                  children: [
-                    HomePage(),
-                    HomePage(),
-                    HomePage(),
-                  ],
-                ),
+                  Expanded(
+                    child: IndexedStack(
+                      index: 0,
+                      children: [
+                        HomePage(),
+                        HomePage(),
+                        HomePage(),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+
+            // 위치 조정이 필요한 애니메이션 위젯
+            const Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Center(
+                child: AnimatedBubbleWidget(comment: '글감을 선택하여 집필해보세요'),
+              ),
+            ),
+          ],
         ),
         //하단 탭
         bottomSheet: Obx(() {

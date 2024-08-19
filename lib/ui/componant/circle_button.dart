@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:to_morrow_front/ui/componant/speech_bubble.dart';
 
 class CircleMenuDialog extends StatelessWidget {
   @override
@@ -18,10 +20,18 @@ class CircleMenuDialog extends StatelessWidget {
           ),
         ),
         CircleMenu(),
+        Positioned(
+          bottom: 290,
+          child: AnimatedBubbleWidget(comment: '글감을 선택해주세요'),
+        ),
       ],
     );
   }
 }
+
+
+
+
 
 class CircleMenu extends StatelessWidget {
   @override
@@ -46,19 +56,23 @@ class CircleMenu extends StatelessWidget {
             // 작은 원형 버튼들
             Positioned(
               top: 33,
-              child: CircleButton(imagePath: 'assets/images/title.png', label: "제목"),
+              child: CircleButton(
+                  imagePath: 'assets/images/title.png', label: "제목"),
             ),
             Positioned(
               bottom: 33,
-              child: CircleButton(imagePath: 'assets/images/sounds.png', label: "소리"),
+              child: CircleButton(
+                  imagePath: 'assets/images/sounds.png', label: "소리"),
             ),
             Positioned(
               left: 33,
-              child: CircleButton(imagePath: 'assets/images/word.png', label: "단어"),
+              child: CircleButton(
+                  imagePath: 'assets/images/word.png', label: "단어"),
             ),
             Positioned(
               right: 33,
-              child: CircleButton(imagePath: 'assets/images/media.png', label: "영상"),
+              child: CircleButton(
+                  imagePath: 'assets/images/media.png', label: "영상"),
             ),
 
             // 중앙 아이콘
@@ -81,7 +95,8 @@ class CircleMenu extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).pop();
                     },
-                    child: Image.asset('assets/images/icon.png', width: 24, height: 24),
+                    child: Image.asset('assets/images/icon.png',
+                        width: 24, height: 24),
                   ),
                 ),
               ),
@@ -92,6 +107,8 @@ class CircleMenu extends StatelessWidget {
     );
   }
 }
+
+
 
 class CircleButton extends StatelessWidget {
   final String imagePath;
@@ -107,18 +124,19 @@ class CircleButton extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(imagePath, color: Color(0xff373430), width: 24, height: 24),
+          Image.asset(imagePath,
+              color: Color(0xff373430), width: 24, height: 24),
           SizedBox(height: 4),
-      Material(
-    type: MaterialType.transparency,
-         child:  Text(
-            label,
-            style: const TextStyle(
-              fontSize: 10,
-              overflow: TextOverflow.visible,
-              color: Color(0xFF373430),
-            ),
-          )),
+          Material(
+              type: MaterialType.transparency,
+              child: Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 10,
+                  overflow: TextOverflow.visible,
+                  color: Color(0xFF373430),
+                ),
+              )),
         ],
       ),
     );
