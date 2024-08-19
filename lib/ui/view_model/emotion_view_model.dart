@@ -21,12 +21,13 @@ class EmotionViewModel extends GetxController {
   }
 
   void selectEmotion(EmotionModel emotion) async{
-    selectedEmotion.value = emotion;
-
-    await sendEmotionToServer(emotion);
-
-    // 감정 선택 후 다음 페이지로 이동
-    Get.toNamed('/nextPage');
+    if (selectedEmotion.value == emotion) {
+      //이미 선택된 감정 다시 누른 경우
+      selectedEmotion.value = null;
+    } else {
+      //새로운 감정을 선택한 경우
+      selectedEmotion.value = emotion;
+    }
   }
 
   Future<void> sendEmotionToServer(EmotionModel emotion) async {
