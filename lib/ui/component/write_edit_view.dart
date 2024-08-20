@@ -4,6 +4,7 @@ import 'package:to_morrow_front/ui/view_model/write_edit_view_model.dart';
 
 class WriteEditView extends StatelessWidget {
   final WriteEditViewModel viewModel = Get.put(WriteEditViewModel());
+  WriteEditView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class WriteEditView extends StatelessWidget {
                     color: const Color(0xFF6D675F),
                     child: Stack(
                       children: [
-                        // 텍스트 정렬
+                        // 텍스트 정렬 변경
                         Positioned(
                           top: 42,
                           left: 10,
@@ -37,8 +38,9 @@ class WriteEditView extends StatelessWidget {
                             decoration: const BoxDecoration(
                               color: Color(0xFFE6E2DB),
                               borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(8),
-                                  bottomLeft: Radius.circular(16)),
+                                topLeft: Radius.circular(8),
+                                bottomLeft: Radius.circular(16),
+                              ),
                             ),
                             child: IconButton(
                               icon: Image.asset(
@@ -49,7 +51,7 @@ class WriteEditView extends StatelessWidget {
                             ),
                           ),
                         ),
-                        // 폰트 크기
+                        // 폰트 크기 변경
                         Positioned(
                           top: 88,
                           left: 10,
@@ -59,8 +61,9 @@ class WriteEditView extends StatelessWidget {
                             decoration: const BoxDecoration(
                               color: Color(0xFFE6E2DB),
                               borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(8),
-                                  bottomLeft: Radius.circular(16)),
+                                topLeft: Radius.circular(8),
+                                bottomLeft: Radius.circular(16),
+                              ),
                             ),
                             child: IconButton(
                               icon: Image.asset(
@@ -71,7 +74,7 @@ class WriteEditView extends StatelessWidget {
                             ),
                           ),
                         ),
-                        // 폰트 변경
+                        // 글꼴 변경
                         Positioned(
                           top: 134,
                           left: 10,
@@ -81,8 +84,9 @@ class WriteEditView extends StatelessWidget {
                             decoration: const BoxDecoration(
                               color: Color(0xFFE6E2DB),
                               borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(8),
-                                  bottomLeft: Radius.circular(16)),
+                                topLeft: Radius.circular(8),
+                                bottomLeft: Radius.circular(16),
+                              ),
                             ),
                             child: IconButton(
                               icon: Image.asset(
@@ -90,7 +94,7 @@ class WriteEditView extends StatelessWidget {
                                 width: 24,
                               ),
                               onPressed: () {
-                                // 글꼴 선택 모달 창 열기
+                                // 글꼴 변경 모달창 열기
                               },
                             ),
                           ),
@@ -104,76 +108,92 @@ class WriteEditView extends StatelessWidget {
                       color: const Color(0xFFE6E2DB),
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(width: 24),
-                            const Row(
-                              children: [
-                                Expanded(
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                      hintText: '제목을 입력해주세요',
-                                      hintStyle:
-                                      TextStyle(color: Color(0xFFB8B4AD)),
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color(0xFFB8B4AD)),
+                        child: Obx(() {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(width: 24),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: TextField(
+                                      decoration: const InputDecoration(
+                                        hintText: '제목을 입력해주세요',
+                                        hintStyle: TextStyle(color: Color(0xFFB8B4AD)),
+                                        enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color(0xFFB8B4AD)),
+                                        ),
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color(0xFF373430)),
+                                        ),
                                       ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color(0xFF373430)),
+                                      style: const TextStyle(
+                                        fontSize: 14.0,
+                                        fontFamily: 'KoPubBatangPro',
+                                        fontWeight: FontWeight.w500,
                                       ),
+                                      // 텍스트 정렬 적용
+                                      textAlign: _getTextAlign(viewModel.textAlign.value),
                                     ),
                                   ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 46,
+                                child: Row(
+                                  children: [
+                                    Spacer(),
+                                    Text(
+                                      '투모로우',
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        fontFamily: 'KoPubBatangPro',
+                                        fontWeight: FontWeight.w700,
+                                        color: Color(0xFF373430),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 46,
-                              child: Row(
-                                children: [
-                                  Spacer(),
-                                  Text(
-                                    '투모로우',
-                                    style: TextStyle(
-                                      fontSize: 14.0,
-                                      fontFamily: 'KoPubBatangPro',
-                                      fontWeight: FontWeight.w700,
-                                      color: Color(0xFF373430),
-                                    ),
-                                  ),
-                                ],
                               ),
-                            ),
-                            Expanded(
-                              child: Stack(
-                                children: [
-                                  const TextField(
-                                    decoration: InputDecoration(
-                                      hintText: '본문을 입력해주세요',
-                                      hintStyle: TextStyle(color: Color(0xFFB8B4AD)),
-                                      border: InputBorder.none,
+                              Expanded(
+                                child: Stack(
+                                  children: [
+                                    TextField(
+                                      decoration: const InputDecoration(
+                                        hintText: '본문을 입력해주세요',
+                                        hintStyle: TextStyle(color: Color(0xFFB8B4AD)),
+                                        border: InputBorder.none,
+                                      ),
+                                      style: const TextStyle(
+                                        // 폰트 크기 적용
+                                        fontSize: 14.0,
+                                        fontFamily: 'KoPubBatangPro',
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      // 텍스트 정렬 적용
+                                      textAlign: _getTextAlign(viewModel.textAlign.value),
+                                      maxLines: null,
+                                      expands: true,
+                                      keyboardType: TextInputType.multiline,
+                                      textInputAction: TextInputAction.newline,
                                     ),
-                                    maxLines: null,
-                                    expands: true,
-                                    keyboardType: TextInputType.multiline,
-                                    textInputAction: TextInputAction.newline,
-                                  ),
-                                  Positioned(
-                                    left: 0,
-                                    right: 0,
-                                    bottom: 0,
-                                    child: Container(
-                                      height: 1,
-                                      color: const Color(0xFFB8B4AD),
+                                    Positioned(
+                                      left: 0,
+                                      right: 0,
+                                      bottom: 0,
+                                      child: Container(
+                                        height: 1,
+                                        color: const Color(0xFFB8B4AD),
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          );
+                        }),
                       ),
                     ),
                   ),
@@ -184,5 +204,17 @@ class WriteEditView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  // 텍스트 정렬 변경
+  TextAlign _getTextAlign(int value) {
+    switch (value) {
+      case 1:
+        return TextAlign.center;
+      case 2:
+        return TextAlign.right;
+      default:
+        return TextAlign.left;
+    }
   }
 }
