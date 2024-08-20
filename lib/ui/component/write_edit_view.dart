@@ -4,7 +4,6 @@ import 'package:to_morrow_front/ui/view_model/write_edit_view_model.dart';
 
 class WriteEditView extends StatelessWidget {
   final WriteEditViewModel viewModel = Get.put(WriteEditViewModel());
-  WriteEditView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -166,9 +165,9 @@ class WriteEditView extends StatelessWidget {
                                         hintStyle: TextStyle(color: Color(0xFFB8B4AD)),
                                         border: InputBorder.none,
                                       ),
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         // 폰트 크기 적용
-                                        fontSize: 14.0,
+                                        fontSize: _getFontSize(viewModel.fontSize.value),
                                         fontFamily: 'KoPubBatangPro',
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -215,6 +214,18 @@ class WriteEditView extends StatelessWidget {
         return TextAlign.right;
       default:
         return TextAlign.left;
+    }
+  }
+
+  // 폰트 크기 변경
+  double _getFontSize(int value) {
+    switch (value) {
+      case 1:
+        return 16.0; // 큰 폰트 크기
+      case 2:
+        return 12.0; // 작은 폰트 크기
+      default:
+        return 14.0; // 기본 폰트 크기
     }
   }
 }
