@@ -75,6 +75,7 @@ flutter:
   assets:
     - assets/img/
     - assets/icons/main_menu/
+    - assets/icons/mypage/
     - assets/images/
 
   # To add assets to your application, add an assets section, like this:
