@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:to_morrow_front/ui/componant/read_contents.dart';
-import 'package:page_transition/page_transition.dart'; // page_transition 패키지 임포트
+import 'package:to_morrow_front/ui/component/read_contents.dart';
 
 import '../../filp/page_flip_widget.dart';
 

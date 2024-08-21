@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:to_morrow_front/ui/componant/speech_bubble.dart';
+import 'package:to_morrow_front/ui/component/speech_bubble.dart';
 
-import '../../maintab_controller.dart';
+import '../../repository/maintab_controller.dart';
 import 'circle_button.dart';
 import 'main_home_page.dart';
 

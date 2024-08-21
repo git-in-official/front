@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:to_morrow_front/ui/componant/speech_bubble.dart';
+import 'package:to_morrow_front/ui/component/speech_bubble.dart';
 import 'Inspiration_done_modal.dart';
 
 class CircleMenuDialog extends StatelessWidget {

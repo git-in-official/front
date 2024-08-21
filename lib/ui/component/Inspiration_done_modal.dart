@@ -35,7 +35,7 @@ class InspirationDoneModal extends StatelessWidget {
                 ],
               ),
             ),
-            Text(
+            const Text(
               '두 편의 시를 풀어주셨네요.\n다른 이들의 시를 감상해보세요.',
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -60,7 +60,7 @@ class InspirationDoneModal extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text(
+                child: const Text(
                   '확인',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
