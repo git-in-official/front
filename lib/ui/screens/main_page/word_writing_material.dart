@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class WritingMaterial extends StatelessWidget {
-  const WritingMaterial({super.key});
+class WordWritingMaterial extends StatelessWidget {
+  const WordWritingMaterial({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class WritingMaterial extends StatelessWidget {
                   height: 24.0,
                 ),
                 const Text(
-                  '오늘의 글감을 알려드립니다.',
+                  '오늘의 단어글감을 알려드립니다.',
                   style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.w400,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class VideoWrite extends StatelessWidget {
-  const VideoWrite({super.key});
+class SoundWrite extends StatelessWidget {
+  const SoundWrite({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,20 +25,20 @@ class VideoWrite extends StatelessWidget {
                   height: 24.0,
                 ),
                 const Text(
-                  '오늘의 글감을 알려드립니다.',
+                  '오늘의 소리글감을 알려드립니다.',
                   style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.w400,
                       fontFamily: 'KoPubBatangPro'),
                 ),
                 const SizedBox(
-                  height: 24.0,
+                  height: 76.0,
                 ),
                 Container(
-                  child: Image.asset('assets/img/video_demo_pic.png'),
+                  child: Image.asset('assets/img/sound_pic.png'),
                 ),
                 const SizedBox(
-                  height: 8.0,
+                  height: 60.0,
                 ),
                 Image.asset(
                   'assets/img/media_bar.png',
