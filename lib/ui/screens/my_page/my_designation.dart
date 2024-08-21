@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:to_morrow_front/ui/componant/bottom_navigation_bar.dart';
+import 'package:flutter_svg/svg.dart';
 
 class MyDesignation extends StatelessWidget {
   const MyDesignation({super.key});
@@ -10,22 +12,22 @@ class MyDesignation extends StatelessWidget {
       backgroundColor: const Color(0xFFE6E2DB),
       appBar: AppBar(
         backgroundColor: const Color(0xFFE6E2DB),
-         titleSpacing: 16,
+        titleSpacing: 16,
         // leadingWidth: 40.0,
         title: const Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const Text(
-                  '업적',
-                  style: TextStyle(
-                    fontFamily: 'KoPubBatangPro',
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
+              '업적',
+              style: TextStyle(
+                fontFamily: 'KoPubBatangPro',
+                fontWeight: FontWeight.w700,
+              ),
+            ),
           ],
         ),
         bottom: PreferredSize(
-          // 칭호 밑에 회색 선
+          // 업적 밑에 회색 선
           preferredSize: const Size.fromHeight(1.0),
           child: Container(
             color: const Color(0xFFBDBDBD),
@@ -63,21 +65,22 @@ class MyRepresentativeBadge extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               Container(
-                width: 80,
-                height: 80,
-                decoration: const BoxDecoration(
-                  color: Color(0xFFD0CDC8),
-                  shape: BoxShape.circle,
+                child: Image.asset(
+                  'assets/img/my_badge_test.png', // 뱃지
+                  width: 85.0,
+                  height: 89.0,
                 ),
-              ),
-              const Icon(
-                Icons.lock,
-                size: 32,
-                color: Color(0xFF6D675F),
               ),
             ],
           ),
-          const SizedBox(height: 40),
+         const SizedBox(
+            height: 20.0,
+          ),
+          const Text(
+            '업적명',
+            style: TextStyle(fontSize: 16.0),
+          ),
+          const SizedBox(height: 32),
           Container(
             width: MediaQuery.of(context).size.width, // 디바이스의 전체 너비를 차지하도록 설정
             height: 1.0,
@@ -99,7 +102,7 @@ class MyRepresentativeBadge extends StatelessWidget {
                   children: [
                     const CircleAvatar(
                       radius: 40,
-                      backgroundColor: Color(0xFFD0CDC8),
+                      backgroundColor: Color(0xFF373430),
                     ),
                     const Icon(
                       Icons.lock,

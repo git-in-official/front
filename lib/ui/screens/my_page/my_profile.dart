@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:to_morrow_front/ui/component/my_designation.dart';
+import 'package:to_morrow_front/ui/screens/my_page//my_designation.dart';
+import 'package:to_morrow_front/ui/screens/my_page/my_profile_edit.dart';
 
 // 계정 및 프로필 스크린
-class MyPage extends StatelessWidget {
-  const MyPage({super.key});
+class MyProfile extends StatelessWidget {
+  const MyProfile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +31,20 @@ class MyPage extends StatelessWidget {
             ),
           ],
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: InkWell(
+              onTap: () {
+                Get.to(MyProfileEdit());
+              },
+              child: SvgPicture.asset(
+                'assets/icons/mypage/setting_icon.svg',
+
+              ),
+            ),
+          ),
+        ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1.0),
           child: Container(
