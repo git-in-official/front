@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:to_morrow_front/ui/componant/speech_bubble.dart';
+import 'Inspiration_done_modal.dart';
 
 class CircleMenuDialog extends StatelessWidget {
   @override
@@ -18,6 +21,10 @@ class CircleMenuDialog extends StatelessWidget {
           ),
         ),
         CircleMenu(),
+        Positioned(
+          bottom: 290,
+          child: AnimatedBubbleWidget(comment: '글감을 선택해주세요'),
+        ),
       ],
     );
   }
@@ -43,24 +50,39 @@ class CircleMenu extends StatelessWidget {
               size: Size(300, 300),
               painter: CircleDiagonalLinePainter(),
             ),
-            // 작은 원형 버튼들
+            // 원형 버튼들
             Positioned(
               top: 33,
-              child: CircleButton(imagePath: 'assets/images/title.png', label: "제목"),
+              child: CircleButton(
+                imagePath: 'assets/images/title.png',
+                label: "제목",
+                movePage: InspirationDoneModal(),
+              ),
             ),
             Positioned(
               bottom: 33,
-              child: CircleButton(imagePath: 'assets/images/sounds.png', label: "소리"),
+              child: CircleButton(
+                imagePath: 'assets/images/sounds.png',
+                label: "소리",
+                movePage: InspirationDoneModal(),
+              ),
             ),
             Positioned(
               left: 33,
-              child: CircleButton(imagePath: 'assets/images/word.png', label: "단어"),
+              child: CircleButton(
+                imagePath: 'assets/images/word.png',
+                label: "단어",
+                movePage: InspirationDoneModal(),
+              ),
             ),
             Positioned(
               right: 33,
-              child: CircleButton(imagePath: 'assets/images/media.png', label: "영상"),
+              child: CircleButton(
+                imagePath: 'assets/images/media.png',
+                label: "영상",
+                movePage: InspirationDoneModal(),
+              ),
             ),
-
             // 중앙 아이콘
             Container(
               width: 100,
@@ -81,7 +103,11 @@ class CircleMenu extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).pop();
                     },
-                    child: Image.asset('assets/images/icon.png', width: 24, height: 24),
+                    child: Image.asset(
+                      'assets/images/icon.png',
+                      width: 24,
+                      height: 24,
+                    ),
                   ),
                 ),
               ),
@@ -96,30 +122,53 @@ class CircleMenu extends StatelessWidget {
 class CircleButton extends StatelessWidget {
   final String imagePath;
   final String label;
+  final Widget movePage;
 
-  const CircleButton({required this.imagePath, required this.label});
+  const CircleButton({
+    required this.imagePath,
+    required this.label,
+    required this.movePage,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 56,
       width: 56,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(imagePath, color: Color(0xff373430), width: 24, height: 24),
-          SizedBox(height: 4),
-      Material(
-    type: MaterialType.transparency,
-         child:  Text(
-            label,
-            style: const TextStyle(
-              fontSize: 10,
-              overflow: TextOverflow.visible,
-              color: Color(0xFF373430),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.of(context).pop();
+          showDialog(
+            context: context,
+            builder: (BuildContext context) => movePage,
+          );
+
+
+
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              imagePath,
+              color: Color(0xff373430),
+              width: 24,
+              height: 24,
             ),
-          )),
-        ],
+            SizedBox(height: 4),
+            Material(
+              type: MaterialType.transparency,
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 10,
+                  overflow: TextOverflow.visible,
+                  color: Color(0xFF373430),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
