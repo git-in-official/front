@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:to_morrow_front/ui/componant/bottom_navigation_bar.dart';
+import 'package:to_morrow_front/ui/component/bottom_navigation_bar.dart';
 import 'package:flutter_svg/svg.dart';
 
 class MyDesignation extends StatelessWidget {
