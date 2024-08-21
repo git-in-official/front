@@ -7,6 +7,7 @@ import '../../maintab_controller.dart';
 import 'emotion_change_modal.dart';
 
 class ReadWritingPage extends StatelessWidget {
+
   final MainTabController tabController = Get.put(MainTabController());
 
 
@@ -28,7 +29,7 @@ class ReadWritingPage extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
-          _buildEmotionSelector(),
+          _buildEmotionSelector(context),
           Center(
             child: Container(
               padding: EdgeInsets.fromLTRB(20, 24, 20, 16),
@@ -79,11 +80,11 @@ class ReadWritingPage extends StatelessWidget {
     );
   }
 
-  Widget _buildEmotionSelector() {
+  Widget _buildEmotionSelector(BuildContext context) {
     return InkWell(
       onTap: () {
         showDialog(
-          context: Get.context!,
+          context: context,
           builder: (BuildContext context) => EmotionChangeModal(),
         );
       },
@@ -117,4 +118,5 @@ class ReadWritingPage extends StatelessWidget {
       }),
     );
   }
+
 }

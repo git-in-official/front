@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
 import '../../maintab_controller.dart';
 
@@ -10,6 +7,12 @@ class EmotionChangeModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MainTabController tabController = Get.find();
+
+    // 모달에서 임시로 선택된 기분 추적
+    RxInt tempSelectedIndex = (-1).obs;
+
+    // 모달이 열릴 때 현재 선택된 기분을 임시로 저장
+    tempSelectedIndex.value = tabController.selectedEmotionIndex.value;
 
     return Obx(() {
       return AlertDialog(
@@ -35,7 +38,10 @@ class EmotionChangeModal extends StatelessWidget {
                   children: [
                     IconButton(
                       icon: Icon(Icons.close, size: 24),
-                      onPressed: () => Navigator.of(context).pop(),
+                      onPressed: () {
+                        //기존 선택 유지하면서 모달 닫기
+                        Navigator.of(context).pop();
+                      },
                     ),
                   ],
                 ),
@@ -75,9 +81,10 @@ class EmotionChangeModal extends StatelessWidget {
                     return EmotionButton(
                       imagePath: imagePaths[index],
                       label: labels[index],
-                      isSelected: tabController.selectedEmotionIndex.value == index,
+                      isSelected: tempSelectedIndex.value == index,
                       onSelect: () {
-                        tabController.selectedEmotionIndex.value = index;
+                        // 기분을 선택할 때 임시값을 업데이트
+                        tempSelectedIndex.value = index;
                       },
                     );
                   },
@@ -86,12 +93,16 @@ class EmotionChangeModal extends StatelessWidget {
               Container(
                 padding: EdgeInsets.symmetric(vertical: 13, horizontal: 16),
                 child: ElevatedButton(
-                  onPressed: tabController.selectedEmotionIndex.value >= 0 ? () {
+                  onPressed: tempSelectedIndex.value != tabController.selectedEmotionIndex.value ? () {
+                    // 확인 버튼 클릭 시 선택된 기분 저장
+                    tabController.selectedEmotionIndex.value = tempSelectedIndex.value;
                     Navigator.of(context).pop();
                   } : null,
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Color(0xFFE3DED4),
-                    backgroundColor: tabController.selectedEmotionIndex.value >= 0 ? Color(0xFF3B3731) : Color(0xFFBDBDBD),
+                    backgroundColor: tempSelectedIndex.value != tabController.selectedEmotionIndex.value
+                        ? Color(0xFF3B3731)
+                        : Color(0xFFBDBDBD),
                     minimumSize: Size(240, 44),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
