@@ -9,6 +9,7 @@ import '../../../repository/maintab_controller.dart';
 
 
 class HomePage extends StatelessWidget {
+
   final _pageFlipController = GlobalKey<PageFlipWidgetState>();
   final MainTabController tabController = Get.put(MainTabController());
 
@@ -25,6 +26,8 @@ class HomePage extends StatelessWidget {
           color: Color(0xffE6E2DB),
           child: const Center(child: Text('Last Page!')),
         ),
+        ///Todo) 통신해서 감정에 맞는 글 가져오기 -> 리스트로 뿌려
+
         children: <Widget>[
 
           for (var i = 0; i < 10; i++)

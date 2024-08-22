@@ -129,7 +129,7 @@ class _AnimatedLogoState extends State<AnimatedLogo>
   Widget build(BuildContext context) {
     return FadeTransition(
       opacity: _fadeAnimation,
-      child: Image.asset('assets/images/logo.png', width: 120, height: 120),
+      child: Image.asset('assets/images/logo_large.png', width: 120, height: 120),
     );
   }
 }
@@ -189,7 +189,7 @@ class _AnimatedSlideTextState extends State<AnimatedSlideText>
           if (snapshot.connectionState == ConnectionState.done) {
             return Stack(children: <Widget>[
               Image.asset(
-                'assets/images/poembackground.png',
+                'assets/images/poem_background.png',
                 fit: BoxFit.fill,
                 // fit : BoxFit.cover,
                 height: 104,
@@ -307,10 +307,10 @@ class _AnimatedLogin extends State<AnimatedLogin>
               children: [
                 GestureDetector(
                   onTap: () {
-                    // loginController.signInWithGoogle();
+                    loginController.signInWithGoogle();
                   },
                   child: Image.asset(
-                    'assets/images/googleLogin.png',
+                    'assets/images/google_login.png',
                     width: 48,
                     height: 48,
                   ),
@@ -324,7 +324,7 @@ class _AnimatedLogin extends State<AnimatedLogin>
                       MaterialPageRoute(builder: (context) => RegisterPage()),
                     );
                   },
-                  child: Image.asset('assets/images/appleLogin.png',
+                  child: Image.asset('assets/images/apple_login.png',
                       width: 48, height: 48),
                 ),
               ],

@@ -31,6 +31,8 @@ class CircleMenuDialog extends StatelessWidget {
   }
 }
 
+//todo ) 모든 원형 버튼들에 글감 받는 페이지 연결해주기
+
 class CircleMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

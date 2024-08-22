@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 
+import '../ui/component/emotion_view.dart';
 import '../ui/screens/register_page/register_page.dart';
 import 'global_controller.dart';
 
@@ -65,7 +66,9 @@ class LoginController extends GetxController {
     // String baseUrl = "http://10.0.2.2:3000";
 
     //디버깅모드
-    String baseUrl ="http://192.168.0.40:3000";
+    String baseUrl ="http://192.168.0.103:3000";
+    // String baseUrl ="http://192.168.0.40:3000";
+
 
     String url = "$baseUrl/auth/login";
 
@@ -89,8 +92,9 @@ class LoginController extends GetxController {
 
 
       if (response.statusCode == 200) {
-        print("Login successful: ${response.body}");
-        //바로 메인 페이지 ㄱ
+print("Login successful: ${response.body}");
+        //바로 기분 선택 페이지
+        Get.to(()=> EmotionView());
 
       } else if (response.statusCode == 404 && responseBody['message'] == "user not found") {
         print("404 - 회원가입필요");
@@ -137,8 +141,8 @@ class LoginController extends GetxController {
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
         print("signUp successful : ${response.body}");
-        // 메인페이지로 ㄱ
-        // Get.to(() => MainPage());
+        // 기분선택페이지로 ㄱ
+        Get.to(()=> EmotionView());
 
       } else {
         print("Failed to login: ${response.statusCode}, ${response.body}");

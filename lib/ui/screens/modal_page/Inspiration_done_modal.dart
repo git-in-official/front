@@ -12,13 +12,13 @@ class InspirationDoneModal extends StatelessWidget {
       ),
       content: Container(
         width: 280,
-        height: 192,
         padding: EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
           color: Color(0xFFE6E2DB),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Container(
               height: 56,

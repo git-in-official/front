@@ -98,6 +98,7 @@ class EmotionChangeModal extends StatelessWidget {
                     // 확인 버튼 클릭 시 선택된 기분 저장
                     tabController.selectedEmotionIndex.value = tempSelectedIndex.value;
                     Navigator.of(context).pop();
+                    //todo) 기분을 새롭게 가지고 확인을 눌렀으면 API 통신해서 또 불러와
                   } : null,
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Color(0xFFE3DED4),

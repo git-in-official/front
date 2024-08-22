@@ -164,7 +164,7 @@ class _AnimatedPositionedLogoState extends State<AnimatedPositionedLogo> {
                               SizedBox(height: 16),
                               ElevatedButton(
                                 onPressed: () {
-                                  // _hasText ? _onSubmit : null;
+                                  _hasText ? _onSubmit : null;
                                   Get.to(() => Maintab());
 
                                 },
@@ -196,7 +196,7 @@ class _AnimatedPositionedLogoState extends State<AnimatedPositionedLogo> {
                       ],
                     );
                   },
-                  child: Image.asset('assets/images/logo.png'),
+                  child: Image.asset('assets/images/logo_large.png'),
                 );
               },
             ),
