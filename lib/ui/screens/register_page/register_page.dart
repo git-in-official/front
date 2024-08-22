@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:to_morrow_front/repository/login_controller.dart';
 
+import '../../component/bottom_navigation_bar.dart';
+
 class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -163,7 +165,7 @@ class _AnimatedPositionedLogoState extends State<AnimatedPositionedLogo> {
                               ElevatedButton(
                                 onPressed: () {
                                   // _hasText ? _onSubmit : null;
-                                  // Get.to(() => MainPage());
+                                  Get.to(() => Maintab());
 
                                 },
                                 style: ElevatedButton.styleFrom(

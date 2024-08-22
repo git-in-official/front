@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:to_morrow_front/ui/component/register_page.dart';
 import 'package:to_morrow_front/repository/global_controller.dart';
 import 'package:to_morrow_front/repository/login_controller.dart';
+
+import '../register_page/register_page.dart';
 
 class SplashPage extends StatelessWidget {
   final LoginController loginController = Get.find<LoginController>();

@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:to_morrow_front/ui/component/speech_bubble.dart';
 
 import '../../repository/maintab_controller.dart';
+import '../screens/main_page/main_home_page.dart';
 import 'circle_button.dart';
-import 'main_home_page.dart';
 
 class Maintab extends StatelessWidget {
   final MainTabController tabController = Get.put(MainTabController());

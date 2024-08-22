@@ -85,7 +85,7 @@ class FoldedCornerPainter extends CustomPainter {
       ..maskFilter = MaskFilter.blur(BlurStyle.normal, 4.0);  // 그림자 블러 효과
 
     final foldedPath = Path()
-      ..moveTo(size.width * foldAmount, 560)  // 시작점
+      ..moveTo(size.width * foldAmount, 523)  // 시작점 (삼각형의 꼭지점을 조절)
       ..lineTo(size.width * foldAmount, size.height)  // 두 번째 점
       ..lineTo(0, size.height - size.width * foldAmount)  // 세 번째 점
       ..close();  // 도형을 닫아 삼각형을 완성

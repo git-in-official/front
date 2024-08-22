@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
-import 'package:to_morrow_front/ui/component/register_page.dart';
 
+import '../ui/screens/register_page/register_page.dart';
 import 'global_controller.dart';
 
 class LoginController extends GetxController {

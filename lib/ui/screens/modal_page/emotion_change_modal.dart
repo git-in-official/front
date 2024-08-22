@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../repository/maintab_controller.dart';
+import '../../../repository/maintab_controller.dart';
+
 
 class EmotionChangeModal extends StatelessWidget {
   @override
@@ -46,7 +47,7 @@ class EmotionChangeModal extends StatelessWidget {
                   ],
                 ),
               ),
-              Text(
+              const Text(
                 '작가님의 기분에 맞춰\n시를 보여드리고 싶어요.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -59,7 +60,7 @@ class EmotionChangeModal extends StatelessWidget {
               Expanded(
                 child: GridView.builder(
                   itemCount: 7,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,

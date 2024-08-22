@@ -1,10 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:to_morrow_front/ui/screens/main_page/read_contents.dart';
 
-import '../../filp/page_flip_widget.dart';
+import '../../../filp/page_flip_widget.dart';
+import '../../../repository/maintab_controller.dart';
+
 
 class HomePage extends StatelessWidget {
   final _pageFlipController = GlobalKey<PageFlipWidgetState>();
+  final MainTabController tabController = Get.put(MainTabController());
+
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +26,7 @@ class HomePage extends StatelessWidget {
           child: const Center(child: Text('Last Page!')),
         ),
         children: <Widget>[
+
           for (var i = 0; i < 10; i++)
             ReadWritingPage(
               title: '니가 어떤 딸인데 그러니',
@@ -30,4 +38,6 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+
+
 }
