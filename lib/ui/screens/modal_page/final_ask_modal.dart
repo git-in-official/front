@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'custom_text_button.dart';
+import '../../component/custom_text_button.dart';
 
 class FinalAskModal extends StatelessWidget {
   @override

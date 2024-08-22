@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 
-import 'custom_text_button.dart';
-import 'final_ask_modal.dart';
+import '../../component/custom_text_button.dart';
+import '../modal_page/final_ask_modal.dart';
 
 class AnimationControllerController extends GetxController {
   var isAnimating = false.obs; // 애니메이션 상태 관리
