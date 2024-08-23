@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:to_morrow_front/ui/component/speech_bubble.dart';
-
+import '../../repository/maintab_controller.dart';
+import '../screens/main_page/title_writing_material.dart';
 import '../screens/modal_page/Inspiration_done_modal.dart';
 
 class CircleMenuDialog extends StatelessWidget {
@@ -31,8 +32,7 @@ class CircleMenuDialog extends StatelessWidget {
   }
 }
 
-//todo ) 모든 원형 버튼들에 글감 받는 페이지 연결해주기
-
+// CircleMenu 수정
 class CircleMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,7 @@ class CircleMenu extends StatelessWidget {
               child: CircleButton(
                 imagePath: 'assets/images/title.png',
                 label: "제목",
-                movePage: InspirationDoneModal(),
+                movePage: 'TitleWritingMaterial',
               ),
             ),
             Positioned(
@@ -67,7 +67,7 @@ class CircleMenu extends StatelessWidget {
               child: CircleButton(
                 imagePath: 'assets/images/sounds.png',
                 label: "소리",
-                movePage: InspirationDoneModal(),
+                movePage: 'SoundWrite',
               ),
             ),
             Positioned(
@@ -75,7 +75,7 @@ class CircleMenu extends StatelessWidget {
               child: CircleButton(
                 imagePath: 'assets/images/word.png',
                 label: "단어",
-                movePage: InspirationDoneModal(),
+                movePage: 'WordWritingMaterial',
               ),
             ),
             Positioned(
@@ -83,7 +83,7 @@ class CircleMenu extends StatelessWidget {
               child: CircleButton(
                 imagePath: 'assets/images/media.png',
                 label: "영상",
-                movePage: InspirationDoneModal(),
+                movePage: 'VideoWrite',
               ),
             ),
             // 중앙 아이콘
@@ -122,10 +122,11 @@ class CircleMenu extends StatelessWidget {
   }
 }
 
+// CircleButton 수정
 class CircleButton extends StatelessWidget {
   final String imagePath;
   final String label;
-  final Widget movePage;
+  final String movePage;
 
   const CircleButton({
     required this.imagePath,
@@ -135,16 +136,21 @@ class CircleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final MainTabController tabController = Get.find();
+
+
     return SizedBox(
       height: 56,
       width: 56,
       child: GestureDetector(
         onTap: () {
-          Navigator.of(context).pop();
-          showDialog(
-            context: context,
-            builder: (BuildContext context) => movePage,
-          );
+          //닫히면서 갈지 말지 고민...
+          // Navigator.of(context).pop();
+          // Future.delayed(Duration(milliseconds: 300), (){
+              tabController.pageName.value = movePage;
+          // });
+
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

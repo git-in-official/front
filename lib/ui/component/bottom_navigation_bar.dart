@@ -1,134 +1,104 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:to_morrow_front/ui/component/speech_bubble.dart';
-
-import '../../repository/maintab_controller.dart';
+import 'package:to_morrow_front/repository/maintab_controller.dart';
+import '../../data/model/config/page_route.dart';
 import '../screens/main_page/main_home_page.dart';
+import '../screens/my_page/my_profile.dart';
 import 'circle_button.dart';
 
 class Maintab extends StatelessWidget {
-  final MainTabController tabController = Get.put(MainTabController());
+  final MainTabController tabController = Get.find(); // Get.find() 사용
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: ThemeData(
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          elevation: 0,
+    return WillPopScope(
+      onWillPop: tabController.onWillPop,
+      child: Theme(
+        data: ThemeData(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+            elevation: 0,
+          ),
         ),
-      ),
-      child: Scaffold(
-        backgroundColor: Color(0xffE6E2DB),
-        body: Stack(
-          children: [
-            SafeArea(
-              child: Column(
-                children: [
-                  // 배너 위치
-                  Container(height: 66, color: Colors.blueAccent),
+        child: Obx(() {
+          Widget currentPage =
+              pages[tabController.pageName.value] ?? Container();
 
-                  Expanded(
-                    child: IndexedStack(
-                      index: 0,
+          return Scaffold(
+            backgroundColor: Color(0xffE6E2DB),
+            body: IndexedStack(
+              index: tabController.rootPageIndex.value,
+              children: [currentPage],
+            ),
+            bottomSheet: Obx(() {
+              return tabController.showSecondBottomSheet.value
+                  ? _showBottomSheet(context)
+                  : SizedBox.shrink();
+            }),
+            bottomNavigationBar: Container(
+              decoration: const BoxDecoration(
+                border: Border(
+                  top: BorderSide(color: Color(0xffD0CDC8), width: 1.0),
+                ),
+              ),
+              child: BottomNavigationBar(
+                currentIndex: 0, // 수정된 인덱스
+                onTap: (index) {
+                  if (index == 0) {
+                    tabController.pageName.value = 'Home';
+                  } else if (index == 1) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) => CircleMenuDialog(),
+                    );
+                  } else if (index == 2) {
+                    tabController.showSecondBottomSheet.value =
+                    !tabController.showSecondBottomSheet.value;
+                  }
+                },
+                items: [
+                  BottomNavigationBarItem(
+                    icon: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        HomePage(),
-                        HomePage(),
-                        HomePage(),
+                        Image.asset('assets/images/home.png', width: 24, height: 24),
+                        const Text('홈으로', style: TextStyle(fontSize: 10)),
                       ],
                     ),
+                    label: '',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset('assets/images/home-ment.png', width: 44, height: 44),
+                      ],
+                    ),
+                    label: '',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset('assets/images/menu.png', width: 24, height: 24),
+                        const Text('메뉴', style: TextStyle(fontSize: 10)),
+                      ],
+                    ),
+                    label: '',
                   ),
                 ],
+                selectedItemColor: Colors.black,
+                unselectedItemColor: Colors.black,
+                selectedLabelStyle: null,
+                showSelectedLabels: false,
+                showUnselectedLabels: false,
+                type: BottomNavigationBarType.fixed,
+                backgroundColor: const Color(0xffE6E2DB),
               ),
             ),
-
-            // 위치 조정이 필요한 애니메이션 위젯
-            const Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: Center(
-                child: AnimatedBubbleWidget(comment: '글감을 선택하여 집필해보세요'),
-              ),
-            ),
-          ],
-        ),
-        //하단 탭
-        bottomSheet: Obx(() {
-          return tabController.showSecondBottomSheet.value
-              ? _showBottomSheet(context)
-              : SizedBox.shrink();
+          );
         }),
-        bottomNavigationBar: Container(
-            decoration: const BoxDecoration(
-              border:
-                  Border(top: BorderSide(color: Color(0xffD0CDC8), width: 1.0)),
-            ),
-            child: BottomNavigationBar(
-              currentIndex: 0,
-              onTap: (index) {
-                //가운데 버튼
-                if (index == 1) {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) => CircleMenuDialog(),
-                  );
-                }
-                //메뉴버튼
-                if (index == 2) {
-                  tabController.showSecondBottomSheet.value =
-                      !tabController.showSecondBottomSheet.value;
-                }
-              },
-              items: [
-                BottomNavigationBarItem(
-                  icon: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset('assets/images/home.png',
-                          width: 24, height: 24),
-                      const Text(
-                        '홈으로',
-                        style: TextStyle(fontSize: 10),
-                      ),
-                    ],
-                  ),
-                  label: '',
-                ),
-                BottomNavigationBarItem(
-                  icon: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset('assets/images/home-ment.png',
-                          width: 44, height: 44),
-                    ],
-                  ),
-                  label: '',
-                ),
-                BottomNavigationBarItem(
-                  icon: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset('assets/images/menu.png',
-                          width: 24, height: 24),
-                      const Text(
-                        '메뉴',
-                        style: TextStyle(fontSize: 10),
-                      ),
-                    ],
-                  ),
-                  label: '',
-                ),
-              ],
-              selectedItemColor: Colors.black,
-              unselectedItemColor: Colors.black,
-              selectedLabelStyle: null,
-              showSelectedLabels: false,
-              showUnselectedLabels: false,
-              type: BottomNavigationBarType.fixed,
-              backgroundColor: const Color(0xffE6E2DB),
-            )),
       ),
     );
   }
@@ -156,8 +126,7 @@ class Maintab extends StatelessWidget {
                   blurRadius: 4,
                 ),
               ],
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(24)),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
             ),
             child: InkWell(
               onTap: () {
@@ -183,10 +152,10 @@ class Maintab extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                _buildPopupMenu('마이페이지', 'assets/images/mypage.png'),
-                _buildPopupMenu('작업실', 'assets/images/study-lamp.png'),
-                _buildPopupMenu('도서관', 'assets/images/library.png'),
-                _buildPopupMenu('스토어', 'assets/images/store.png'),
+                _buildPopupMenu('마이페이지', 'assets/images/mypage.png', 'Profile'),
+                _buildPopupMenu('작업실', 'assets/images/study-lamp.png', 'Profile'),
+                _buildPopupMenu('도서관', 'assets/images/library.png', 'Profile'),
+                _buildPopupMenu('스토어', 'assets/images/store.png', 'Profile'),
               ],
             ),
           )
@@ -195,27 +164,29 @@ class Maintab extends StatelessWidget {
     );
   }
 
-  Widget _buildPopupMenu(String label, String image) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Image.asset(
-            image,
-            width: 24,
-            height: 24,
-          ),
-          Text(
-            label,
-            style: const TextStyle(
-              color: Color(0xFF6D675F),
-              fontSize: 10,
-              fontWeight: FontWeight.w400,
+  Widget _buildPopupMenu(String label, String image, String movePage) {
+    return InkWell(
+      onTap: () {
+        tabController.showSecondBottomSheet.value = false;
+        tabController.pageName.value = movePage;
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(image, width: 24, height: 24),
+            Text(
+              label,
+              style: const TextStyle(
+                color: Color(0xFF6D675F),
+                fontSize: 10,
+                fontWeight: FontWeight.w400,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
