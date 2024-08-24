@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../repository/maintab_controller.dart';
+import '../../../repository/controller/maintab_controller.dart';
 
 
 class EmotionChangeModal extends StatelessWidget {

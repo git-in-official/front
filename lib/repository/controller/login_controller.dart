@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 
-import '../ui/component/emotion_view.dart';
-import '../ui/screens/register_page/register_page.dart';
+import '../../ui/component/emotion_view.dart';
+import '../../ui/screens/register_page/register_page.dart';
 import 'global_controller.dart';
 
 class LoginController extends GetxController {
@@ -189,18 +189,18 @@ class AuthService {
   final _global = Get.find<GlobalController>();
 
   // 토큰 저장
-  Future<void> saveToken(String accessToken) async {
-    await _global.storage.write(key: 'accessToken', value: accessToken);
+  Future<void> saveToken(String googleAccessToken) async {
+    await _global.storage.write(key: 'googleAccessToken', value: googleAccessToken);
   }
 
   // 토큰 불러오기
   Future<Map<String, String?>> loadTokens() async {
-    final accessToken = await _global.storage.read(key: 'accessToken');
-    return {'accessToken': accessToken};
+    final googleAccessToken = await _global.storage.read(key: 'googleAccessToken');
+    return {'googleAccessToken': googleAccessToken};
   }
 
   // 토큰 삭제
   Future<void> deleteToken() async {
-    await _global.storage.delete(key: 'accessToken');
+    await _global.storage.delete(key: 'googleAccessToken');
   }
 }

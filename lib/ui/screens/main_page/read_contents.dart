@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../repository/maintab_controller.dart';
+import '../../../repository/controller/maintab_controller.dart';
 import '../../component/page_fold.dart';
 import '../modal_page/emotion_change_modal.dart';
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 class ReadWritingPage extends StatelessWidget {
   final MainTabController tabController = Get.put(MainTabController());
+  final FlutterSecureStorage storage = FlutterSecureStorage();
+
 
   final String title;
   final String author;
   final String contents;
 
+
   ReadWritingPage({
     Key? key,
+
 
     required this.title,
     required this.author,
@@ -58,6 +64,11 @@ class ReadWritingPage extends StatelessWidget {
         ),
       ),
     );
+
+
+
+
+    print('acessToken', );
 
     overlay.insert(overlayEntry);
 
@@ -200,5 +211,6 @@ class ReadWritingPage extends StatelessWidget {
       }),
     );
   }
+
 
 }

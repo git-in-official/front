@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:to_morrow_front/repository/maintab_controller.dart';
+import 'package:to_morrow_front/repository/controller/maintab_controller.dart';
 import '../../data/model/config/page_route.dart';
 import '../screens/main_page/main_home_page.dart';
 import '../screens/my_page/my_profile.dart';

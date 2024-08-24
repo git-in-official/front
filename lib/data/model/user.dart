@@ -1,4 +1,4 @@
-import '../../repository/global_controller.dart';
+import '../../repository/controller/global_controller.dart';
 
 
 class User {

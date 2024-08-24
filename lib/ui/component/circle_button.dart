@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:to_morrow_front/ui/component/speech_bubble.dart';
-import '../../repository/maintab_controller.dart';
+import '../../repository/controller/maintab_controller.dart';
 import '../screens/main_page/title_writing_material.dart';
 import '../screens/modal_page/Inspiration_done_modal.dart';
 
