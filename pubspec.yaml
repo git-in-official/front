@@ -78,7 +78,8 @@ flutter:
   assets:
     - assets/img/
     - assets/icons/main_menu/
-    - assets/icons/mypage/
+    - assets/icons/my_page/
+    - assets/icons/writing_page/
     - assets/images/
 
 
