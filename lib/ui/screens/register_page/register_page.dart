@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:to_morrow_front/repository/login_controller.dart';
+import 'package:to_morrow_front/repository/controller/login_controller.dart';
 
 import '../../component/bottom_navigation_bar.dart';
 

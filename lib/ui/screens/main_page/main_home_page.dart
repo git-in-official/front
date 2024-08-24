@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:to_morrow_front/ui/screens/main_page/read_contents.dart';
 
 import '../../../filp/page_flip_widget.dart';
-import '../../../repository/maintab_controller.dart';
+import '../../../repository/controller/maintab_controller.dart';
 
 class HomePage extends StatelessWidget {
   final _pageFlipController = GlobalKey<PageFlipWidgetState>();

@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:to_morrow_front/data/model/emotion_model.dart';
-import 'package:to_morrow_front/repository/emotion_repository.dart';
+import 'package:to_morrow_front/repository/constant/emotion_repository.dart';
 import 'dart:convert';
 
 class EmotionViewModel extends GetxController {

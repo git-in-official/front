@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-import '../ui/screens/main_page/main_home_page.dart';
-import '../ui/screens/my_page/my_profile.dart';
+import '../../ui/screens/main_page/main_home_page.dart';
+import '../../ui/screens/my_page/my_profile.dart';
 
 class MainTabController extends GetxController {
   var selectedEmotionIndex = (-1).obs; //감정 선택 후 보여줄 이미지 선택
