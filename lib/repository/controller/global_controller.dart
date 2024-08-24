@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:to_morrow_front/repository/controller/auth_controller.dart';
 
 import '../../data/model/user.dart';
 
@@ -54,7 +55,7 @@ class GlobalController extends GetxController {
     if (storedPlatform != null && storedPlatform == 'google') {
 
       // storage에 저장되어 있는 accessToken 가져오기
-      final accessToken = await storage.read(key: 'accessToken');
+      final accessToken = await storage.read(key: 'googleAccessToken');
 
       if (accessToken != null) {
 
@@ -90,6 +91,8 @@ class GlobalController extends GetxController {
         user?.value.loginPlatform = LoginPlatform.none;
 
       }
+      // 구글 엑세스 토큰을 로그인 컨트롤러에 넘겨줌
+      AuthController().login(accessToken!);
     }
   }
 }
