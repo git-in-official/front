@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+
+import '../../../repository/controller/topic_controller.dart';
 
 class WordWritingMaterial extends StatelessWidget {
   const WordWritingMaterial({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final TopicController _controller = Get.put(TopicController('word'));
+
     return Scaffold(
       backgroundColor: const Color(0xFFE6E2DB),
       body: SafeArea(
@@ -33,15 +39,14 @@ class WordWritingMaterial extends StatelessWidget {
                 const SizedBox(
                   height: 24.0,
                 ),
-                const Text(
-                  '글감이 나오는 곳',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w700,
-                    fontFamily: 'KoPubBatangPro',
-                  ),
-
-                ),
+                Obx(() => Text(
+                      _controller.topic.value,
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'KoPubBatangPro',
+                      ),
+                    )),
                 const SizedBox(
                   height: 259.0,
                 ),

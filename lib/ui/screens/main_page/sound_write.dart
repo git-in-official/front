@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+
+import '../../../repository/controller/topic_controller.dart';
 
 class SoundWrite extends StatelessWidget {
   const SoundWrite({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final TopicController _controller = Get.put(TopicController('audio'));
+    print(_controller.topic.value);
+
+
     return Scaffold(
       backgroundColor: const Color(0xFFE6E2DB),
       body: SafeArea(
