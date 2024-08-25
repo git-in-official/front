@@ -5,10 +5,13 @@ import 'package:to_morrow_front/ui/view_model/emotion_view_model.dart';
 
 
 class EmotionView extends GetView<EmotionViewModel> {
+
   const EmotionView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<EmotionViewModel>(); // EmotionViewModel 인스턴스 찾기
+
     return Scaffold(
       backgroundColor: const Color(0xFFE6E2DB),
       body: SafeArea(
@@ -60,13 +63,7 @@ class EmotionView extends GetView<EmotionViewModel> {
                                 blurRadius: 5.0,
                               ),
                             ]
-                                : [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.2),
-                                offset: const Offset(2, 2),
-                                blurRadius: 5.0,
-                              ),
-                            ],
+                                : [],
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(14.0),
@@ -117,7 +114,7 @@ class EmotionView extends GetView<EmotionViewModel> {
                   onTap: isButton
                       ? () {
                     // 다음 페이지 이동
-                    Get.to('');
+                    Get.to(() => '');
                   }
                       : null,
                   child: Container(
