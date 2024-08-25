@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "385581118113",
+    "project_id": "tomorrow-e4036",
+    "storage_bucket": "tomorrow-e4036.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:385581118113:android:f992bcd22a2e306d43f6e0",
+        "android_client_info": {
+          "package_name": "com.gitinofficial.to_morrow_front"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "385581118113-otfgf38o6rfnd1jmov2q4p300748fqbr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gitinofficial.to_morrow_front",
+            "certificate_hash": "29b29af71d3d4e0b8592de15f6b4289e9b6eb136"
+          }
+        },
+        {
+          "client_id": "385581118113-jms2jsluk3e241c0ar20utvvmc5mibqh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxZg7ZDjloo9LpUK9aqxJR0uASs2Dp6as"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "385581118113-jms2jsluk3e241c0ar20utvvmc5mibqh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

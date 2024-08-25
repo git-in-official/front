@@ -5,10 +5,13 @@ import 'package:to_morrow_front/ui/view_model/emotion_view_model.dart';
 
 
 class EmotionView extends GetView<EmotionViewModel> {
+
   const EmotionView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<EmotionViewModel>(); // EmotionViewModel 인스턴스 찾기
+
     return Scaffold(
       backgroundColor: const Color(0xFFE6E2DB),
       body: SafeArea(

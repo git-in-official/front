@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:to_morrow_front/repository/controller/circle_button_controller.dart';
 import 'package:to_morrow_front/ui/component/speech_bubble.dart';
 import '../../repository/controller/maintab_controller.dart';
 import '../screens/main_page/title_writing_material.dart';
 import '../screens/modal_page/Inspiration_done_modal.dart';
 
 class CircleMenuDialog extends StatelessWidget {
+
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -138,6 +141,7 @@ class CircleButton extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final MainTabController tabController = Get.find();
+    final CircleButtonController _controller = Get.put(CircleButtonController());
 
 
     return SizedBox(
@@ -145,11 +149,19 @@ class CircleButton extends StatelessWidget {
       width: 56,
       child: GestureDetector(
         onTap: () {
-          //닫히면서 갈지 말지 고민...
-          // Navigator.of(context).pop();
-          // Future.delayed(Duration(milliseconds: 300), (){
+
+          if (_controller.canWritePoem.value) {
+            Navigator.of(context).pop();
+            Future.delayed(Duration(milliseconds: 300), (){
               tabController.pageName.value = movePage;
-          // });
+            });
+          } else {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => (InspirationDoneModal()),
+            );
+          }
+
 
         },
         child: Column(

@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:to_morrow_front/data/model/login_user_info.dart';
 import 'package:to_morrow_front/repository/controller/login_controller.dart';
 
+import 'auth_service.dart';
+
 class AuthController extends GetxController {
   var isLoggedIn = false.obs;
   final String _baseUrl = 'https://api.leemhoon.com/auth';

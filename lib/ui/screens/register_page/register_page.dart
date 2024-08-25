@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:to_morrow_front/repository/controller/login_controller.dart';
 
+import '../../../repository/controller/auth_service.dart';
 import '../../component/bottom_navigation_bar.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -44,17 +45,8 @@ class _AnimatedPositionedLogoState extends State<AnimatedPositionedLogo> {
   void initState() {
     super.initState();
     _small = true;
-    _loadToken();
     _nameController
         .addListener(_updateHasText);
-  }
-
-  Future<void> _loadToken() async {
-    final authService = AuthService();
-    final tokens = await authService.loadTokens();
-    setState(() {
-      accessToken = tokens['accessToken'].toString();
-    });
   }
 
   void _updateHasText() {
@@ -77,13 +69,9 @@ class _AnimatedPositionedLogoState extends State<AnimatedPositionedLogo> {
     return isValidLength && validChars.hasMatch(text);
   }
 
-  void _onSubmit() {
-    final name = _nameController.text;
-    loginController.goToSignup(accessToken!, name);
-  }
-
   @override
   Widget build(BuildContext context) {
+
     return TweenAnimationBuilder(
       tween: Tween<double>(begin: 204, end: _small ? 126 : 204),
       duration: Duration(seconds: 2),
@@ -164,8 +152,12 @@ class _AnimatedPositionedLogoState extends State<AnimatedPositionedLogo> {
                               SizedBox(height: 16),
                               ElevatedButton(
                                 onPressed: () {
-                                  _hasText ? _onSubmit : null;
-                                  Get.to(() => Maintab());
+
+                                  if (_hasText) {
+                                    final name = _nameController.text;
+                                    loginController.goToSignup(name);
+                                  }
+
 
                                 },
                                 style: ElevatedButton.styleFrom(

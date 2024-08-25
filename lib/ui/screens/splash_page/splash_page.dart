@@ -8,6 +8,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:to_morrow_front/repository/controller/global_controller.dart';
 import 'package:to_morrow_front/repository/controller/login_controller.dart';
 
+import '../../component/bottom_navigation_bar.dart';
 import '../register_page/register_page.dart';
 
 class SplashPage extends StatelessWidget {
@@ -321,7 +322,7 @@ class _AnimatedLogin extends State<AnimatedLogin>
                     // loginController.signOut();
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => RegisterPage()),
+                      MaterialPageRoute(builder: (context) => Maintab()),
                     );
                   },
                   child: Image.asset('assets/images/apple_login.png',

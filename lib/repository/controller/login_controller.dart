@@ -1,50 +1,34 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 
 import '../../ui/component/emotion_view.dart';
 import '../../ui/screens/register_page/register_page.dart';
+import 'auth_service.dart';
 import 'global_controller.dart';
 
 class LoginController extends GetxController {
   final _global = Get.find<GlobalController>();
 
-  // 구글 로그인
   Future<void> signInWithGoogle() async {
-    const List<String> scopes = <String>[
-      'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
-    ];
 
-    GoogleSignIn _googleSignIn = GoogleSignIn(
-      // // Optional clientId
-      // // clientId: 'your-client_id.apps.googleusercontent.com',
-      // scopes: scopes,
-    );
+    GoogleSignIn _googleSignIn = GoogleSignIn();
 
     try {
-      // Attempt to sign in the user with Google
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      print("GoogleSignInAccount: $googleUser");
 
       if (googleUser != null) {
-        print("로그인성공");
 
         final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-        print("GoogleSignInAuthentication: ${googleAuth.toString()}");
-        print("AccessToken: ${googleAuth.accessToken}");
-        print("IdToken: ${googleAuth.idToken}");
 
         String accessToken = googleAuth.accessToken.toString();
 
         final authService = AuthService();
         await authService.saveToken(googleAuth.accessToken!);
-        print("AccessToken saved to FlutterSecureStorage");
-
         await saveLoginPlatform(LoginPlatform.google);
-        print("Login platform saved as Google");
 
 
 
@@ -61,18 +45,14 @@ class LoginController extends GetxController {
 
   }
 
-  Future<void> loginToServer(String providerAccessToken, String name ) async {
+  Future<void> loginToServer(String providerAccessToken, String name) async {
 
-    // String baseUrl = "http://10.0.2.2:3000";
-
-    //디버깅모드
-    String baseUrl ="http://192.168.0.103:3000";
-    // String baseUrl ="http://192.168.0.40:3000";
-
+    //배포사이트
+    String baseUrl = "https://api.leemhoon.com";
 
     String url = "$baseUrl/auth/login";
 
-    print (providerAccessToken);
+    print(providerAccessToken);
 
     Map<String, String> body = {
       "provider": "google",
@@ -80,45 +60,53 @@ class LoginController extends GetxController {
     };
 
     try {
-
       final response = await http.post(
         Uri.parse(url),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(body),
       );
 
-
       final responseBody = jsonDecode(response.body);
 
-
       if (response.statusCode == 200) {
-print("Login successful: ${response.body}");
-        //바로 기분 선택 페이지
-        Get.to(()=> EmotionView());
+        print("Login successful: ${response.body}");
 
-      } else if (response.statusCode == 404 && responseBody['message'] == "user not found") {
+        final Map<String, dynamic> responseJson = json.decode(response.body);
+
+        // 액세스 토큰과 이름 추출
+        final String accessToken = responseJson['accessToken'];
+        final String name = responseJson['name'];
+
+        final authService = AuthService();
+
+        await authService.saveServiceToken(accessToken);
+        await authService.saveServiceName(name);
+
+        //바로 기분 선택 페이지
+        Get.to(() => EmotionView());
+      } else if (response.statusCode == 404 &&
+          responseBody['message'] == "user not found") {
         print("404 - 회원가입필요");
         //필명페이지 ㄱ
         Get.to(() => RegisterPage());
-
-
-
       } else {
         print("Failed to login: ${response.statusCode}, ${response.body}");
-
       }
     } catch (error) {
       print("Error during login: $error");
     }
   }
 
-
 //필명 페이지에서 입력 완료 하면 실행
-  Future<void> goToSignup(String providerAccessToken, String name) async {
+  Future<void> goToSignup(String name) async {
 
-    print (name);
+    final authService = AuthService();
+    final tokens = await authService.loadTokens();
 
-    String baseUrl ="http://192.168.0.40:3000";
+    final providerAccessToken = tokens['googleAccessToken']!;
+
+
+    String baseUrl = "https://api.leemhoon.com";
 
     String url = "$baseUrl/auth/signup";
 
@@ -129,30 +117,37 @@ print("Login successful: ${response.body}");
     };
 
     try {
-
-
       final response = await http.post(
         Uri.parse(url),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(body),
       );
 
-      print ("가입  ${response.statusCode}");
+      print("가입  ${response.statusCode}");
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
         print("signUp successful : ${response.body}");
-        // 기분선택페이지로 ㄱ
-        Get.to(()=> EmotionView());
 
+        final Map<String, dynamic> responseJson = json.decode(response.body);
+
+        // 액세스 토큰과 이름 추출
+        final String accessToken = responseJson['accessToken'];
+        final String name = responseJson['name'];
+
+        await authService.saveServiceToken(accessToken);
+        await authService.saveServiceName(name);
+
+
+
+        // 기분선택페이지로 ㄱ
+        Get.to(() => EmotionView());
       } else {
         print("Failed to login: ${response.statusCode}, ${response.body}");
-
       }
     } catch (error) {
       print("Error during login: $error");
     }
   }
-
 
   // 로그아웃
   Future<void> signOut() async {
@@ -160,8 +155,8 @@ print("Login successful: ${response.body}");
       case LoginPlatform.google:
         await GoogleSignIn().signOut();
         break;
-    // case LoginPlatform.apple:
-    //   break;
+      // case LoginPlatform.apple:
+      //   break;
       case LoginPlatform.none:
         break;
     }
@@ -180,27 +175,9 @@ print("Login successful: ${response.body}");
 
   // 로그인 플랫폼 저장
   Future<void> saveLoginPlatform(LoginPlatform platform) async {
-    await _global.storage.write(key: 'loginPlatform', value: platform.toString().split('.').last);
+    await _global.storage.write(
+        key: 'loginPlatform', value: platform.toString().split('.').last);
   }
 }
 
 
-class AuthService {
-  final _global = Get.find<GlobalController>();
-
-  // 토큰 저장
-  Future<void> saveToken(String googleAccessToken) async {
-    await _global.storage.write(key: 'googleAccessToken', value: googleAccessToken);
-  }
-
-  // 토큰 불러오기
-  Future<Map<String, String?>> loadTokens() async {
-    final googleAccessToken = await _global.storage.read(key: 'googleAccessToken');
-    return {'googleAccessToken': googleAccessToken};
-  }
-
-  // 토큰 삭제
-  Future<void> deleteToken() async {
-    await _global.storage.delete(key: 'googleAccessToken');
-  }
-}

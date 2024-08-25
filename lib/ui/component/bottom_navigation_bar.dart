@@ -48,10 +48,17 @@ class Maintab extends StatelessWidget {
                   if (index == 0) {
                     tabController.pageName.value = 'Home';
                   } else if (index == 1) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) => CircleMenuDialog(),
-                    );
+
+                    if(tabController.isMain.value) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) => CircleMenuDialog(),
+                      );
+                    } else {
+                      ///todo) 여기에 혜원님페이지를 띄어주세요
+                    }
+
+
                   } else if (index == 2) {
                     tabController.showSecondBottomSheet.value =
                     !tabController.showSecondBottomSheet.value;
