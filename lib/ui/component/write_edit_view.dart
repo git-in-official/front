@@ -205,26 +205,6 @@ class WriteEditView extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              SizedBox(
-                                height: 40,  // 원하는 높이로 설정
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFFE3DED4),
-                                    foregroundColor: const Color(0xFF3B3731),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      side: const BorderSide(color: Colors.black),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) => EmotionAnalysisModal(),
-                                    );
-                                  },
-                                  child: const Text('모달창 확인'),
-                                ),
-                              ),
                             ],
                           );
                         }),
