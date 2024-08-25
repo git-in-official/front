@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>385581118113-ok9iugs2pmfjlv1etqb813mrr072hu58.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.385581118113-ok9iugs2pmfjlv1etqb813mrr072hu58</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>385581118113-otfgf38o6rfnd1jmov2q4p300748fqbr.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDRGtldQhqByftloEVtkxEJiaCc0tsVY3w</string>
+	<key>GCM_SENDER_ID</key>
+	<string>385581118113</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.gitinofficial.toMorrowFront</string>
+	<key>PROJECT_ID</key>
+	<string>tomorrow-e4036</string>
+	<key>STORAGE_BUCKET</key>
+	<string>tomorrow-e4036.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:385581118113:ios:6bafb9f980f2187b43f6e0</string>
+</dict>
+</plist>
