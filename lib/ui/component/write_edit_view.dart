@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:to_morrow_front/ui/screens/modal_page/EmotionAnalysisModal.dart';
 import 'package:to_morrow_front/ui/view_model/write_edit_view_model.dart';
 
 class WriteEditView extends StatelessWidget {
   final WriteEditViewModel viewModel = Get.put(WriteEditViewModel());
+
 
   WriteEditView({super.key});
 
@@ -200,18 +202,9 @@ class WriteEditView extends StatelessWidget {
                                       keyboardType: TextInputType.multiline,
                                       textInputAction: TextInputAction.newline,
                                     ),
-                                    Positioned(
-                                      left: 0,
-                                      right: 0,
-                                      bottom: 0,
-                                      child: Container(
-                                        height: 1,
-                                        color: const Color(0xFFB8B4AD),
-                                      ),
-                                    ),
                                   ],
                                 ),
-                              )
+                              ),
                             ],
                           );
                         }),
