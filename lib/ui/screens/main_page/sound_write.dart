@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:to_morrow_front/ui/screens/write_edit_page/write_edit_view.dart';
 
+import '../../../repository/controller/maintab_controller.dart';
 import '../../../repository/controller/topic_controller.dart';
 
 class SoundWrite extends StatelessWidget {
@@ -12,6 +14,7 @@ class SoundWrite extends StatelessWidget {
   Widget build(BuildContext context) {
     final TopicController _controller = Get.put(TopicController('audio'));
     print(_controller.topic.value);
+    final MainTabController tabController = Get.find();
 
 
     return Scaffold(
@@ -66,7 +69,10 @@ class SoundWrite extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      tabController.pageName.value = 'WriteEdit';
+                      Get.to(() => WriteEditView(source: 'sound'));
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF373430),
                       shape: RoundedRectangleBorder(

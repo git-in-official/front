@@ -19,6 +19,6 @@ Map<String, Widget Function(String)> pages = {
   'WordWritingMaterial': (_) => WordWritingMaterial(),
   'SoundWrite': (_) => SoundWrite(),
   'Emotion' : (_) => EmotionView(),
-  'WriteEdit':(_) =>  WriteEditView(),
+  'WriteEdit': (source) => WriteEditView(source: source),
   'EmotionAnalysisModal' :(_) =>  EmotionAnalysisModal()
 };
