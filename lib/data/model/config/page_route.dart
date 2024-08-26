@@ -1,6 +1,5 @@
 //페이지 정의
 import 'package:flutter/cupertino.dart';
-
 import '../../../ui/component/emotion_view.dart';
 import '../../../ui/screens/main_page/main_home_page.dart';
 import '../../../ui/screens/main_page/sound_write.dart';
@@ -20,6 +19,6 @@ Map<String, Widget Function(String)> pages = {
   'WordWritingMaterial': (_) => WordWritingMaterial(),
   'SoundWrite': (_) => SoundWrite(),
   'Emotion' : (_) => EmotionView(),
-  'WriteEdit':(_) =>  WriteEditView(),
+  'WriteEdit': (source) => WriteEditView(source: source),
   'EmotionAnalysisModal' :(_) =>  EmotionAnalysisModal()
 };

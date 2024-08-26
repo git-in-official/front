@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:to_morrow_front/repository/controller/maintab_controller.dart';
 import 'package:to_morrow_front/repository/controller/topic_controller.dart';
+import 'package:to_morrow_front/ui/screens/write_edit_page/write_edit_view.dart';
 
 class TitleWritinMaterial extends StatelessWidget {
   const TitleWritinMaterial({super.key});
@@ -10,6 +12,7 @@ class TitleWritinMaterial extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TopicController _controller = Get.put(TopicController('title'));
+    final MainTabController tabController = Get.find();
 
     return Scaffold(
       backgroundColor: const Color(0xFFE6E2DB),
@@ -52,7 +55,10 @@ class TitleWritinMaterial extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      tabController.pageName.value = 'WriteEdit';
+                      Get.to(() => WriteEditView(source: 'title'));
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF373430),
                       shape: RoundedRectangleBorder(
