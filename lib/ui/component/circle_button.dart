@@ -2,14 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:to_morrow_front/repository/controller/circle_button_controller.dart';
+import 'package:to_morrow_front/repository/controller/topic_controller.dart';
 import 'package:to_morrow_front/ui/component/speech_bubble.dart';
 import '../../repository/controller/maintab_controller.dart';
 import '../screens/main_page/title_writing_material.dart';
 import '../screens/modal_page/Inspiration_done_modal.dart';
 
 class CircleMenuDialog extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -139,20 +138,19 @@ class CircleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final MainTabController tabController = Get.find();
-    final CircleButtonController _controller = Get.put(CircleButtonController());
-
+    final CircleButtonController _controller =
+        Get.put(CircleButtonController());
 
     return SizedBox(
       height: 56,
       width: 56,
       child: GestureDetector(
         onTap: () {
-
           if (_controller.canWritePoem.value) {
             Navigator.of(context).pop();
-            Future.delayed(Duration(milliseconds: 300), (){
+
+            Future.delayed(Duration(milliseconds: 300), () {
               tabController.pageName.value = movePage;
             });
           } else {
@@ -161,8 +159,6 @@ class CircleButton extends StatelessWidget {
               builder: (BuildContext context) => (InspirationDoneModal()),
             );
           }
-
-
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

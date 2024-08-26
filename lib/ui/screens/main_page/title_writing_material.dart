@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:to_morrow_front/repository/controller/topic_controller.dart';
 
 class TitleWritinMaterial extends StatelessWidget {
   const TitleWritinMaterial({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final TopicController _controller = Get.put(TopicController('title'));
+
     return Scaffold(
       backgroundColor: const Color(0xFFE6E2DB),
       body: SafeArea(
@@ -33,15 +38,14 @@ class TitleWritinMaterial extends StatelessWidget {
                 const SizedBox(
                   height: 24.0,
                 ),
-                const Text(
-                  '글감이 나오는 곳',
+                Obx(() => Text(
+                  _controller.topic.value,
                   style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.w700,
                     fontFamily: 'KoPubBatangPro',
                   ),
-
-                ),
+                )),
                 const SizedBox(
                   height: 259.0,
                 ),
