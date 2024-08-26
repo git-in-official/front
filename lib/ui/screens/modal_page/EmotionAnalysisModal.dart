@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:to_morrow_front/ui/component/custom_text_button.dart';
+import 'package:to_morrow_front/ui/screens/write_edit_page/emotion_analysis_loading.dart';
 
 class EmotionAnalysisModal extends StatelessWidget {
   const EmotionAnalysisModal({super.key});
@@ -58,7 +59,7 @@ class EmotionAnalysisModal extends StatelessWidget {
                 const SizedBox(height: 15),
                 CustomTextButton(
                   onPressed: () {
-                    Get.to(() => '');
+                    Get.to(() => EmotionAnalysisLoading());
                   },
                   text: '감정분석하기',
                   isHighlighted: true,
