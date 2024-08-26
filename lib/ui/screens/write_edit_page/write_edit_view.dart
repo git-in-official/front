@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:to_morrow_front/repository/controller/maintab_controller.dart';
+import 'package:to_morrow_front/repository/controller/topic_controller.dart';
 import 'package:to_morrow_front/ui/screens/modal_page/EmotionAnalysisModal.dart';
 import 'package:to_morrow_front/ui/view_model/write_edit_view_model.dart';
 
 class WriteEditView extends StatelessWidget {
   final WriteEditViewModel viewModel = Get.put(WriteEditViewModel());
   final MainTabController tabController = Get.find();
+  final TopicController topicController = Get.put(TopicController('title'));
 
-  WriteEditView({super.key});
+  final String source;
+
+  WriteEditView({super.key, required this.source});
 
   final List<Map<String, Object>> fonts = [
     {"family": "NotoSans", "weight": FontWeight.w900, "name": "NotoSans Black"},
@@ -155,6 +159,12 @@ class WriteEditView extends StatelessWidget {
                                         fontSize: 14.0,
                                         fontFamily: viewModel.selectedFont['family'] as String?,
                                         fontWeight: viewModel.selectedFont['weight'] as FontWeight?,
+                                      ),
+                                      // API로 받아온 제목을 자동으로 입력
+                                      controller: TextEditingController(
+                                        text: source == 'title'
+                                            ? topicController.topic.value
+                                            : '',
                                       ),
                                       // 텍스트 정렬 적용
                                       textAlign: _getTextAlign(
