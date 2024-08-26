@@ -9,14 +9,11 @@ import '../../../ui/screens/main_page/word_writing_material.dart';
 import '../../../ui/screens/my_page/my_profile.dart';
 
 //이동할 페이지를 정의
-Map<String, Widget> pages = {
-  'Home': HomePage(),
-  'Profile': MyProfile(),
-  'TitleWritingMaterial' : TitleWritinMaterial(),
-  'VideoWrite' : VideoWrite(),
-  'WordWritingMaterial' : WordWritingMaterial(),
-  'SoundWrite' : SoundWrite(),
-
-
-
+Map<String, Widget Function(String)> pages = {
+  'Home': (emotion) => HomePage(emotion: emotion),
+  'Profile': (_) => MyProfile(),
+  'TitleWritingMaterial': (_) => TitleWritinMaterial(),
+  'VideoWrite': (_) => VideoWrite(),
+  'WordWritingMaterial': (_) => WordWritingMaterial(),
+  'SoundWrite': (_) => SoundWrite(),
 };

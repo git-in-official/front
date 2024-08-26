@@ -113,7 +113,7 @@ class ReadWritingPage extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                      '작가이름 $author',
+                      author,
                       style: TextStyle(fontSize: 14, color: Color(0xff6D675F)),
                     ),
                   ),
