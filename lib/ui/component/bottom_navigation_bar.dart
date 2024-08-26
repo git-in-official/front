@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:to_morrow_front/repository/controller/maintab_controller.dart';
+import 'package:to_morrow_front/ui/screens/modal_page/EmotionAnalysisModal.dart';
 import '../../data/model/config/page_route.dart';
 import '../screens/main_page/main_home_page.dart';
 import 'circle_button.dart';
@@ -56,7 +57,10 @@ class Maintab extends StatelessWidget {
                         builder: (BuildContext context) => CircleMenuDialog(),
                       );
                     } else {
-                      ///todo) 여기에 혜원님페이지를 띄어주세요
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) => EmotionAnalysisModal(),
+                      );
                     }
 
 
