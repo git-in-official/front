@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:to_morrow_front/repository/controller/maintab_controller.dart';
 import 'package:to_morrow_front/ui/screens/modal_page/EmotionAnalysisModal.dart';
 import 'package:to_morrow_front/ui/view_model/write_edit_view_model.dart';
 
 class WriteEditView extends StatelessWidget {
   final WriteEditViewModel viewModel = Get.put(WriteEditViewModel());
-
+  final MainTabController tabController = Get.find();
 
   WriteEditView({super.key});
 
@@ -26,6 +27,8 @@ class WriteEditView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    tabController.isMain.value = false;
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -217,6 +220,7 @@ class WriteEditView extends StatelessWidget {
           ],
         ),
       ),
+      //bottomNavigationBar: Maintab(),
     );
   }
 
