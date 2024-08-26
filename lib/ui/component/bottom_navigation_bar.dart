@@ -3,10 +3,12 @@ import 'package:get/get.dart';
 import 'package:to_morrow_front/repository/controller/maintab_controller.dart';
 import 'package:to_morrow_front/ui/screens/modal_page/EmotionAnalysisModal.dart';
 import '../../data/model/config/page_route.dart';
+import '../screens/main_page/main_home_page.dart';
 import 'circle_button.dart';
 
 class Maintab extends StatelessWidget {
   final MainTabController tabController = Get.find(); // Get.find() 사용
+
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +23,15 @@ class Maintab extends StatelessWidget {
           ),
         ),
         child: Obx(() {
-          Widget currentPage =
-              pages[tabController.pageName.value] ?? Container();
+          Widget currentPage = pages[tabController.pageName.value]?.call(tabController.selectedEmotion.value) ?? Container();
 
           return Scaffold(
             backgroundColor: Color(0xffE6E2DB),
             body: IndexedStack(
               index: tabController.rootPageIndex.value,
-              children: [currentPage],
+              children: [
+                currentPage
+                ],
             ),
             bottomSheet: Obx(() {
               return tabController.showSecondBottomSheet.value

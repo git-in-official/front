@@ -7,6 +7,7 @@ import '../../ui/screens/my_page/my_profile.dart';
 class MainTabController extends GetxController {
   var selectedEmotionIndex = (-1).obs; //감정 선택 후 보여줄 이미지 선택
   var showSecondBottomSheet = false.obs; // 보조하단 탭
+  var selectedEmotion = '기쁨'.obs;
 
   var isMain = true.obs; //동그란 버튼인가 아닌가
 
