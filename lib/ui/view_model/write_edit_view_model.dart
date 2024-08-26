@@ -16,6 +16,9 @@ class WriteEditViewModel extends GetxController {
   // 임시 선택된 폰트
   var tempSelectedFont = <String, Object>{}.obs;
 
+  // 사용자 이름을 관리할 변수
+  var userName = ''.obs;
+
   @override
   void onInit() {
     super.onInit();

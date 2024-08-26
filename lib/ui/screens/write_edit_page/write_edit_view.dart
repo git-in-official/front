@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:to_morrow_front/repository/controller/auth_service.dart';
 import 'package:to_morrow_front/repository/controller/maintab_controller.dart';
 import 'package:to_morrow_front/repository/controller/topic_controller.dart';
 import 'package:to_morrow_front/ui/screens/modal_page/EmotionAnalysisModal.dart';
@@ -9,6 +10,7 @@ class WriteEditView extends StatelessWidget {
   final WriteEditViewModel viewModel = Get.put(WriteEditViewModel());
   final MainTabController tabController = Get.find();
   final TopicController topicController = Get.put(TopicController('title'));
+  final AuthService authService = AuthService();
 
   final String source;
 
@@ -32,6 +34,11 @@ class WriteEditView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     tabController.isMain.value = false;
+
+    //필명 불러오기
+    authService.loadServiceName().then((name) {
+      viewModel.userName.value = name ?? '투모로우';
+    });
 
     return Scaffold(
       body: SafeArea(
@@ -173,20 +180,22 @@ class WriteEditView extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              const SizedBox(
+                              SizedBox(
                                 height: 46,
                                 child: Row(
                                   children: [
-                                    Spacer(),
-                                    Text(
-                                      '투모로우',
-                                      style: TextStyle(
-                                        fontSize: 14.0,
-                                        fontFamily: 'KoPubBatangPro',
-                                        fontWeight: FontWeight.w700,
-                                        color: Color(0xFF373430),
-                                      ),
-                                    ),
+                                    const Spacer(),
+                                    Obx(() {
+                                      return Text(
+                                        viewModel.userName.value,
+                                        style: const TextStyle(
+                                          fontSize: 14.0,
+                                          fontFamily: 'KoPubBatangPro',
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF373430),
+                                        ),
+                                      );
+                                    }),
                                   ],
                                 ),
                               ),
