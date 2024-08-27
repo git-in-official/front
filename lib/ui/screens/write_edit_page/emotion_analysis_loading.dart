@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:to_morrow_front/repository/controller/auth_service.dart';
+import 'package:to_morrow_front/repository/controller/emotion_analysis_controller.dart';
+import 'package:to_morrow_front/ui/screens/sentiment_analysis_page/sentiment_main_page.dart';
 
 class EmotionAnalysisLoading extends StatefulWidget {
   const EmotionAnalysisLoading({super.key});
@@ -15,6 +18,7 @@ class _EmotionAnalysisLoadingState extends State<EmotionAnalysisLoading>
   late AnimationController _controller;
   late Animation<double> _animation;
   String userName = '';
+  final EmotionAnalysisController emotionController = Get.put(EmotionAnalysisController());
 
   @override
   void initState() {
@@ -32,7 +36,22 @@ class _EmotionAnalysisLoadingState extends State<EmotionAnalysisLoading>
       setState(() {
         userName = name ?? '투모로우';
       });
+      // 시 태그 분석 요청 보내기
+      _analyzePoem();
     });
+  }
+
+  Future<void> _analyzePoem() async {
+    bool isSuccess = await emotionController.analyzePoem('시 제목', '시 내용'); // 실제 시 제목과 내용을 전달
+
+    if (isSuccess) {
+      // 성공적으로 요청이 완료되면 다음 페이지로 이동
+      Get.to(() => const SentimentMainPage());
+    } else {
+      // 실패 시 처리 (예: 에러 화면으로 이동 등)
+      print('시 태그 분석에 실패했습니다.');
+      // 여기서 에러 처리 로직 추가 가능 (예: 에러 메시지 표시 등)
+    }
   }
 
   @override
