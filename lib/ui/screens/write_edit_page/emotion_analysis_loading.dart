@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:to_morrow_front/repository/controller/auth_service.dart';
 
 class EmotionAnalysisLoading extends StatefulWidget {
   const EmotionAnalysisLoading({super.key});
@@ -13,16 +14,25 @@ class _EmotionAnalysisLoadingState extends State<EmotionAnalysisLoading>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
+  String userName = '';
 
   @override
   void initState() {
     super.initState();
+    // 애니메이션 초기화
     _controller = AnimationController(
       duration: const Duration(seconds: 5),
       vsync: this,
     )..repeat(reverse: false);
 
     _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
+
+    // 서버에서 이름 가져오기
+    AuthService().loadServiceName().then((name) {
+      setState(() {
+        userName = name ?? '투모로우';
+      });
+    });
   }
 
   @override
@@ -61,13 +71,13 @@ class _EmotionAnalysisLoadingState extends State<EmotionAnalysisLoading>
               ],
             ),
             const SizedBox(height: 48), // 로고와 텍스트 간격
-            const Text(
+            Text(
               'TO.MORROW가\n'
-                  '~님이 탈고하신\n'
+                  '$userName님이 탈고하신\n'
                   '‘시 제목’의 마음을\n'
                   '읽어내는 중입니다..',
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 fontFamily: 'KoPubBatangPro',
                 fontWeight: FontWeight.w700,
