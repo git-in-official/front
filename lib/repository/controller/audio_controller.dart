@@ -49,11 +49,12 @@ class AudioController extends GetxController {
         await audioPlayer.stop(); // 이미 재생 중인 경우 정지
       }
 
-      // 파일 소스를 설정합니다.
-      final source = DeviceFileSource(playAudioPath.value);
+      print('Playing audio from: ${playAudioPath.value}');
 
+      final source = DeviceFileSource(playAudioPath.value);
       await audioPlayer.setSource(source);
-      await Future.delayed(Duration(seconds: 2));
+
+      await audioPlayer.setVolume(1.0);  // 볼륨을 최대치로 설정
 
       duration.value = duration.value;
       isPlaying.value = true;
@@ -64,6 +65,8 @@ class AudioController extends GetxController {
       print("오디오 재생 중 오류 발생: $e");
     }
   }
+
+
 
 
   Future<void> initRecorder() async {
@@ -110,12 +113,16 @@ class AudioController extends GetxController {
       await audioFile.copy(newFile.path); // 기존 파일을 새로운 위치로 복사
       playAudioPath.value = newFile.path;
 
+      print('Audio saved at: ${newFile.path}'); // 저장 경로 출력
+
       return newFile.path; // 새로운 파일의 경로 반환
     } catch (e) {
       print('Error saving recording: $e');
-      return ''; // 오류 발생 시 빈 문자열 반환
+      return '';
     }
   }
+
+
 
   Future<void> stop() async {
     final path = await recorder.stopRecorder(); // 녹음 중지하고, 녹음된 오디오 파일의 경로를 얻음
@@ -123,8 +130,10 @@ class AudioController extends GetxController {
 
     isRecording.value = false;
 
-     // 녹음된 파일을 로컬에 저장
+    print('Recording stopped. File saved at: $path');
+
   }
+
 
   Future<void> record() async {
     if (!isRecording.value) {
