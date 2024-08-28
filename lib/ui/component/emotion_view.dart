@@ -124,14 +124,6 @@ class EmotionView extends GetView<EmotionViewModel> {
                     tabController.selectedEmotion.value = controller.selectedEmotion.value!.title;
                     Get.to(() => Maintab());
 
-                    //서버에 표정 뭐 선택 했는지 보내주기
-                    if (controller.selectedEmotion.value!.title != '모르겠음') {
-                      final EmotionViewController emotionViewController = Get
-                          .put(EmotionViewController());
-                      emotionViewController.sendEmotionToServer(tabController
-                          .selectedEmotion.value);
-                    }
-
                   }
                       : null,
                   child: Container(
