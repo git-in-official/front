@@ -40,6 +40,10 @@ class WriteEditView extends StatelessWidget {
       viewModel.userName.value = name ?? '투모로우';
     });
 
+    // 초기 제목 설정 및 ViewModel에 저장
+    final String initialTitle = source == 'title' ? topicController.topic.value : '';
+    viewModel.updateTitle(initialTitle); // 초기값을 ViewModel에 저장
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -176,6 +180,9 @@ class WriteEditView extends StatelessWidget {
                                       // 텍스트 정렬 적용
                                       textAlign: _getTextAlign(
                                           viewModel.textAlign.value),
+                                      onChanged: (value) {
+                                        viewModel.updateTitle(value); // 제목이 변경될 때 ViewModel에 업데이트
+                                      },
                                     ),
                                   ),
                                 ],
@@ -223,8 +230,31 @@ class WriteEditView extends StatelessWidget {
                                       expands: true,
                                       keyboardType: TextInputType.multiline,
                                       textInputAction: TextInputAction.newline,
+                                      onChanged: (value) {
+                                        viewModel.updateBodyContent(value); // 본문 내용이 변경될 때 ViewModel에 업데이트
+                                      },
                                     ),
                                   ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 40,  // 원하는 높이로 설정
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFFE3DED4),
+                                    foregroundColor: const Color(0xFF3B3731),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      side: const BorderSide(color: Colors.black),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) => EmotionAnalysisModal(),
+                                    );
+                                  },
+                                  child: const Text('모달창 확인'),
                                 ),
                               ),
                             ],
