@@ -1,7 +1,6 @@
 //페이지 정의
 import 'package:flutter/cupertino.dart';
 import 'package:to_morrow_front/ui/component/emotion_view.dart';
-import 'package:to_morrow_front/ui/screens/write_edit_page//write_edit_view.dart';
 import 'package:to_morrow_front/ui/screens/modal_page/EmotionAnalysisModal.dart';
 import '../../../ui/screens/main_page/main_home_page.dart';
 import '../../../ui/screens/main_page/sound_write.dart';
