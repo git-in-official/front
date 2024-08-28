@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:to_morrow_front/repository/controller/auth_service.dart';
+import 'package:to_morrow_front/repository/controller/emotion_analysis_controller.dart';
+import 'package:to_morrow_front/ui/screens/sentiment_analysis_page/sentiment_main_page.dart';
+import 'package:to_morrow_front/ui/view_model/write_edit_view_model.dart';
 
 class EmotionAnalysisLoading extends StatefulWidget {
   const EmotionAnalysisLoading({super.key});
@@ -13,16 +18,45 @@ class _EmotionAnalysisLoadingState extends State<EmotionAnalysisLoading>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
+  String userName = '';
+  final EmotionAnalysisController emotionController = Get.put(EmotionAnalysisController());
+  final WriteEditViewModel writeEditViewModel = Get.find();
+
 
   @override
   void initState() {
     super.initState();
+    // 애니메이션 초기화
     _controller = AnimationController(
       duration: const Duration(seconds: 5),
       vsync: this,
     )..repeat(reverse: false);
 
     _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
+
+    // 서버에서 이름 가져오기
+    AuthService().loadServiceName().then((name) {
+      setState(() {
+        userName = name ?? '투모로우';
+      });
+      // 시 태그 분석 요청 보내기
+      _analyzePoem();
+    });
+  }
+
+  Future<void> _analyzePoem() async {
+    bool isSuccess = await emotionController.analyzePoem(
+      writeEditViewModel.title.value,
+      '',
+    );
+
+    if (isSuccess) {
+      // 요청 완료시 페이지 이동
+      Get.to(() => const SentimentMainPage());
+    } else {
+      // 실패
+      print('시 태그 분석에 실패했습니다.');
+    }
   }
 
   @override
@@ -61,19 +95,21 @@ class _EmotionAnalysisLoadingState extends State<EmotionAnalysisLoading>
               ],
             ),
             const SizedBox(height: 48), // 로고와 텍스트 간격
-            const Text(
-              'TO.MORROW가\n'
-                  '~님이 탈고하신\n'
-                  '‘시 제목’의 마음을\n'
-                  '읽어내는 중입니다..',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 18,
-                fontFamily: 'KoPubBatangPro',
-                fontWeight: FontWeight.w700,
-                color: Color(0xFF373430),
-              ),
-            ),
+            Obx(() { // Obx로 ViewModel의 제목이 변경될 때마다 업데이트 되도록 함
+              return Text(
+                'TO.MORROW가\n'
+                    '$userName님이 탈고하신\n'
+                    '‘${writeEditViewModel.title.value}’의 마음을\n'
+                    '읽어내는 중입니다..', // ViewModel에서 시 제목 불러오기
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontFamily: 'KoPubBatangPro',
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF373430),
+                ),
+              );
+            }),
           ],
         ),
       ),
