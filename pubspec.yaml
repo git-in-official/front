@@ -96,6 +96,7 @@ flutter:
     - assets/icons/main_menu/
     - assets/icons/my_page/
     - assets/icons/writing_page/
+    - assets/icons/poem_loading/
     - assets/images/
 
 
