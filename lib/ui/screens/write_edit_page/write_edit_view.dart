@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:to_morrow_front/repository/controller/auth_service.dart';
 import 'package:to_morrow_front/repository/controller/maintab_controller.dart';
+import 'package:to_morrow_front/repository/controller/topic_controller.dart';
 import 'package:to_morrow_front/ui/screens/modal_page/EmotionAnalysisModal.dart';
 import 'package:to_morrow_front/ui/view_model/write_edit_view_model.dart';
 
 class WriteEditView extends StatelessWidget {
   final WriteEditViewModel viewModel = Get.put(WriteEditViewModel());
   final MainTabController tabController = Get.find();
+  final TopicController topicController = Get.put(TopicController('title'));
+  final AuthService authService = AuthService();
 
-  WriteEditView({super.key});
+  final String source;
+
+  WriteEditView({super.key, required this.source});
 
   final List<Map<String, Object>> fonts = [
     {"family": "NotoSans", "weight": FontWeight.w900, "name": "NotoSans Black"},
@@ -28,6 +34,15 @@ class WriteEditView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     tabController.isMain.value = false;
+
+    //필명 불러오기
+    authService.loadServiceName().then((name) {
+      viewModel.userName.value = name ?? '투모로우';
+    });
+
+    // 초기 제목 설정 및 ViewModel에 저장
+    final String initialTitle = source == 'title' ? topicController.topic.value : '';
+    viewModel.updateTitle(initialTitle); // 초기값을 ViewModel에 저장
 
     return Scaffold(
       body: SafeArea(
@@ -156,27 +171,38 @@ class WriteEditView extends StatelessWidget {
                                         fontFamily: viewModel.selectedFont['family'] as String?,
                                         fontWeight: viewModel.selectedFont['weight'] as FontWeight?,
                                       ),
+                                      // API로 받아온 제목을 자동으로 입력
+                                      controller: TextEditingController(
+                                        text: source == 'title'
+                                            ? topicController.topic.value
+                                            : '',
+                                      ),
                                       // 텍스트 정렬 적용
                                       textAlign: _getTextAlign(
                                           viewModel.textAlign.value),
+                                      onChanged: (value) {
+                                        viewModel.updateTitle(value); // 제목이 변경될 때 ViewModel에 업데이트
+                                      },
                                     ),
                                   ),
                                 ],
                               ),
-                              const SizedBox(
+                              SizedBox(
                                 height: 46,
                                 child: Row(
                                   children: [
-                                    Spacer(),
-                                    Text(
-                                      '투모로우',
-                                      style: TextStyle(
-                                        fontSize: 14.0,
-                                        fontFamily: 'KoPubBatangPro',
-                                        fontWeight: FontWeight.w700,
-                                        color: Color(0xFF373430),
-                                      ),
-                                    ),
+                                    const Spacer(),
+                                    Obx(() {
+                                      return Text(
+                                        viewModel.userName.value,
+                                        style: const TextStyle(
+                                          fontSize: 14.0,
+                                          fontFamily: 'KoPubBatangPro',
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF373430),
+                                        ),
+                                      );
+                                    }),
                                   ],
                                 ),
                               ),
@@ -204,8 +230,31 @@ class WriteEditView extends StatelessWidget {
                                       expands: true,
                                       keyboardType: TextInputType.multiline,
                                       textInputAction: TextInputAction.newline,
+                                      onChanged: (value) {
+                                        viewModel.updateBodyContent(value); // 본문 내용이 변경될 때 ViewModel에 업데이트
+                                      },
                                     ),
                                   ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 40,  // 원하는 높이로 설정
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFFE3DED4),
+                                    foregroundColor: const Color(0xFF3B3731),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      side: const BorderSide(color: Colors.black),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) => EmotionAnalysisModal(),
+                                    );
+                                  },
+                                  child: const Text('모달창 확인'),
                                 ),
                               ),
                             ],

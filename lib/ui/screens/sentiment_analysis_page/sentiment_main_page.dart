@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+//글쓰기페이지(감정분석)
 class SentimentMainPage extends StatelessWidget {
   const SentimentMainPage({super.key});
 

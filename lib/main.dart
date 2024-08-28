@@ -6,8 +6,12 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:to_morrow_front/repository/controller/global_controller.dart';
 import 'package:to_morrow_front/repository/controller/login_controller.dart';
 import 'package:to_morrow_front/repository/controller/maintab_controller.dart';
+import 'package:to_morrow_front/ui/component/emotion_view.dart';
+import 'package:to_morrow_front/ui/screens/main_page/sound_write.dart';
+import 'package:to_morrow_front/ui/screens/recording_page/recording_page.dart';
 import 'package:to_morrow_front/ui/screens/splash_page/splash_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:to_morrow_front/ui/screens/write_edit_page/write_edit_view.dart';
 import 'package:to_morrow_front/ui/view_model/emotion_view_model.dart';
 
 
@@ -37,8 +41,8 @@ class  tomorrow extends StatelessWidget {
     return GetMaterialApp(
       title: "tomorrow",
       debugShowCheckedModeBanner: false,
-      home: SplashPage(),
-
+      // home: RecordingPage(title: 'aaa', author: 'bbb', contents: 'ccc',),
+      home : SplashPage()
     );
 
   }

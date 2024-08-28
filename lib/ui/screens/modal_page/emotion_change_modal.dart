@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../repository/controller/emotion_view_controller.dart';
 import '../../../repository/controller/maintab_controller.dart';
+import '../../component/bottom_navigation_bar.dart';
 
 
 class EmotionChangeModal extends StatelessWidget {
@@ -77,7 +79,7 @@ class EmotionChangeModal extends StatelessWidget {
                       'assets/images/icon-trust.png',
                       'assets/images/icon-dontno.png',
                     ];
-                    final labels = ['기쁨', '슬픔', '두려움', '분노', '기대', '신뢰', '모르겠음'];
+                    final labels = ['기쁨', '슬픔', '두려움', '분노', '기대', '안정', '모르겠음'];
 
                     return EmotionButton(
                       imagePath: imagePaths[index],
@@ -96,9 +98,21 @@ class EmotionChangeModal extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: tempSelectedIndex.value != tabController.selectedEmotionIndex.value ? () {
                     // 확인 버튼 클릭 시 선택된 기분 저장
+                    final selectedEmotion = ['기쁨', '슬픔', '두려움', '분노', '기대', '안정', '모르겠음'][tempSelectedIndex.value];
                     tabController.selectedEmotionIndex.value = tempSelectedIndex.value;
+                    tabController.selectedEmotion.value = selectedEmotion;
+                 Get.to(()=> Maintab());
+
+                    //서버에 표정 뭐 선택 했는지 보내주기
+                    if (selectedEmotion !='모르겠음') {
+                      final EmotionViewController emotionViewController = Get
+                          .put(EmotionViewController());
+                      emotionViewController.sendEmotionToServer(tabController
+                          .selectedEmotion.value);
+                    }
+
+                    //모달창 닫고
                     Navigator.of(context).pop();
-                    //todo) 기분을 새롭게 가지고 확인을 눌렀으면 API 통신해서 또 불러와
                   } : null,
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Color(0xFFE3DED4),

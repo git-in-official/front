@@ -1,11 +1,12 @@
 import 'dart:convert';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+import 'package:to_morrow_front/ui/component/bottom_navigation_bar.dart';
 
 import '../../ui/component/emotion_view.dart';
+import '../../ui/screens/recording_page/recording_page.dart';
 import '../../ui/screens/register_page/register_page.dart';
 import 'auth_service.dart';
 import 'global_controller.dart';
@@ -25,7 +26,7 @@ class LoginController extends GetxController {
         final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
         String accessToken = googleAuth.accessToken.toString();
-
+        print (accessToken);
         final authService = AuthService();
         await authService.saveToken(googleAuth.accessToken!);
         await saveLoginPlatform(LoginPlatform.google);
@@ -84,6 +85,7 @@ class LoginController extends GetxController {
 
         //바로 기분 선택 페이지
         Get.to(() => EmotionView());
+        // Get.to(() => RecordingPage(title: 'aaa', author: 'bbb', contents: 'ccc',));
       } else if (response.statusCode == 404 &&
           responseBody['message'] == "user not found") {
         print("404 - 회원가입필요");
