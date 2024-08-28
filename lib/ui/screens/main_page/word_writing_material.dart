@@ -58,7 +58,6 @@ class WordWritingMaterial extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       tabController.pageName.value = 'WriteEdit';
-                      Get.to(() => WriteEditView(source: 'word'));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF373430),

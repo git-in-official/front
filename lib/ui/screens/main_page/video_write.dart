@@ -156,7 +156,6 @@ class VideoWrite extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       tabController.pageName.value = 'WriteEdit';
-                      Get.to(() => WriteEditView(source: 'video'));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF373430),

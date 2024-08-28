@@ -16,6 +16,15 @@ class WriteEditViewModel extends GetxController {
   // 임시 선택된 폰트
   var tempSelectedFont = <String, Object>{}.obs;
 
+  // 사용자 이름을 관리할 변수
+  var userName = ''.obs;
+
+  // 제목 저장 변수
+  var title = ''.obs;
+
+  //본문 내용 저장 변수
+  var bodyContent = ''.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -40,5 +49,15 @@ class WriteEditViewModel extends GetxController {
   // 폰트 변경 취소
   void cancelFontChange() {
     tempSelectedFont.value = Map<String, Object>.from(selectedFont);
+  }
+
+  // 제목 업데이트
+  void updateTitle(String newTitle) {
+    title.value = newTitle;
+  }
+
+  // 본문 내용 업데이트
+  void updateBodyContent(String newContent) {
+    bodyContent.value = newContent;
   }
 }

@@ -1,6 +1,9 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../repository/controller/bookmark_controller.dart';
+import '../../../repository/controller/bookmark_controller.dart';
 import '../../../repository/controller/maintab_controller.dart';
 import '../../component/page_fold.dart';
 import '../modal_page/emotion_change_modal.dart';
@@ -11,23 +14,63 @@ class ReadWritingPage extends StatelessWidget {
   final MainTabController tabController = Get.put(MainTabController());
   final FlutterSecureStorage storage = FlutterSecureStorage();
 
-
   final String title;
   final String author;
   final String contents;
-
+  final String? textAlign;
+  final double? textSize;
+  final String? textFont;
+  final String audioUrl;
+  final RxBool isScrapped;
+  final String id;
 
   ReadWritingPage({
     Key? key,
-
-
     required this.title,
     required this.author,
     required this.contents,
+    this.textAlign,
+    this.textSize,
+    this.textFont,
+    required this.audioUrl,
+    required this.isScrapped,
+    required this.id
   }) : super(key: key);
 
   final RxBool _isFolded = false.obs;
   final RxDouble _animationValue = 0.0.obs;
+
+  // AudioPlayer 인스턴스 생성
+  final AudioPlayer player = AudioPlayer();
+  final RxBool isPlaying = false.obs;
+  final Rx<Duration> position = Duration.zero.obs;
+  final Rx<Duration> duration = Duration.zero.obs;
+
+  void _setupAudioPlayer() {
+    player.onPlayerStateChanged.listen((PlayerState state) {
+      isPlaying.value = state == PlayerState.playing;
+    });
+
+    player.onPositionChanged.listen((Duration newPosition) {
+      position.value = newPosition;
+    });
+
+    player.onDurationChanged.listen((Duration newDuration) {
+      duration.value = newDuration;
+    });
+  }
+
+  Future<void> _playPauseAudio() async {
+    try {
+      if (isPlaying.value) {
+        await player.pause();
+      } else {
+        await player.play(UrlSource(audioUrl!));
+      }
+    } catch (e) {
+      print('Error playing audio: $e');
+    }
+  }
 
   void _toggleFold(BuildContext context) {
     if (_isFolded.value) {
@@ -64,12 +107,6 @@ class ReadWritingPage extends StatelessWidget {
         ),
       ),
     );
-
-
-
-
-    print('acessToken', );
-
     overlay.insert(overlayEntry);
 
     Future.delayed(Duration(seconds: 2), () {
@@ -79,15 +116,17 @@ class ReadWritingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      backgroundColor:    Color(0xffE6E2DB),
-      appBar: AppBar(
-          automaticallyImplyLeading: false,
-          leading: null,
-          backgroundColor: Color(0xffE6E2DB),
-          elevation: 0,
-          flexibleSpace: _buildEmotionSelector(context),
+    // 초기화
+    audioUrl != "없음" ? _setupAudioPlayer() : null;
 
+    return Scaffold(
+      backgroundColor: Color(0xffE6E2DB),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: null,
+        backgroundColor: Color(0xffE6E2DB),
+        elevation: 0,
+        flexibleSpace: _buildEmotionSelector(context),
       ),
       body: Container(
         child: Stack(
@@ -119,25 +158,79 @@ class ReadWritingPage extends StatelessWidget {
                   ),
                   SizedBox(height: 40),
                   Expanded(
-                    child: SingleChildScrollView(
-                      child: Center(
-                        child: Container(
-                          width: 264,
-                          child: Text(
-                            contents,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Color(0xff373430),
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
+                      child: SingleChildScrollView(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 10.0),
+                      child: Text(
+                        contents,
+                        style: TextStyle(
+                          fontSize: textSize ?? 14,
+                          color: Color(0xff373430),
                         ),
+                        textAlign: parseTextAlign(textAlign),
                       ),
                     ),
-                  ),
+                  )),
                 ],
               ),
             ),
+            Positioned(
+                bottom: 60,
+                left: 0,
+                right: 0,
+                child: Visibility(
+                  visible: audioUrl != '없음',
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      children: [
+                        SizedBox(width: 15),
+                        // 재생 버튼 + 일시 중지 버튼
+                        Container(
+                          width: 36.0,
+                          height: 36.0,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color(0xFFE6E2DB),
+                            border: Border.all(
+                              color: Color(0xFF373430),
+                              width: 1.0, // Border width
+                            ),
+                          ),
+                          child: Center(
+                            child: IconButton(
+                              padding: EdgeInsets.zero,
+                              icon: Icon(
+                                isPlaying.value
+                                    ? Icons.pause
+                                    : Icons.play_arrow,
+                                color: Color(0xFF373430),
+                                size: 18.0, // Icon size
+                              ),
+                              onPressed: _playPauseAudio,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        // 재생 바
+                        Expanded(child: Obx(() {
+                          return Slider(
+                            value: position.value.inSeconds.toDouble(),
+                            min: 0.0,
+                            max: duration.value.inSeconds.toDouble(),
+                            onChanged: (value) {
+                              player.seek(Duration(seconds: value.toInt()));
+                              position.value = Duration(seconds: value.toInt());
+                            },
+                            activeColor: Colors.black,
+                            inactiveColor: Colors.grey,
+                          );
+                        })),
+                        SizedBox(width: 15),
+                      ],
+                    ),
+                  ),
+                )),
             Obx(() {
               return FoldedCornerContainer(
                 width: MediaQuery.of(context).size.width,
@@ -154,9 +247,14 @@ class ReadWritingPage extends StatelessWidget {
               child: GestureDetector(
                 onTap: () {
                   _toggleFold(context);
+
+                  final BookMarkController   bookMarkController =  Get.put (BookMarkController());
+                bookMarkController.fetchData(id);
+
+                  isScrapped.value = !isScrapped.value;
                 },
                 child: Obx(() {
-                  final color = _animationValue.value > 0.0 ? Colors.black : null;
+                  final color = isScrapped.value ? Colors.black : null;
                   return Image.asset(
                     'assets/images/bookmark.png',
                     width: 21,
@@ -170,10 +268,9 @@ class ReadWritingPage extends StatelessWidget {
         ),
       ),
     );
-
   }
-  Widget _buildEmotionSelector(BuildContext context) {
 
+  Widget _buildEmotionSelector(BuildContext context) {
     return InkWell(
       onTap: () {
         showDialog(
@@ -211,6 +308,17 @@ class ReadWritingPage extends StatelessWidget {
       }),
     );
   }
+}
 
-
+TextAlign parseTextAlign(String? textAlign) {
+  switch (textAlign?.toLowerCase()) {
+    case 'left':
+      return TextAlign.left;
+    case 'right':
+      return TextAlign.right;
+    case 'center':
+      return TextAlign.center;
+    default:
+      return TextAlign.start;
+  }
 }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:to_morrow_front/repository/controller/maintab_controller.dart';
 import 'package:to_morrow_front/ui/component/custom_text_button.dart';
 import 'package:to_morrow_front/ui/screens/write_edit_page/emotion_analysis_loading.dart';
 
 class EmotionAnalysisModal extends StatelessWidget {
-  const EmotionAnalysisModal({super.key});
+  EmotionAnalysisModal({super.key});
+  final MainTabController tabController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +61,7 @@ class EmotionAnalysisModal extends StatelessWidget {
                 const SizedBox(height: 15),
                 CustomTextButton(
                   onPressed: () {
+                    //tabController.pageName.value = 'EmotionAnalysisLoading';
                     Get.to(() => EmotionAnalysisLoading());
                   },
                   text: '감정분석하기',
