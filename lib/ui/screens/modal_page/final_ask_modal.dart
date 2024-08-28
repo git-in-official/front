@@ -1,11 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
+import '../../../repository/controller/audio_controller.dart';
+import '../../../repository/controller/recording_controller.dart';
 import '../../component/custom_text_button.dart';
 
 class FinalAskModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+    final AudioController audioController = Get.put(AudioController());
+    final AnimationControllerController animationControllerController =
+    Get.put(AnimationControllerController());
+
+    final RecordingController recordingController =
+    Get.put(RecordingController());
+
     return AlertDialog(
       backgroundColor: Color(0xffE6E2DB),
       contentPadding: EdgeInsets.zero,
@@ -49,7 +61,12 @@ class FinalAskModal extends StatelessWidget {
             SizedBox(height: 20),
             CustomTextButton(text: '낭독 없이 탈고하겠습니다.',  height : 44, width: 203,onPressed: () {}),
             SizedBox(height: 15),
-            CustomTextButton(text: '다시 낭독하겠습니다.', height : 44, width: 203, onPressed: () {}),
+            CustomTextButton(text: '다시 낭독하겠습니다.', height : 44, width: 203,
+              onPressed: () async {
+                await audioController.deleteRecording(); // 녹음 파일 삭제
+                animationControllerController.showStopIcon.value = false; // 녹음 아이콘 표시
+                recordingController.isVisible.value = true; // 화면 표시
+            }),
             SizedBox(height: 15),
             CustomTextButton(
               text: '낭독한 시를 탈고하겠습니다.',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../repository/controller/emotion_view_controller.dart';
 import '../../../repository/controller/maintab_controller.dart';
 import '../../component/bottom_navigation_bar.dart';
 
@@ -99,11 +100,19 @@ class EmotionChangeModal extends StatelessWidget {
                     // 확인 버튼 클릭 시 선택된 기분 저장
                     final selectedEmotion = ['기쁨', '슬픔', '두려움', '분노', '기대', '안정', '모르겠음'][tempSelectedIndex.value];
                     tabController.selectedEmotionIndex.value = tempSelectedIndex.value;
-                    Navigator.of(context).pop();
-                    // Get.back();
                     tabController.selectedEmotion.value = selectedEmotion;
                  Get.to(()=> Maintab());
 
+                    //서버에 표정 뭐 선택 했는지 보내주기
+                    if (selectedEmotion !='모르겠음') {
+                      final EmotionViewController emotionViewController = Get
+                          .put(EmotionViewController());
+                      emotionViewController.sendEmotionToServer(tabController
+                          .selectedEmotion.value);
+                    }
+
+                    //모달창 닫고
+                    Navigator.of(context).pop();
                   } : null,
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Color(0xFFE3DED4),

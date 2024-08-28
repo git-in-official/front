@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:to_morrow_front/ui/screens/write_edit_page/write_edit_view.dart';
-
 import 'package:to_morrow_front/ui/view_model/emotion_view_model.dart';
 
+import '../../repository/controller/emotion_view_controller.dart';
 import '../../repository/controller/maintab_controller.dart';
 import 'bottom_navigation_bar.dart';
 
@@ -124,6 +123,14 @@ class EmotionView extends GetView<EmotionViewModel> {
                     final MainTabController tabController = Get.find();
                     tabController.selectedEmotion.value = controller.selectedEmotion.value!.title;
                     Get.to(() => Maintab());
+
+                    //서버에 표정 뭐 선택 했는지 보내주기
+                    if (controller.selectedEmotion.value!.title != '모르겠음') {
+                      final EmotionViewController emotionViewController = Get
+                          .put(EmotionViewController());
+                      emotionViewController.sendEmotionToServer(tabController
+                          .selectedEmotion.value);
+                    }
 
                   }
                       : null,

@@ -2,7 +2,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:to_morrow_front/ui/screens/sentiment_analysis_page/sentiment_main_page.dart';
 import 'package:to_morrow_front/ui/screens/write_edit_page/emotion_analysis_loading.dart';
-import '../../../ui/component/emotion_view.dart';
+import 'package:to_morrow_front/ui/component/emotion_view.dart';
+import 'package:to_morrow_front/ui/screens/modal_page/EmotionAnalysisModal.dart';
 import '../../../ui/screens/main_page/main_home_page.dart';
 import '../../../ui/screens/main_page/sound_write.dart';
 import '../../../ui/screens/main_page/title_writing_material.dart';
