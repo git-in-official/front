@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:to_morrow_front/repository/controller/auth_service.dart';
 import 'package:to_morrow_front/repository/controller/emotion_analysis_controller.dart';
 import 'package:to_morrow_front/ui/screens/sentiment_analysis_page/sentiment_main_page.dart';
+import 'package:to_morrow_front/ui/view_model/write_edit_view_model.dart';
 
 class EmotionAnalysisLoading extends StatefulWidget {
   const EmotionAnalysisLoading({super.key});
@@ -19,6 +20,8 @@ class _EmotionAnalysisLoadingState extends State<EmotionAnalysisLoading>
   late Animation<double> _animation;
   String userName = '';
   final EmotionAnalysisController emotionController = Get.put(EmotionAnalysisController());
+  final WriteEditViewModel writeEditViewModel = Get.find();
+
 
   @override
   void initState() {
@@ -42,15 +45,17 @@ class _EmotionAnalysisLoadingState extends State<EmotionAnalysisLoading>
   }
 
   Future<void> _analyzePoem() async {
-    bool isSuccess = await emotionController.analyzePoem('시 제목', '시 내용'); // 실제 시 제목과 내용을 전달
+    bool isSuccess = await emotionController.analyzePoem(
+      writeEditViewModel.title.value,
+      '',
+    );
 
     if (isSuccess) {
-      // 성공적으로 요청이 완료되면 다음 페이지로 이동
+      // 요청 완료시 페이지 이동
       Get.to(() => const SentimentMainPage());
     } else {
-      // 실패 시 처리 (예: 에러 화면으로 이동 등)
+      // 실패
       print('시 태그 분석에 실패했습니다.');
-      // 여기서 에러 처리 로직 추가 가능 (예: 에러 메시지 표시 등)
     }
   }
 
@@ -90,19 +95,21 @@ class _EmotionAnalysisLoadingState extends State<EmotionAnalysisLoading>
               ],
             ),
             const SizedBox(height: 48), // 로고와 텍스트 간격
-            Text(
-              'TO.MORROW가\n'
-                  '$userName님이 탈고하신\n'
-                  '‘시 제목’의 마음을\n'
-                  '읽어내는 중입니다..',
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 18,
-                fontFamily: 'KoPubBatangPro',
-                fontWeight: FontWeight.w700,
-                color: Color(0xFF373430),
-              ),
-            ),
+            Obx(() { // Obx로 ViewModel의 제목이 변경될 때마다 업데이트 되도록 함
+              return Text(
+                'TO.MORROW가\n'
+                    '$userName님이 탈고하신\n'
+                    '‘${writeEditViewModel.title.value}’의 마음을\n'
+                    '읽어내는 중입니다..', // ViewModel에서 시 제목 불러오기
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontFamily: 'KoPubBatangPro',
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF373430),
+                ),
+              );
+            }),
           ],
         ),
       ),
