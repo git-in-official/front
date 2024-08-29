@@ -7,8 +7,14 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:get/get.dart';
 
+import '../../ui/view_model/write_edit_view_model.dart';
+
 
 class AudioController extends GetxController {
+
+  final WriteEditViewModel writeEditViewModel = Get.find<WriteEditViewModel>();
+
+
   var duration = Duration.zero.obs; // 총 시간
   var position = Duration.zero.obs; // 진행 중인 시간
 
@@ -49,7 +55,6 @@ class AudioController extends GetxController {
         await audioPlayer.stop(); // 이미 재생 중인 경우 정지
       }
 
-      print('Playing audio from: ${playAudioPath.value}');
 
       final source = DeviceFileSource(playAudioPath.value);
       await audioPlayer.setSource(source);
@@ -113,8 +118,10 @@ class AudioController extends GetxController {
       await audioFile.copy(newFile.path); // 기존 파일을 새로운 위치로 복사
       playAudioPath.value = newFile.path;
 
-      print('Audio saved at: ${newFile.path}'); // 저장 경로 출력
+      writeEditViewModel.updateAudioFile(newFile.path);
 
+
+      print('Audio saved at: ${newFile.path}'); // 저장 경로 출력
       return newFile.path; // 새로운 파일의 경로 반환
     } catch (e) {
       print('Error saving recording: $e');

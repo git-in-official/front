@@ -6,6 +6,8 @@ import 'package:to_morrow_front/repository/controller/auth_service.dart';
 class PoemLoadingPage extends StatefulWidget {
   const PoemLoadingPage({super.key});
 
+
+
   @override
   State<PoemLoadingPage> createState() => _PoemLoadingPageState();
 }
