@@ -6,15 +6,21 @@ import 'package:to_morrow_front/repository/controller/topic_controller.dart';
 import 'package:to_morrow_front/ui/screens/modal_page/EmotionAnalysisModal.dart';
 import 'package:to_morrow_front/ui/view_model/write_edit_view_model.dart';
 
-class WriteEditView extends StatelessWidget {
+class WriteEditView extends StatefulWidget {
+  final String source;
+
+  WriteEditView({super.key, required this.source});
+
+  @override
+  _WriteEditViewState createState() => _WriteEditViewState();
+}
+
+class _WriteEditViewState extends State<WriteEditView> {
   final WriteEditViewModel viewModel = Get.put(WriteEditViewModel());
   final MainTabController tabController = Get.find();
   final TopicController topicController = Get.put(TopicController('title'));
   final AuthService authService = AuthService();
-
-  final String source;
-
-  WriteEditView({super.key, required this.source});
+  late TextEditingController _titleController;
 
   final List<Map<String, Object>> fonts = [
     {"family": "NotoSans", "weight": FontWeight.w900, "name": "NotoSans Black"},
@@ -32,18 +38,48 @@ class WriteEditView extends StatelessWidget {
   ];
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     tabController.isMain.value = false;
+    _titleController = TextEditingController();
 
-    //필명 불러오기
+    // 필명 불러오기
     authService.loadServiceName().then((name) {
       viewModel.userName.value = name ?? '투모로우';
     });
 
-    // 초기 제목 설정 및 ViewModel에 저장
-    final String initialTitle = source == 'title' ? topicController.topic.value : '';
-    viewModel.updateTitle(initialTitle); // 초기값을 ViewModel에 저장
+    // 현재 topic 값 ViewModel에 저장
+    final topicController = Get.find<TopicController>();
 
+    // title일 경우에만 적용
+    if (topicController.type.value == 'title') {
+      final currentTitle = topicController.topic.value;
+      _titleController.text = currentTitle;
+      viewModel.updateTitle(currentTitle);
+    } else {
+      // title 아닐 경우 값 비움
+      _titleController.clear();
+      viewModel.updateTitle('');
+    }
+
+    // topic이 변경될 때마다 업데이트
+    ever(topicController.topic, (String? newTitle) {
+      if (topicController.type.value == 'title') {
+        _titleController.text = newTitle ?? '';
+        viewModel.updateTitle(newTitle ?? '');
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    tabController.isMain.value = true;
+    _titleController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -171,12 +207,7 @@ class WriteEditView extends StatelessWidget {
                                         fontFamily: viewModel.selectedFont['family'] as String?,
                                         fontWeight: viewModel.selectedFont['weight'] as FontWeight?,
                                       ),
-                                      // API로 받아온 제목을 자동으로 입력
-                                      controller: TextEditingController(
-                                        text: source == 'title'
-                                            ? topicController.topic.value
-                                            : '',
-                                      ),
+                                      controller: _titleController,
                                       // 텍스트 정렬 적용
                                       textAlign: _getTextAlign(
                                           viewModel.textAlign.value),
@@ -235,26 +266,6 @@ class WriteEditView extends StatelessWidget {
                                       },
                                     ),
                                   ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: 40,  // 원하는 높이로 설정
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFFE3DED4),
-                                    foregroundColor: const Color(0xFF3B3731),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      side: const BorderSide(color: Colors.black),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) => EmotionAnalysisModal(),
-                                    );
-                                  },
-                                  child: const Text('모달창 확인'),
                                 ),
                               ),
                             ],

@@ -70,8 +70,8 @@ class SoundWrite extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
+                      _controller.type.value = 'audio';
                       tabController.pageName.value = 'WriteEdit';
-                      Get.to(() => WriteEditView(source: 'sound'));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF373430),

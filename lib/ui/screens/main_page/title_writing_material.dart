@@ -56,8 +56,8 @@ class TitleWritinMaterial extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
+                      _controller.type.value = 'title';
                       tabController.pageName.value = 'WriteEdit';
-                      Get.to(() => WriteEditView(source: 'title'));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF373430),
