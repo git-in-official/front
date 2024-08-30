@@ -55,6 +55,9 @@ class TopicController extends GetxController {
 
       final response = await http.get(uri, headers: headers);
 
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
       if (response.statusCode >= 200 && response.statusCode < 300) {
         final Map<String, dynamic> responseJson = json.decode(response.body);
 
@@ -62,32 +65,24 @@ class TopicController extends GetxController {
           case 'title':
             topic.value = responseJson['title'];
             break;
-
           case 'word':
-            print (responseJson['word']);
+            print(responseJson['word']);
             topic.value = responseJson['word'];
             break;
-
           case 'audio':
-            print (responseJson['audioUrl']);
-
+            print(responseJson['audioUrl']);
             topic.value = responseJson['audioUrl'];
             break;
-
           case 'video':
-            print (responseJson['videoUrl']);
-
+            print(responseJson['videoUrl']);
             topic.value = responseJson['videoUrl'];
             break;
-
           default:
             topic.value = '잘못되었음';
         }
       } else {
         topic.value = '에러: ${response.statusCode}';
       }
-    } catch (e) {
-      topic.value = '예외: $e';
     } finally {
       isLoading.value = false;
     }

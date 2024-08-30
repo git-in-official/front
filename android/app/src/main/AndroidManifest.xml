@@ -4,6 +4,9 @@
     <!-- 마이크 권한 추가 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 
+    <!-- 웹 권한 추가 -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:label="to_morrow_front"
         android:name="${applicationName}"
