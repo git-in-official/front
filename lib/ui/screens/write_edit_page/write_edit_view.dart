@@ -40,6 +40,7 @@ class _WriteEditViewState extends State<WriteEditView> {
   @override
   void initState() {
     super.initState();
+    viewModel.resetValues(); // 초기화
     tabController.isMain.value = false;
     _titleController = TextEditingController();
 
@@ -47,6 +48,7 @@ class _WriteEditViewState extends State<WriteEditView> {
     authService.loadServiceName().then((name) {
       viewModel.userName.value = name ?? '투모로우';
     });
+
 
     // 현재 topic 값 ViewModel에 저장
     final topicController = Get.find<TopicController>();
