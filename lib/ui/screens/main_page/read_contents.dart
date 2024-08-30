@@ -185,7 +185,7 @@ class ReadWritingPage extends StatelessWidget {
                 left: 0,
                 right: 0,
                 child: Visibility(
-                  visible: audioUrl != '없음',
+                  visible: audioUrl != null && audioUrl!.isNotEmpty,
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
