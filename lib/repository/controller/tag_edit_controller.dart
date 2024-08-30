@@ -1,11 +1,10 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import '../../ui/view_model/write_edit_view_model.dart';
 import 'auth_service.dart';
-import 'dontCommit.dart';
+import 'emotion_analysis_controller.dart';
 
 class TagEditController extends GetxController {
   final WriteEditViewModel getPoemDetail = Get.find();
