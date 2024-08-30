@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:to_morrow_front/repository/controller/emotion_view_controller.dart';
 import 'package:to_morrow_front/repository/controller/maintab_controller.dart';
 import 'package:to_morrow_front/ui/screens/modal_page/EmotionAnalysisModal.dart';
 import '../../data/model/config/page_route.dart';
@@ -8,6 +9,7 @@ import 'circle_button.dart';
 
 class Maintab extends StatelessWidget {
   final MainTabController tabController = Get.find(); // Get.find() 사용
+  final EmotionViewController controller = Get.put(EmotionViewController());
 
 
   @override
