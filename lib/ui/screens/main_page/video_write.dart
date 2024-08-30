@@ -155,6 +155,7 @@ class VideoWrite extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
+                      _controller.type.value = 'video';
                       tabController.pageName.value = 'WriteEdit';
                     },
                     style: ElevatedButton.styleFrom(
