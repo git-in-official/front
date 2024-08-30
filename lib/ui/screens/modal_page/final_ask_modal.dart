@@ -4,8 +4,10 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 import '../../../repository/controller/audio_controller.dart';
+import '../../../repository/controller/maintab_controller.dart';
 import '../../../repository/controller/recording_controller.dart';
 import '../../component/custom_text_button.dart';
+import '../poem_loeading_page/poem_loading_page.dart';
 
 class FinalAskModal extends StatelessWidget {
   @override
@@ -59,7 +61,11 @@ class FinalAskModal extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20),
-            CustomTextButton(text: '낭독 없이 탈고하겠습니다.',  height : 44, width: 203,onPressed: () {}),
+            CustomTextButton(text: '낭독 없이 탈고하겠습니다.',  height : 44, width: 203,onPressed: () {
+              final MainTabController tabController = Get.find();
+              tabController.pageName.value = 'PoemLoadingPage';
+
+            }),
             SizedBox(height: 15),
             CustomTextButton(text: '다시 낭독하겠습니다.', height : 44, width: 203,
               onPressed: () async {

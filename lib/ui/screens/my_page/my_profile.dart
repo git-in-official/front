@@ -12,7 +12,8 @@ class MyProfile extends StatefulWidget {
 }
 
 class _MyProfileState extends State<MyProfile> {
-  final UserController _userController = Get.put(UserController()); // UserController를 인스턴스화하고, GetX로 관리
+  final UserController _userController = Get.put(
+      UserController()); // UserController를 인스턴스화하고, GetX로 관리
 
   @override
   void initState() {
@@ -55,12 +56,22 @@ class _MyProfileState extends State<MyProfile> {
       body: Obx(() {
         // 프로필 데이터를 바인딩할 때 Obx 사용
         if (_userController.isLoading.value) {
-          return const Center(child: CircularProgressIndicator()); // 로딩 중일 때 로딩 인디케이터 표시
+          return const Center(
+            child: CircularProgressIndicator(),
+          ); // 로딩 중일 때 로딩 인디케이터 표시
         }
 
         if (_userController.profileData.isEmpty) {
-          return const Center(child: Text('프로필 정보를 불러오지 못했습니다.')); // 데이터가 없을 때 메시지 표시
+          return const Center(
+            child: Text('프로필 정보를 불러오지 못했습니다.'),
+          ); // 데이터가 없을 때 메시지 표시
         }
+
+        String? iconUrl = _userController
+            .profileData['mainAchievement']?['icon'];
+
+        List? scrapUsers = _userController.profileData['scrapUsers']; // 최애구독자 정보 목록
+        List? achievements = _userController.profileData['achievements']; // 나의 업적달성 목록
 
         return SingleChildScrollView(
           child: Column(
@@ -84,10 +95,18 @@ class _MyProfileState extends State<MyProfile> {
                                 shape: BoxShape.circle,
                               ),
                             ),
-                            const Icon(
-                              Icons.lock,
-                              size: 32,
-                              color: Color(0xFF6D675F),
+                            Center(
+                              child: iconUrl != null
+                                  ? SvgPicture.network(
+                                iconUrl,
+                                width: 32.0,
+                                height: 32.0,
+                              )
+                                  : const Icon(
+                                Icons.lock,
+                                size: 32,
+                                color: Color(0xFF6D675F),
+                              ),
                             ),
                           ],
                         ),
@@ -96,7 +115,11 @@ class _MyProfileState extends State<MyProfile> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              _userController.profileData['name'] ?? '이름 없음', // 프로필 이름을 표시
+                              '${_userController.profileData['name'] ??
+                                  '-'} | ${_userController
+                                  .profileData['mainAchievement']?['name'] ??
+                                  '-'}' ??
+                                  '이름 없음', // 프로필 이름을 표시
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
@@ -105,7 +128,8 @@ class _MyProfileState extends State<MyProfile> {
                             Row(
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 6, vertical: 4),
                                   decoration: BoxDecoration(
                                     color: const Color(0xFFD0CDC8),
                                     borderRadius: BorderRadius.circular(4),
@@ -119,13 +143,17 @@ class _MyProfileState extends State<MyProfile> {
                                       ),
                                       const SizedBox(width: 6),
                                       Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 7, vertical: 4),
                                         decoration: BoxDecoration(
                                           color: const Color(0xFFD0CDC8),
-                                          borderRadius: BorderRadius.circular(4),
+                                          borderRadius: BorderRadius.circular(
+                                              4),
                                         ),
                                         child: Text(
-                                          '${_userController.profileData['points'] ?? 0} 잉크', // 프로필 포인트를 표시
+                                          '${_userController
+                                              .profileData['points'] ?? 0} 잉크',
+                                          // 프로필 포인트를 표시
                                           style: const TextStyle(
                                             fontSize: 14,
                                             fontFamily: 'KoPubBatangPro',
@@ -144,7 +172,8 @@ class _MyProfileState extends State<MyProfile> {
                     ),
                     const SizedBox(height: 24),
                     Text(
-                      _userController.profileData['description'] ?? '프로필 설명 없음', // 프로필 설명을 표시
+                      _userController.profileData['introduction'] ??
+                          '프로필 설명 없음', // 프로필 설명을 표시
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
@@ -177,7 +206,10 @@ class _MyProfileState extends State<MyProfile> {
                 ),
               ),
               Container(
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width,
                 height: 1.0,
                 color: const Color(0xFF373430),
               ),
@@ -189,37 +221,60 @@ class _MyProfileState extends State<MyProfile> {
                   children: [
                     const Text(
                       '최애구독자',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: List.generate(8, (index) {
-                        return Column(
-                          children: [
-                            Icon(
-                              Icons.circle,
-                              size: 32,
-                              color: const Color(0xFFD9D9D9),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: scrapUsers != null && scrapUsers.isNotEmpty
+                            ? scrapUsers.map<Widget>((scrapUser) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0), // 양쪽 간격 8px
+                            child: Column(
+                              children: [
+                                const Icon(
+                                  Icons.circle,
+                                  size: 32,
+                                  color: Color(0xFFD9D9D9),
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  '${scrapUser['count'] ?? 0}',
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
                             ),
-                            const SizedBox(height: 10),
-                            Text(
-                              '횟수',
+                          );
+                        }).toList()
+                            : [ // 빈 리스트일 경우에도 List<Widget>을 반환하도록 설정
+                          const Padding(
+                            padding: EdgeInsets.all(0),
+                            child: Text(
+                              '아직은 최애구독자가 없습니다. 최애구독자를 만들어보세요!',
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
-                          ],
-                        );
-                      }),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 24),
                   ],
                 ),
               ),
               Container(
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width,
                 height: 1.0,
                 color: const Color(0xFF373430),
               ),
@@ -231,7 +286,8 @@ class _MyProfileState extends State<MyProfile> {
                   children: [
                     const Text(
                       '업적',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     Row(
                       children: [
@@ -267,26 +323,67 @@ class _MyProfileState extends State<MyProfile> {
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: List.generate(4, (index) {
-                    return const Column(
-                      children: [
-                        Icon(
-                          Icons.circle,
-                          size: 32,
-                          color: Color(0xFFD9D9D9),
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          '시인',
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w400,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: achievements != null && achievements.isNotEmpty
+                      ? achievements.map<Widget>((achievement) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0), // 양쪽 간격 8px
+                      child:  Container(
+                        width: 74.0, // width를 74px로 설정
+                        height: 74.0, // height를 74px로 설정
+                        padding: const EdgeInsets.all(8.0), // 패딩 값을 8px로 줄임
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16), // borderRadius 16px 적용
+                          border: Border.all(
+                            color: const Color(0xFF6D675F), // 테두리 색상 지정
+                            width: 1.0, // 테두리 두께
                           ),
                         ),
-                      ],
+                        child: Container(
+                          width: 74.0, // width를 74px로 설정
+                          height: 74.0, // height를 74px로 설정
+                          padding: const EdgeInsets.all(8.0), // 패딩 값을 8px로 줄임
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16), // borderRadius 16px 적용
+                            border: Border.all(
+                              color: const Color(0xFF6D675F), // 테두리 색상 지정
+                              width: 1.0, // 테두리 두께
+                            ),
+                          ),
+                          child: const Column(
+                            mainAxisAlignment: MainAxisAlignment.center, // Column 내용을 수직 가운데 정렬
+                            children: [
+                              Icon(
+                                Icons.circle,
+                                size: 32,
+                                color: Color(0xFFD9D9D9),
+                              ),
+                              SizedBox(height: 4), // SizedBox 높이를 줄임
+                              Text(
+                                '업적',
+                                style: TextStyle(
+                                  fontSize: 12, // 글꼴 크기 줄임
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     );
-                  }),
+                  }).toList()
+                      : [ // 빈 리스트일 경우에도 List<Widget>을 반환하도록 설정
+                    const Padding(
+                      padding: EdgeInsets.all(0),
+                      child: Text(
+                        '아직은 아쉽지만 업적이 없습니다. 업적을 달성해보세요!',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

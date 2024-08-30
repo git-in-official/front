@@ -48,6 +48,7 @@ class _WriteEditViewState extends State<WriteEditView> {
       viewModel.userName.value = name ?? '투모로우';
     });
 
+
     // 현재 topic 값 ViewModel에 저장
     final topicController = Get.find<TopicController>();
 

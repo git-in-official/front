@@ -16,7 +16,7 @@ class EmotionView extends GetView<EmotionViewModel> {
   Widget build(BuildContext context) {
     final controller = Get.find<EmotionViewModel>(); // EmotionViewModel 인스턴스 찾기
 
-    return Scaffold(
+return Scaffold(
       backgroundColor: const Color(0xFFE6E2DB),
       body: SafeArea(
         child: Padding(
@@ -123,14 +123,6 @@ class EmotionView extends GetView<EmotionViewModel> {
                     final MainTabController tabController = Get.find();
                     tabController.selectedEmotion.value = controller.selectedEmotion.value!.title;
                     Get.to(() => Maintab());
-
-                    //서버에 표정 뭐 선택 했는지 보내주기
-                    if (controller.selectedEmotion.value!.title != '모르겠음') {
-                      final EmotionViewController emotionViewController = Get
-                          .put(EmotionViewController());
-                      emotionViewController.sendEmotionToServer(tabController
-                          .selectedEmotion.value);
-                    }
 
                   }
                       : null,

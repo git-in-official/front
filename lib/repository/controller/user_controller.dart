@@ -10,7 +10,79 @@ class UserController extends GetxController {
   final Future<String?> accessToken = AuthService().loadServiceTokens(); // AuthService에서 액세스 토큰을 가져옵니다.
 
   var profileData = {}.obs; // 사용자 프로필 데이터를 관찰 가능한 상태로 저장
+  var achievementsList = {}.obs;
   var isLoading = false.obs; // 로딩 상태를 관찰 가능한 상태로 저장
+
+  Future<void> putMainAchievement(achievementId) async {
+
+    final url = Uri.parse('$_baseUrl/user/achievement');
+
+    try {
+      final String? token = await accessToken;
+
+      if (token == null) {
+        // accessToken이 null인 경우 예외 처리
+        print('AccessToken is null. Please login again.'); // 액세스 토큰이 없을 경우 에러 메시지 출력
+        return;
+      }
+
+      final response = await http.patch(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token', // Bearer 토큰으로 인증
+        },
+        body: {
+          'achievementId': achievementId,
+        }
+      );
+
+      print(response.body); // 서버로부터의 응답을 콘솔에 출력
+
+      if (response.statusCode != 200) {
+        print('Failed to fetch profile data. Status code: ${response.statusCode}'); // 실패 시 에러 메시지 출력
+      }
+
+    } catch(e) {
+      print("Error during fetching profile: $e"); // 요청 중 예외 발생 시 에러 메시지 출력
+    }
+
+  }
+
+  Future<void> getMyAchievements() async {
+    final url = Uri.parse('$_baseUrl/achievements/my');
+
+    try {
+      final String? token = await accessToken;
+
+      if (token == null) {
+        // accessToken이 null인 경우 예외 처리
+        print('AccessToken is null. Please login again.'); // 액세스 토큰이 없을 경우 에러 메시지 출력
+        return;
+      }
+
+      final response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token', // Bearer 토큰으로 인증
+        },
+      );
+
+      print(response.body); // 서버로부터의 응답을 콘솔에 출력
+
+      if (response.statusCode == 200) {
+        // 성공적으로 응답을 받은 경우
+        final data = jsonDecode(response.body); // JSON 응답을 디코딩
+        achievementsList.value = data; // 프로필 데이터를 업데이트
+      } else {
+        print('Failed to fetch profile data. Status code: ${response.statusCode}'); // 실패 시 에러 메시지 출력
+      }
+
+    } catch(e) {
+      print("Error during fetching profile: $e"); // 요청 중 예외 발생 시 에러 메시지 출력
+    }
+  }
 
   // 사용자 프로필 정보를 가져오는 함수
   Future<void> getMyProfileInfo() async {
