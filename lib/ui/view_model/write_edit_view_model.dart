@@ -20,6 +20,7 @@ class WriteEditViewModel extends GetxController {
   var tempSelectedFont = <String, Object>{}.obs;
 
   // 사용자 이름을 관리할 변수
+
   var userName = ''.obs;
 
   // 제목 저장 변수
@@ -121,4 +122,5 @@ class WriteEditViewModel extends GetxController {
   void removeInteraction(String interaction) {
     interactions.remove(interaction);
   }
+
 }

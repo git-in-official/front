@@ -50,7 +50,7 @@ class HomePage extends StatelessWidget {
                             textAlign : poem.textAlign,
                             textSize : poem.textSize.toDouble(),
                             textFont : poem.textFont,
-                            audioUrl : poem.audioUrl ?? '없음',
+                            audioUrl : poem.audioUrl,
                             id : poem.id
 
 

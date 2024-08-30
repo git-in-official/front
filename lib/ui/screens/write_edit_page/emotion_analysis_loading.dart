@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:to_morrow_front/repository/controller/auth_service.dart';
 import 'package:to_morrow_front/repository/controller/emotion_analysis_controller.dart';
 import 'package:to_morrow_front/repository/controller/maintab_controller.dart';
-import 'package:to_morrow_front/ui/screens/sentiment_analysis_page/sentiment_main_page.dart';
 import 'package:to_morrow_front/ui/view_model/write_edit_view_model.dart';
 
 class EmotionAnalysisLoading extends StatefulWidget {

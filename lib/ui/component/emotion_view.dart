@@ -16,7 +16,7 @@ class EmotionView extends GetView<EmotionViewModel> {
   Widget build(BuildContext context) {
     final controller = Get.find<EmotionViewModel>(); // EmotionViewModel 인스턴스 찾기
 
-    return Scaffold(
+return Scaffold(
       backgroundColor: const Color(0xFFE6E2DB),
       body: SafeArea(
         child: Padding(
