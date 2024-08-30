@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import '../../../repository/controller/dontCommit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../repository/controller/emotion_analysis_controller.dart';
 import '../../../repository/controller/get_tags_controller.dart';
 import '../../../repository/controller/tag_edit_controller.dart';
 import '../../component/custom_text_button.dart';
