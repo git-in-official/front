@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../../repository/controller/bookmark_controller.dart';
 import '../../../repository/controller/bookmark_controller.dart';
 import '../../../repository/controller/maintab_controller.dart';
+import '../../../repository/controller/play_poem_controller.dart';
 import '../../component/page_fold.dart';
 import '../modal_page/emotion_change_modal.dart';
 
@@ -13,16 +14,17 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class ReadWritingPage extends StatelessWidget {
   final MainTabController tabController = Get.put(MainTabController());
   final FlutterSecureStorage storage = FlutterSecureStorage();
+  final PlayPoemController playPoem = Get.put (PlayPoemController ());
 
   final String title;
-  final String author;
+  final String author; //작가명
   final String contents;
   final String? textAlign;
   final double? textSize;
   final String? textFont;
-  final String audioUrl;
+  final String? audioUrl;
   final RxBool isScrapped;
-  final String id;
+  final String id; //시 아이디
 
   ReadWritingPage({
     Key? key,
@@ -32,7 +34,7 @@ class ReadWritingPage extends StatelessWidget {
     this.textAlign,
     this.textSize,
     this.textFont,
-    required this.audioUrl,
+    this.audioUrl,
     required this.isScrapped,
     required this.id
   }) : super(key: key);
@@ -66,6 +68,7 @@ class ReadWritingPage extends StatelessWidget {
         await player.pause();
       } else {
         await player.play(UrlSource(audioUrl!));
+        await playPoem.fetchData(id);
       }
     } catch (e) {
       print('Error playing audio: $e');
@@ -117,7 +120,10 @@ class ReadWritingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 초기화
-    audioUrl != "없음" ? _setupAudioPlayer() : null;
+
+    if (audioUrl != null && audioUrl!.isNotEmpty) {
+      _setupAudioPlayer();
+    }
 
     return Scaffold(
       backgroundColor: Color(0xffE6E2DB),
