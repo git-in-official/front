@@ -84,7 +84,7 @@ class EmotionChangeModal extends StatelessWidget {
                       '두려움',
                       '분노',
                       '기대',
-                      '안정',
+                      '신뢰',
                       '모르겠음'
                     ];
 
@@ -113,7 +113,7 @@ class EmotionChangeModal extends StatelessWidget {
                             '두려움',
                             '분노',
                             '기대',
-                            '안정',
+                            '신뢰',
                             '모르겠음'
                           ][tempSelectedIndex.value];
                           tabController.selectedEmotionIndex.value =

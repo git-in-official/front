@@ -8,8 +8,8 @@ import '../screens/main_page/main_home_page.dart';
 import 'circle_button.dart';
 
 class Maintab extends StatelessWidget {
-  final MainTabController tabController = Get.find(); // Get.find() 사용
-  final EmotionViewController controller = Get.put(EmotionViewController());
+  final MainTabController tabController = Get.find();
+  final EmotionViewController controller = Get.find();
 
 
   @override

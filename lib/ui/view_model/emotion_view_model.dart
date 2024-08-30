@@ -4,11 +4,11 @@ import 'package:to_morrow_front/data/model/emotion_model.dart';
 import 'package:to_morrow_front/repository/constant/emotion_repository.dart';
 import 'dart:convert';
 
-class EmotionViewModel extends GetxController {
-  var selectedEmotion = Rxn<EmotionModel>();
-  var emotions = <EmotionModel>[].obs;
+import '../../repository/controller/get_emotion_controller.dart';
 
-  final EmotionRepository _repository = EmotionRepository();
+class EmotionViewModel extends GetxController {
+  var emotions = <EmotionModel>[].obs;
+  var selectedEmotion = Rxn<EmotionModel>();
 
   @override
   void onInit() {
@@ -16,9 +16,15 @@ class EmotionViewModel extends GetxController {
     fetchEmotions();
   }
 
-  void fetchEmotions() {
-    emotions.addAll(_repository.fetchEmotion());
+  Future<void> fetchEmotions() async {
+    final GetEmotionController controller = Get.put(GetEmotionController());
+    final fetchedEmotions =  await controller.fetchEmotion();
+
+    // "모르겠음" 추가
+    final unknownEmotion = EmotionModel.defaultUnknownEmotion();
+    emotions.value = [...fetchedEmotions, unknownEmotion];
   }
+
 
   void selectEmotion(EmotionModel emotion) async{
     if (selectedEmotion.value == emotion) {

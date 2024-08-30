@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:to_morrow_front/repository/controller/emotion_view_controller.dart';
+import 'package:to_morrow_front/repository/controller/get_emotion_controller.dart';
 import 'package:to_morrow_front/repository/controller/global_controller.dart';
 import 'package:to_morrow_front/repository/controller/login_controller.dart';
 import 'package:to_morrow_front/repository/controller/maintab_controller.dart';
@@ -14,6 +15,7 @@ import 'package:to_morrow_front/ui/screens/splash_page/splash_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:to_morrow_front/ui/screens/write_edit_page/write_edit_view.dart';
 import 'package:to_morrow_front/ui/view_model/emotion_view_model.dart';
+import 'package:to_morrow_front/ui/view_model/write_edit_view_model.dart';
 
 
 
@@ -25,6 +27,8 @@ Future<void> main() async {
   Get.put(MainTabController());
   Get.put(EmotionViewModel());
   Get.put(EmotionViewController());
+  Get.put(WriteEditViewModel());
+
 
 
 

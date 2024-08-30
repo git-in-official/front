@@ -51,7 +51,6 @@ class ReadWritingPage extends StatelessWidget {
 
 
   void _setupAudioPlayer() {
-    print ("setup시작");
     player.onPlayerStateChanged.listen((PlayerState state) {
       isPlaying.value = state == PlayerState.playing;
     });
@@ -63,8 +62,6 @@ class ReadWritingPage extends StatelessWidget {
     player.onDurationChanged.listen((Duration newDuration) {
       duration.value = newDuration;
     });
-    print (isPlaying.value);
-    print (audioUrl);
   }
 
 
@@ -128,8 +125,6 @@ class ReadWritingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 초기화
-
-
       _setupAudioPlayer();
 
     return Scaffold(
@@ -284,6 +279,28 @@ class ReadWritingPage extends StatelessWidget {
     );
   }
 
+  // 감정 제목에 따라 이미지 경로를 반환하는 메서드 추가
+  String getImagePath(String emotion) {
+    switch (emotion) {
+      case '기쁨':
+        return 'assets/images/icon-happy.png';
+      case '슬픔':
+        return 'assets/images/icon-sad.png';
+      case '두려움':
+        return 'assets/images/icon-fear.png';
+      case '분노':
+        return 'assets/images/icon-anger.png';
+      case '기대':
+        return 'assets/images/icon-expect.png';
+      case '신뢰':
+        return 'assets/images/icon-trust.png';
+      case '모르겠음':
+        return 'assets/images/icon-dontno.png';
+      default:
+        return 'assets/images/icon-happy.png';
+    }
+  }
+
   Widget _buildEmotionSelector(BuildContext context) {
     return InkWell(
       onTap: () {
@@ -293,24 +310,19 @@ class ReadWritingPage extends StatelessWidget {
         );
       },
       child: Obx(() {
-        final imagePaths = [
-          'assets/images/icon-happy.png',
-          'assets/images/icon-sad.png',
-          'assets/images/icon-fear.png',
-          'assets/images/icon-anger.png',
-          'assets/images/icon-expect.png',
-          'assets/images/icon-trust.png',
-          'assets/images/icon-dontno.png',
-        ];
-        final selectedIndex = tabController.selectedEmotionIndex.value;
+        final selectedEmotion = tabController.selectedEmotion.value;
+
+        final imagePath = selectedEmotion != null
+            ? getImagePath(selectedEmotion)
+            : 'assets/images/icon-happy.png'; // 기본 이미지
+
+
         return Container(
           padding: EdgeInsets.symmetric(vertical: 11, horizontal: 20),
           child: Row(
             children: [
               Image.asset(
-                selectedIndex >= 0
-                    ? imagePaths[selectedIndex]
-                    : 'assets/images/icon-happy.png',
+                imagePath,
                 width: 24,
                 height: 24,
               ),
@@ -322,6 +334,7 @@ class ReadWritingPage extends StatelessWidget {
       }),
     );
   }
+
 }
 
 TextAlign parseTextAlign(String? textAlign) {
