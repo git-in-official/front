@@ -13,6 +13,7 @@ class EmotionAnalysisModal extends StatelessWidget {
     return AlertDialog(
       contentPadding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
+        //보더레디우스 24
         borderRadius: BorderRadius.circular(24.0),
       ),
       content: Container(
@@ -35,7 +36,7 @@ class EmotionAnalysisModal extends StatelessWidget {
                 },
               ),
             ),
-            const SizedBox(height: 8),
+            //const SizedBox(height: 8.0),
             // 텍스트 메시지
             const Text(
               '집필하신 작품을 탈고하기 전에\n감정분석을 시작합니다.',

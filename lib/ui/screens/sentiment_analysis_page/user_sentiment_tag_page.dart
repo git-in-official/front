@@ -25,12 +25,12 @@ class UserSentimentTagPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             Row(
               children: [
-                SizedBox(height: 20),
+                const SizedBox(width: 20),
                 SvgPicture.asset(
-                    'assets/icons/writing_page/to_morrow_sentiment_icon.svg'),
+                    'assets/icons/writing_page/icon_test.svg'),
                 const SizedBox(width: 12.0),
                 const Expanded(
                   child: Text(
@@ -42,7 +42,7 @@ class UserSentimentTagPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
               ],
             ),
             const SizedBox(height: 20.0),
@@ -55,14 +55,16 @@ class UserSentimentTagPage extends StatelessWidget {
             //테마랑 상호작용
             Obx(() {
               getPoemDetail.themes.value = emotionController.themes.value;
-              getPoemDetail.interactions.value = emotionController.interactions.value;
+              getPoemDetail.interactions.value =
+                  emotionController.interactions.value;
 
               if (emotionController.isLoading.value) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
               return Column(
                 children: [
-                  _buildTagRow('테마', emotionController.themes.toList(), context),
+                  _buildTagRow(
+                      '테마', emotionController.themes.toList(), context),
                   const Divider(color: Colors.grey, thickness: 1.0),
                   _buildTagRow(
                       '상호작용', emotionController.interactions.toList(), context),
@@ -119,8 +121,8 @@ class UserSentimentTagPage extends StatelessWidget {
                       controller: _scrollController,
                       children: [
                         Container(
-                          decoration:
-                              BoxDecoration(color: const Color(0xFFE6E2DB)),
+                          decoration: const BoxDecoration(
+                              color: const Color(0xFFE6E2DB)),
                           padding: const EdgeInsets.symmetric(
                               horizontal: 28, vertical: 16),
                           child: Text(
@@ -140,7 +142,7 @@ class UserSentimentTagPage extends StatelessWidget {
             }),
             Container(
                 height: 74,
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
+                padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -153,12 +155,100 @@ class UserSentimentTagPage extends StatelessWidget {
                         icon: Icon(Icons.undo_outlined),
                         onPressed: () {}),
                     CustomTextButton(
-                      text: '탈고하기',
-                      width: 152,
-                      height: 44,
-                      isHighlighted: true,
-                      onPressed: () {},
-                    )
+                        text: '탈고하기',
+                        width: 152,
+                        height: 44,
+                        isHighlighted: true,
+                        //탈고하기 버튼 클릭 시 모달창
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                contentPadding: EdgeInsets.zero,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(24.0),
+                                ),
+                                content: Container(
+                                  width: 280.0,
+                                  height: 274.0,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFE6E2DB),
+                                    borderRadius: BorderRadius.circular(24.0),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      // 닫기 버튼
+                                      Align(
+                                        alignment: Alignment.topRight,
+                                        child: IconButton(
+                                          icon:
+                                              const Icon(Icons.close, size: 24),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      // 텍스트 메시지
+                                      const Flexible(
+                                        child: Text(
+                                          '낭독한 시는 독자들에게\n더 큰 공감을 받을 수 있습니다.',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontFamily: 'KoPubBatangPro',
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16.0,
+                                            color: Color(0xFF373430),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 8.0),
+                                      const Text(
+                                        '* 탈고한 이후에는 작품 수정이 불가능합니다.',
+                                        style: TextStyle(
+                                          fontFamily: 'KoPubBatangPro',
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12.0,
+                                          color: Color(0xFFDF0232),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 15.0),
+                                      // 버튼들
+                                      Column(
+                                        children: [
+                                          CustomTextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            text: '낭독없이 탈고하겠습니다.',
+                                            isHighlighted: false,
+
+                                          ),
+                                          const SizedBox(height: 16),
+                                          CustomTextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+
+                                              ///TODO 연결
+                                              //낭독한 시를 탈고하겠습니다 클릭 시 다음 화면 넘어가게 연결하기!
+                                              //tabController.pageName.value = 'asdfasfasdf';
+                                            },
+                                            text: '낭독한 시를 탈고하겠습니다.',
+                                            isHighlighted: true,
+                                          ),
+                                          const SizedBox(height: 24),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        })
                   ],
                 ))
           ],
@@ -169,8 +259,7 @@ class UserSentimentTagPage extends StatelessWidget {
 
   Widget _buildTagRow(
       String title, List<String> apiTags, BuildContext context) {
-
-    print (apiTags);
+    print(apiTags);
 
     return Container(
       padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
@@ -182,13 +271,13 @@ class UserSentimentTagPage extends StatelessWidget {
             width: 63.0,
             height: 36.0,
             decoration: BoxDecoration(
-              color: Color(0xFFD0CDC8),
+              color: const Color(0xFFD0CDC8),
               borderRadius: BorderRadius.circular(24.0),
             ),
             child: Center(
               child: Text(
                 title,
-                style: TextStyle(
+                style: const TextStyle(
                   fontFamily: 'KoPub Batang',
                   fontSize: 14.0,
                   fontWeight: FontWeight.w400,
@@ -225,15 +314,15 @@ class UserSentimentTagPage extends StatelessWidget {
                             children: [
                               Text(
                                 taggedString,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontFamily: 'KoPub Batang',
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.w400,
                                   color: Color(0xFF373430),
                                 ),
                               ),
-                              SizedBox(width: 4),
-                              Icon(
+                              const SizedBox(width: 4),
+                              const Icon(
                                 Icons.arrow_forward_ios_sharp,
                                 size: 14,
                                 color: Color(0xff6D675F),
