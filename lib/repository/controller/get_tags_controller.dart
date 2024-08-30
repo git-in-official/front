@@ -8,6 +8,7 @@ class GetTagsController extends GetxController {
 
   var themes = <String>[].obs;
   var interactions = <String>[].obs;
+  var isLoading = true.obs; // 데이터 로딩 상태를 추적
 
   @override
   void onInit() {
@@ -16,6 +17,7 @@ class GetTagsController extends GetxController {
   }
 
   Future<void> fetchData() async {
+    isLoading.value = true; // 데이터 로딩 시작
     try {
       final uri = Uri.parse(_baseUrl);
       final response = await http.get(uri);
@@ -34,6 +36,9 @@ class GetTagsController extends GetxController {
       }
     } catch (e) {
       print('요청 중 예외 발생: $e');
+    } finally {
+      isLoading.value = false; // 데이터 로딩 완료
     }
   }
 }
+

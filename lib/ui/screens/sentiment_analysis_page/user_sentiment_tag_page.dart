@@ -5,11 +5,16 @@ import 'package:get/get_core/src/get_main.dart';
 import '../../../repository/controller/dontCommit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../repository/controller/get_tags_controller.dart';
+import '../../../repository/controller/tag_edit_controller.dart';
+import '../../component/custom_text_button.dart';
+import '../../view_model/write_edit_view_model.dart';
+
 class UserSentimentTagPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final EmotionAnalysisController emotionController =
-        Get.find<EmotionAnalysisController>();
+    final EmotionAnalysisController emotionController = Get.find<EmotionAnalysisController>();
+    final WriteEditViewModel getPoemDetail = Get.find<WriteEditViewModel>();
 
     final ScrollController _scrollController = ScrollController();
 
@@ -23,9 +28,7 @@ class UserSentimentTagPage extends StatelessWidget {
             Row(
               children: [
                 SizedBox(height: 20),
-                SvgPicture.asset(
-                  'assets/icons/writing_page/to_morrow_sentiment_icon.svg',
-                ),
+                SvgPicture.asset('assets/icons/writing_page/to_morrow_sentiment_icon.svg'),
                 const SizedBox(width: 12.0),
                 const Expanded(
                   child: Text(
@@ -47,80 +50,100 @@ class UserSentimentTagPage extends StatelessWidget {
             ),
             const SizedBox(height: 10.0),
             Obx(() {
+              getPoemDetail.themes.value = emotionController.themes;
+              getPoemDetail.interactions.value = emotionController.interactions;
+
               if (emotionController.isLoading.value) {
                 return Center(child: CircularProgressIndicator());
               }
-              return Column(children: [
-                _buildTagRow('테마', emotionController.themes),
-                const Divider(
-                  color: Colors.grey,
-                  thickness: 1.0,
-                ),
-                _buildTagRow('상호작용', emotionController.interactions),
-                const Divider(
-                  color: Colors.grey,
-                  thickness: 1.0,
-                ),
-              ]);
-            }),
-            Container(
-              padding: EdgeInsets.fromLTRB(20, 24, 20, 10),
-              child: Center( child :
-              Text(
-                '니가 어떤 딸인데 그러니',
-                style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w400,
-                  fontFamily: 'KoPubBatangPro',
-                ),
-              )),
-            ),
-            Container(
-              padding: EdgeInsets.fromLTRB(20, 8, 20, 8),
-              child: Align(
-                alignment: Alignment.centerRight,
-                  child :
-              Text(
-                '글 작성자',
-                style: TextStyle(
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w400,
-                  fontFamily: 'KoPubBatangPro',
-                ),
-              )),
-            ),
-        Center( child :
-        Container(
-          width: 320,
-          height: 224,
-          padding: EdgeInsets.all(20),
-          child: Scrollbar(
-              controller: _scrollController,
-              thumbVisibility: true,
-              child: ListView(
-                controller: _scrollController,
+              return Column(
                 children: [
-                  Container(
-                    decoration: BoxDecoration(color: Color(0xFFE6E2DB)),
-                    padding: EdgeInsets.symmetric(horizontal: 28, vertical: 16),
-                    child: Text(
-                    "가나아다다ㅏㅇ라머ㅣ너라어ㅣㅏ저바러자러저랑너ㅣ라ㅓ지ㅏㅓ라ㅣㅓ라버어 바ㅣ",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Color(0xff373430),
-                      ),
-                      textAlign: TextAlign.center,
+                  _buildTagRow('테마', emotionController.themes, context),
+                  const Divider(color: Colors.grey, thickness: 1.0),
+                  _buildTagRow('상호작용', emotionController.interactions, context),
+                  const Divider(color: Colors.grey, thickness: 1.0),
+                ],
+              );
+            }),
+            Obx(() {
+              return Container(
+                padding: const EdgeInsets.fromLTRB(20, 24, 20, 10),
+                child: Center(
+                  child: Text(
+                    getPoemDetail.title.value,
+                    style: const TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: 'KoPubBatangPro',
                     ),
                   ),
-                ],
-              )))),
+                ),
+              );
+            }),
+            Obx(() {
+              return Container(
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    getPoemDetail.userName.value,
+                    style: const TextStyle(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: 'KoPubBatangPro',
+                    ),
+                  ),
+                ),
+              );
+            }),
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(20),
+                child: Scrollbar(
+                  controller: _scrollController,
+                  thumbVisibility: true,
+                  child: ListView(
+                    controller: _scrollController,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(color: const Color(0xFFE6E2DB)),
+                        padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
+                        child: Text(
+                          getPoemDetail.bodyContent.value,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Color(0xff373430),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              height: 74,
+               padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
+               child :  Row(
+                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CustomTextButton(text: '돌아가기', hasIcon: true, width: 152, height: 44, icon: Icon(Icons.undo_outlined ) , onPressed: () {  }),
+                    CustomTextButton(text: '탈고하기', width: 152, height: 44, isHighlighted : true, onPressed: () {  },)
+                  ],
+                )
+
+            )
           ],
         ),
       ),
     );
   }
 
-  Widget _buildTagRow(String title, List<String> apiTags) {
+  Widget _buildTagRow(
+      String title, List<String> apiTags, BuildContext context) {
     return Container(
       padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
       child: Row(
@@ -154,44 +177,44 @@ class UserSentimentTagPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: apiTags.map((tag) {
                 final taggedString = tag;
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: Container(
-                    padding:
-                        EdgeInsets.fromLTRB(13, 7 , 6, 7),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24.0),
-                      border: Border.all(
-                        color: Color(0xff6D675F)
-                      )
-                    ),
-                    child: Center(
-                      child : Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            taggedString,
-                            style: TextStyle(
-                              fontFamily: 'KoPub Batang',
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.w400,
-                              color: Color(0xFF373430),
-                            ),
+                return GestureDetector(
+                    onTap: () {
+                      _showTagSelectionModal(
+                          apiTags, taggedString, title, context);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(13, 7, 6, 7),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(24.0),
+                            border: Border.all(color: Color(0xff6D675F))),
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                taggedString,
+                                style: TextStyle(
+                                  fontFamily: 'KoPub Batang',
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(0xFF373430),
+                                ),
+                              ),
+                              SizedBox(width: 4),
+                              Icon(
+                                Icons.arrow_forward_ios_sharp,
+                                size: 14,
+                                color: Color(0xff6D675F),
+                              ),
+                            ],
                           ),
-                          SizedBox(width: 4),
-                          Icon(
-                            Icons.arrow_forward_ios_sharp,
-                            size: 14,
-                            color: Color(0xff6D675F),
-                          ),
-                        ],
+                        ),
                       ),
-
-                    ),
-                  ),
-                );
+                    ));
               }).toList(),
             ),
           ),
@@ -201,129 +224,203 @@ class UserSentimentTagPage extends StatelessWidget {
   }
 }
 
-
-
 //태그 바꾸고싶을때
-// void _showTagSelectionModal(int tagIndex, List<String> availableTags) {
-//   // List<String> wantChangeTags = getTagsCtrl.themes.value; //테마 리스트 전부다
-//   // List<String> wantChangeinteractions = getTagsCtrl.interactions.value; //테마 리스트 전부다
-//
-//
-//   // 모달 창 열기 전 현재 선택된 태그 초기화
-//   tempSelectedTag = selectedTags[tagIndex];
-//   currentTagIndex = tagIndex;
-//
-//   showModalBottomSheet(
-//     context: context,
-//     backgroundColor: const Color(0xFFE6E2DB),
-//     shape: const RoundedRectangleBorder(
-//       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-//     ),
-//     builder: (BuildContext context) {
-//       return StatefulBuilder(
-//         builder: (BuildContext context, StateSetter setModalState) {
-//           return Padding(
-//             padding: const EdgeInsets.all(16.0),
-//             child: Column(
-//               mainAxisSize: MainAxisSize.min,
-//               children: [
-//                 const Text(
-//                   '변경할 감정태그를 선택해주세요.',
-//                   style: TextStyle(
-//                     fontSize: 18.0,
-//                     fontWeight: FontWeight.w600,
-//                     fontFamily: 'KoPubBatangPro',
-//                   ),
-//                 ),
-//                 const SizedBox(height: 20.0),
-//                 Expanded(
-//                   child: Center(
-//                     child: ListView.builder(
-//                       shrinkWrap: true,
-//                       itemCount: availableTags.length,
-//                       itemBuilder: (BuildContext context, int index) {
-//                         bool isSelected = tempSelectedTag ==
-//                             availableTags[index];
-//                         return GestureDetector(
-//                           onTap: () {
-//                             setModalState(() {
-//                               tempSelectedTag = availableTags[index];
-//                             });
-//                           },
-//                           child: Container(
-//                             padding: const EdgeInsets.symmetric(
-//                                 vertical: 12.0),
-//                             margin: const EdgeInsets.symmetric(vertical: 4.0),
-//                             decoration: BoxDecoration(
-//                               color: isSelected ? Colors.brown : Colors
-//                                   .transparent,
-//                               borderRadius: BorderRadius.circular(8.0),
-//                             ),
-//                             child: Center(
-//                               child: Text(
-//                                 availableTags[index],
-//                                 style: TextStyle(
-//                                   fontSize: 16.0,
-//                                   fontFamily: 'KoPubBatangPro',
-//                                   fontWeight: FontWeight.w400,
-//                                   color: isSelected ? Colors.white : Colors
-//                                       .black,
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                         );
-//                       },
-//                     ),
-//                   ),
-//                 ),
-//                 const SizedBox(height: 20.0),
-//                 Row(
-//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                   children: [
-//                     TextButton(
-//                       onPressed: () {
-//                         Navigator.pop(context);
-//                       },
-//                       child: const Text(
-//                         '닫기',
-//                         style: TextStyle(
-//                           fontSize: 16.0,
-//                           fontFamily: 'KoPubBatangPro',
-//                           fontWeight: FontWeight.w400,
-//                         ),
-//                       ),
-//                     ),
-//                     ElevatedButton(
-//                       onPressed: () {
-//                         if (tempSelectedTag != null &&
-//                             currentTagIndex != null) {
-//                           setState(() {
-//                             selectedTags[currentTagIndex!] = tempSelectedTag!;
-//                           });
-//                         }
-//                         Navigator.pop(context);
-//                       },
-//                       style: ElevatedButton.styleFrom(
-//                         backgroundColor: Colors.brown, // 변경 버튼의 배경색 설정
-//                       ),
-//                       child: const Text(
-//                         '변경',
-//                         style: TextStyle(
-//                           fontSize: 16.0,
-//                           fontFamily: 'KoPubBatangPro',
-//                           fontWeight: FontWeight.w400,
-//                           color: Colors.white, // 변경 버튼의 텍스트 색상
-//                         ),
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//               ],
-//             ),
-//           );
-//         },
-//       );
-//     },
-//   );
-// }
+void _showTagSelectionModal(List<String> apiTags, String apiTagsString,
+    String title, BuildContext context) async {
+  final GetTagsController getTagsCtrl = Get.put(GetTagsController());
+
+  // 데이터 로딩 완료를 기다림
+  await getTagsCtrl.fetchData();
+
+  List<String> availableTags;
+  if (title == '테마') {
+    availableTags = getTagsCtrl.themes.value;
+  } else if (title == '상호작용') {
+    availableTags = getTagsCtrl.interactions.value;
+  } else {
+    availableTags = [];
+  }
+
+  if (availableTags.isEmpty) {
+    print('태그 목록이 비어있습니다.');
+    return;
+  }
+
+  // 선택된 태그를 위한 옵저버블 변수
+  var tempSelectedTag = ''.obs;
+
+  // 태그의 선택 상태를 추적하는 Map
+  Map<String, bool> tagSelectionMap = {
+    for (var tag in availableTags) tag: false,
+  };
+
+  showModalBottomSheet(
+    context: context,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(24.0)),
+    ),
+    builder: (context) {
+      return StatefulBuilder(
+        builder: (BuildContext context, StateSetter setModalState) {
+          return Container(
+            height: 414,
+            decoration: const BoxDecoration(
+              color: Color(0xFFE6E2DB),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(24.0)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 12.0),
+                Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    height: 4,
+                    width: 32,
+                    margin: const EdgeInsets.only(bottom: 32.0),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF373430),
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+                Center(
+                  child: Text(
+                    title == '테마' ? '변경할 감정태그를 선택해주세요.' : '변경할 상호작용을 선택해주세요.',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Color(0xFF373430),
+                      fontSize: 18.0,
+                      fontFamily: 'KoPubBatangPro',
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFEFEDEB),
+                        borderRadius: BorderRadius.circular(16.0),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      margin: const EdgeInsets.symmetric(horizontal: 40),
+                      child: ListView(
+                        children: availableTags.map((tag) {
+                          final isSelected = tagSelectionMap[tag] ?? false;
+
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 4.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                setModalState(() {
+                                  tempSelectedTag.value = tag;
+                                  tagSelectionMap.updateAll((key, value) => key == tag ? true : false);
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16.0),
+                                  color: isSelected ? const Color(0xFF373430) : const Color(0xFFEFEDEB),
+
+                                ),
+                                child: ListTile(
+                                  contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                  title: Text(
+                                    tag,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontFamily: 'KoPubBatangPro',
+                                      fontWeight: FontWeight.w400,
+                                      color: isSelected
+                                          ? const Color(0xFFE6E2DB)
+                                          : const Color(0xFF373430),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 24.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 44,
+                          margin: const EdgeInsets.only(bottom: 24.0),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFFE3DED4),
+                              foregroundColor: const Color(0xFF3B3731),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                side: const BorderSide(color: Colors.black),
+                              ),
+                            ),
+                            onPressed: () {
+                              Get.back();
+                            },
+                            child: const Text('닫기'),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8.0),
+                      Expanded(
+                        child: Container(
+                          height: 44,
+                          margin: const EdgeInsets.only(bottom: 24.0),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF3B3731),
+                              foregroundColor: const Color(0xFFE3DED4),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                            ),
+                            onPressed: () async {
+                              if (apiTags.contains(apiTagsString)) {
+                                apiTags.remove(apiTagsString);
+                                if (tempSelectedTag.value.isNotEmpty) {
+                                  apiTags.add(tempSelectedTag.value);
+                                }
+                              }
+                              final TagEditController tagEdit =
+                              Get.put(TagEditController());
+                              await tagEdit.changeTags(title, apiTags);
+
+                              Get.back();
+                              Get.offAll(() => UserSentimentTagPage());
+                            },
+                            child: const Text('변경'),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    },
+  );
+}
+
+
+
+
+
+
