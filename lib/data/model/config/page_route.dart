@@ -12,6 +12,7 @@ import '../../../ui/screens/main_page/word_writing_material.dart';
 import '../../../ui/screens/modal_page/EmotionAnalysisModal.dart';
 import '../../../ui/screens/my_page/my_profile.dart';
 import '../../../ui/screens/poem_loeading_page/poem_loading_page.dart';
+import '../../../ui/screens/sentiment_analysis_page/user_sentiment_tag_page.dart';
 import '../../../ui/screens/write_edit_page/write_edit_view.dart';
 
 //이동할 페이지를 정의
@@ -27,5 +28,6 @@ Map<String, Widget Function(String)> pages = {
   'EmotionAnalysisModal' :(_) =>  EmotionAnalysisModal(),
   'EmotionAnalysisLoading' :(_) =>  EmotionAnalysisLoading(),
   'SentimentMainPage' :(_) =>  SentimentMainPage(),
-  'PoemLoadingPage' : (_) => PoemLoadingPage()
+  'PoemLoadingPage' : (_) => PoemLoadingPage(),
+  'UserSentimentTagPage' : (_) => UserSentimentTagPage()
 };

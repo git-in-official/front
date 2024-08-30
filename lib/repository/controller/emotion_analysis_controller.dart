@@ -7,8 +7,8 @@ class EmotionAnalysisController extends GetxController {
   var isLoading = false.obs; // 로딩 상태를 관리하는 변수
   final AuthService authService = AuthService(); // AuthService 인스턴스화
 
-  var themes = <String>[];
-  var interactions = <String>[];
+  var themes = <String>[].obs;
+  var interactions = <String>[].obs;
 
   // 시 태그 분석을 위해 서버에 요청을 보내는 메서드
   Future<bool> analyzePoem(String title, String content) async {
@@ -39,10 +39,10 @@ class EmotionAnalysisController extends GetxController {
         final jsonResponse = jsonDecode(response.body);
 
         if (jsonResponse.containsKey('themes')) {
-          themes = List<String>.from(jsonResponse['themes']);
+          themes.value = List<String>.from(jsonResponse['themes']);
         }
         if (jsonResponse.containsKey('interactions')) {
-          interactions= List<String>.from(jsonResponse['interactions']);
+          interactions.value = List<String>.from(jsonResponse['interactions']);
         }
 
         return true;

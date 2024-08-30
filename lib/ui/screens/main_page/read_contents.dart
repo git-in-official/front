@@ -14,7 +14,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class ReadWritingPage extends StatelessWidget {
   final MainTabController tabController = Get.put(MainTabController());
   final FlutterSecureStorage storage = FlutterSecureStorage();
-  final PlayPoemController playPoem = Get.put (PlayPoemController ());
+  final PlayPoemController playPoem = Get.put (PlayPoemController ()); //낭독횟수 카운팅
 
   final String title;
   final String author; //작가명
@@ -48,7 +48,10 @@ class ReadWritingPage extends StatelessWidget {
   final Rx<Duration> position = Duration.zero.obs;
   final Rx<Duration> duration = Duration.zero.obs;
 
+
+
   void _setupAudioPlayer() {
+    print ("setup시작");
     player.onPlayerStateChanged.listen((PlayerState state) {
       isPlaying.value = state == PlayerState.playing;
     });
@@ -60,9 +63,14 @@ class ReadWritingPage extends StatelessWidget {
     player.onDurationChanged.listen((Duration newDuration) {
       duration.value = newDuration;
     });
+    print (isPlaying.value);
+    print (audioUrl);
   }
 
+
+
   Future<void> _playPauseAudio() async {
+
     try {
       if (isPlaying.value) {
         await player.pause();
@@ -121,9 +129,8 @@ class ReadWritingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // 초기화
 
-    if (audioUrl != null && audioUrl!.isNotEmpty) {
+
       _setupAudioPlayer();
-    }
 
     return Scaffold(
       backgroundColor: Color(0xffE6E2DB),
@@ -180,63 +187,7 @@ class ReadWritingPage extends StatelessWidget {
                 ],
               ),
             ),
-            Positioned(
-                bottom: 60,
-                left: 0,
-                right: 0,
-                child: Visibility(
-                  visible: audioUrl != null && audioUrl!.isNotEmpty,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      children: [
-                        SizedBox(width: 15),
-                        // 재생 버튼 + 일시 중지 버튼
-                        Container(
-                          width: 36.0,
-                          height: 36.0,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xFFE6E2DB),
-                            border: Border.all(
-                              color: Color(0xFF373430),
-                              width: 1.0, // Border width
-                            ),
-                          ),
-                          child: Center(
-                            child: IconButton(
-                              padding: EdgeInsets.zero,
-                              icon: Icon(
-                                isPlaying.value
-                                    ? Icons.pause
-                                    : Icons.play_arrow,
-                                color: Color(0xFF373430),
-                                size: 18.0, // Icon size
-                              ),
-                              onPressed: _playPauseAudio,
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        // 재생 바
-                        Expanded(child: Obx(() {
-                          return Slider(
-                            value: position.value.inSeconds.toDouble(),
-                            min: 0.0,
-                            max: duration.value.inSeconds.toDouble(),
-                            onChanged: (value) {
-                              player.seek(Duration(seconds: value.toInt()));
-                              position.value = Duration(seconds: value.toInt());
-                            },
-                            activeColor: Colors.black,
-                            inactiveColor: Colors.grey,
-                          );
-                        })),
-                        SizedBox(width: 15),
-                      ],
-                    ),
-                  ),
-                )),
+
             Obx(() {
               return FoldedCornerContainer(
                 width: MediaQuery.of(context).size.width,
@@ -270,6 +221,63 @@ class ReadWritingPage extends StatelessWidget {
                 }),
               ),
             ),
+            Positioned(
+                bottom: 60,
+                left: 0,
+                right: 0,
+                child: Visibility(
+                  visible: audioUrl != null && audioUrl!.isNotEmpty,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      children: [
+                        SizedBox(width: 15),
+                        GestureDetector(
+                          onTap: () async {
+                            await _playPauseAudio();
+                          },
+                          child: Obx(() {
+                            return Container(
+                              width: 36.0,
+                              height: 36.0,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xFFE6E2DB),
+                                border: Border.all(
+                                  color: Color(0xFF373430),
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: Center(
+                                child: Icon(
+                                  isPlaying.value ? Icons.pause : Icons.play_arrow,
+                                  color: Color(0xFF373430),
+                                  size: 18.0,
+                                ),
+                              ),
+                            );
+                          }),
+                        ),
+                        SizedBox(width: 10),
+                        // 재생 바
+                        Expanded(child: Obx(() {
+                          return Slider(
+                            value: position.value.inSeconds.toDouble(),
+                            min: 0.0,
+                            max: duration.value.inSeconds.toDouble(),
+                            onChanged: (value) {
+                              player.seek(Duration(seconds: value.toInt()));
+                              position.value = Duration(seconds: value.toInt());
+                            },
+                            activeColor: Colors.black,
+                            inactiveColor: Colors.grey,
+                          );
+                        })),
+                        SizedBox(width: 15),
+                      ],
+                    ),
+                  ),
+                )),
           ],
         ),
       ),

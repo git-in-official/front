@@ -39,10 +39,10 @@ class TagEditController extends GetxController {
     final EmotionAnalysisController emotionController = Get.find();
 
     if (which == '테마') {
-      emotionController.themes = changeTags;
+      emotionController.themes.value = changeTags;
     }
     else {
-      emotionController.interactions = changeTags;
+      emotionController.interactions.value = changeTags;
     }
 
 
@@ -57,6 +57,7 @@ class TagEditController extends GetxController {
         print("성공입니달ㅇ: ${response.body}");
         final Map<String, dynamic> responseJson = json.decode(response.body);
         getPoemDetail.title.value = responseJson['title'];
+
         getPoemDetail.bodyContent.value = responseJson['content'];
       } else if (response.statusCode == 400 || response.statusCode == 401) {
         print("유효성 아니면 검증 실패: ${response.statusCode}");

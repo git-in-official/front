@@ -130,7 +130,7 @@ class _EmotionAnalysisLoadingState extends State<EmotionAnalysisLoading>
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        tabController.pageName.value = '';
+                        tabController.pageName.value = 'UserSentimentTagPage';
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF373430),
