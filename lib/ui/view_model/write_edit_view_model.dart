@@ -138,5 +138,4 @@ class WriteEditViewModel extends GetxController {
     themes.clear();
     interactions.clear();*/
   }
-
 }

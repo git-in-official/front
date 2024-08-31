@@ -106,7 +106,7 @@ class RecordingPage extends StatelessWidget {
                             controller: _scrollController,
                             children: [
                               Container(
-                                decoration: BoxDecoration(color: Color(0xffEFEDEB)),
+                                decoration: BoxDecoration(color: const Color(0xFFE6E2DB)),
                                 padding: EdgeInsets.symmetric(horizontal: 28, vertical: 16),
                                 child: Text(
                                   contents,

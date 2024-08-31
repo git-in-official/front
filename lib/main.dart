@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:to_morrow_front/repository/controller/emotion_view_controller.dart';
 import 'package:to_morrow_front/repository/controller/global_controller.dart';
 import 'package:to_morrow_front/repository/controller/login_controller.dart';
 import 'package:to_morrow_front/repository/controller/maintab_controller.dart';
@@ -23,6 +24,8 @@ Future<void> main() async {
   Get.put(LoginController());
   Get.put(MainTabController());
   Get.put(EmotionViewModel());
+  Get.put(EmotionViewController());
+
 
 
   WidgetsFlutterBinding.ensureInitialized();

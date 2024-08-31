@@ -61,8 +61,8 @@ class EmotionAnalysisModal extends StatelessWidget {
                 const SizedBox(height: 15),
                 CustomTextButton(
                   onPressed: () {
-                    //tabController.pageName.value = 'EmotionAnalysisLoading';
-                    Get.to(() => EmotionAnalysisLoading());
+                    Navigator.of(context).pop();
+                    tabController.pageName.value = 'EmotionAnalysisLoading';
                   },
                   text: '감정분석하기',
                   isHighlighted: true,
