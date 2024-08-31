@@ -55,6 +55,7 @@ class _EmotionAnalysisLoadingState extends State<EmotionAnalysisLoading>
     if (isSuccess) {
       setState(() {
         isDataLoaded = true;
+        _controller.stop();
       });
     } else {
       // 실패
@@ -91,7 +92,7 @@ class _EmotionAnalysisLoadingState extends State<EmotionAnalysisLoading>
                           width: 48,
                           height: 48,
                           child: CustomPaint(
-                            painter: CircularProgressPainter(_animation),
+                            painter: CircularProgressPainter(_animation, isDataLoaded),
                           ),
                         ),
                         // 로고 삽입
@@ -161,40 +162,41 @@ class _EmotionAnalysisLoadingState extends State<EmotionAnalysisLoading>
 
 class CircularProgressPainter extends CustomPainter {
   final Animation<double> animation;
+  final bool isDataLoaded;
 
-  CircularProgressPainter(this.animation) : super(repaint: animation);
+  CircularProgressPainter(this.animation, this.isDataLoaded) : super(repaint: animation);
 
   @override
   void paint(Canvas canvas, Size size) {
-    double progress = animation.value;
-
     // 배경 원 페인터
     Paint backgroundPaint = Paint()
-      ..color = const Color(0xFF373430).withOpacity(0.2)
+      ..color = const Color(0xFF373430).withOpacity(0.2)  // 연한 회색 원
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke;
-
-    // 애니메이션 원 페인터
-    Paint paint = Paint()
-      ..color = const Color(0xFF373430)
-      ..strokeWidth = 2
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round;
-
-    double startAngle = -pi / 2; // 12시 방향에서 시작
-    double sweepAngle = 2 * pi * progress; // 시계방향으로 채워짐
 
     // 배경 원 그리기
     canvas.drawCircle(size.center(Offset.zero), size.width / 2 - 5, backgroundPaint);
 
-    // 애니메이션 원 그리기
-    canvas.drawArc(
-      Rect.fromCircle(center: size.center(Offset.zero), radius: size.width / 2 - 5),
-      startAngle,
-      sweepAngle,
-      false,
-      paint,
-    );
+    // 검은 원 페인터 (서버가 연결되지 않았을 때만 그리기)
+    if (!isDataLoaded) {
+      Paint paint = Paint()
+        ..color = const Color(0xFF373430)
+        ..strokeWidth = 2
+        ..style = PaintingStyle.stroke
+        ..strokeCap = StrokeCap.round;
+
+      double startAngle = -pi / 2; // 12시 방향에서 시작
+      double sweepAngle = 2 * pi * animation.value; // 시계방향으로 채워짐
+
+      // 애니메이션 원 그리기
+      canvas.drawArc(
+        Rect.fromCircle(center: size.center(Offset.zero), radius: size.width / 2 - 5),
+        startAngle,
+        sweepAngle,
+        false,
+        paint,
+      );
+    }
   }
 
   @override

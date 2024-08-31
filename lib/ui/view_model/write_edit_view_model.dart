@@ -123,4 +123,19 @@ class WriteEditViewModel extends GetxController {
     interactions.remove(interaction);
   }
 
+  // 값 초기화
+  void resetValues() {
+    textAlign.value = 0;
+    fontSize.value = 0;
+    selectedFont.value = {
+      "family": "KoPubBatangPro",
+      "weight": FontWeight.w400,
+      "name": "KoPub Batang Medium"
+    };
+    bodyContent.value = '';
+    /*inspirationId.value = '';
+    audioFile.value = '';
+    themes.clear();
+    interactions.clear();*/
+  }
 }

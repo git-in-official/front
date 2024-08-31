@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:to_morrow_front/repository/controller/auth_service.dart';
 import 'package:to_morrow_front/repository/controller/maintab_controller.dart';
 import 'package:to_morrow_front/repository/controller/topic_controller.dart';
-import 'package:to_morrow_front/ui/screens/modal_page/EmotionAnalysisModal.dart';
+import 'package:to_morrow_front/ui/component/speech_bubble.dart';
 import 'package:to_morrow_front/ui/view_model/write_edit_view_model.dart';
 
 class WriteEditView extends StatefulWidget {
@@ -82,206 +82,218 @@ class _WriteEditViewState extends State<WriteEditView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            // 상단 광고 배너 공간
-            Container(
-              height: 66,
-              color: Colors.grey,
-              width: double.infinity,
-              child: const Center(child: Text("광고")),
-            ),
-            Expanded(
-              child: Row(
-                children: [
-                  // 왼쪽 사이드바
-                  Container(
-                    width: 50,
-                    color: const Color(0xFF6D675F),
-                    child: Stack(
-                      children: [
-                        // 텍스트 정렬 변경
-                        Positioned(
-                          top: 42,
-                          left: 10,
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: const BoxDecoration(
-                              color: Color(0xFFE6E2DB),
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(8),
-                                bottomLeft: Radius.circular(16),
+      body: Stack(
+        children: [
+          SafeArea(
+            child: Column(
+              children: [
+                // 상단 광고 배너 공간
+                Container(
+                  height: 66,
+                  color: Colors.grey,
+                  width: double.infinity,
+                  child: const Center(child: Text("광고")),
+                ),
+                Expanded(
+                  child: Row(
+                    children: [
+                      // 왼쪽 사이드바
+                      Container(
+                        width: 50,
+                        color: const Color(0xFF6D675F),
+                        child: Stack(
+                          children: [
+                            // 텍스트 정렬 변경
+                            Positioned(
+                              top: 42,
+                              left: 10,
+                              child: Container(
+                                width: 40,
+                                height: 40,
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFFE6E2DB),
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(8),
+                                    bottomLeft: Radius.circular(16),
+                                  ),
+                                ),
+                                child: IconButton(
+                                  icon: Image.asset(
+                                    'assets/img/format_align_left.png',
+                                    width: 24,
+                                  ),
+                                  onPressed: viewModel.toggleTextAlign,
+                                ),
                               ),
                             ),
-                            child: IconButton(
-                              icon: Image.asset(
-                                'assets/img/format_align_left.png',
-                                width: 24,
+                            // 폰트 크기 변경
+                            Positioned(
+                              top: 88,
+                              left: 10,
+                              child: Container(
+                                width: 40,
+                                height: 40,
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFFE6E2DB),
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(8),
+                                    bottomLeft: Radius.circular(16),
+                                  ),
+                                ),
+                                child: IconButton(
+                                  icon: Image.asset(
+                                    'assets/img/format_size.png',
+                                    width: 24,
+                                  ),
+                                  onPressed: viewModel.toggleFontSize,
+                                ),
                               ),
-                              onPressed: viewModel.toggleTextAlign,
                             ),
-                          ),
+                            // 글꼴 변경
+                            Positioned(
+                              top: 134,
+                              left: 10,
+                              child: Container(
+                                width: 40,
+                                height: 40,
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFFE6E2DB),
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(8),
+                                    bottomLeft: Radius.circular(16),
+                                  ),
+                                ),
+                                child: IconButton(
+                                  icon: Image.asset(
+                                    'assets/img/brand_family.png',
+                                    width: 24,
+                                  ),
+                                  onPressed: () {
+                                    _showFontSelection(context);
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        // 폰트 크기 변경
-                        Positioned(
-                          top: 88,
-                          left: 10,
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: const BoxDecoration(
-                              color: Color(0xFFE6E2DB),
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(8),
-                                bottomLeft: Radius.circular(16),
-                              ),
-                            ),
-                            child: IconButton(
-                              icon: Image.asset(
-                                'assets/img/format_size.png',
-                                width: 24,
-                              ),
-                              onPressed: viewModel.toggleFontSize,
-                            ),
-                          ),
-                        ),
-                        // 글꼴 변경
-                        Positioned(
-                          top: 134,
-                          left: 10,
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: const BoxDecoration(
-                              color: Color(0xFFE6E2DB),
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(8),
-                                bottomLeft: Radius.circular(16),
-                              ),
-                            ),
-                            child: IconButton(
-                              icon: Image.asset(
-                                'assets/img/brand_family.png',
-                                width: 24,
-                              ),
-                              onPressed: () {
-                                _showFontSelection(context);
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  // 오른쪽 입력 부분
-                  Expanded(
-                    child: Container(
-                      color: const Color(0xFFE6E2DB),
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Obx(() {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(width: 24),
-                              Row(
+                      ),
+                      // 오른쪽 입력 부분
+                      Expanded(
+                        child: Container(
+                          color: const Color(0xFFE6E2DB),
+                          child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Obx(() {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  const SizedBox(width: 24),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: TextField(
+                                          decoration: const InputDecoration(
+                                            hintText: '제목을 입력해주세요',
+                                            hintStyle: TextStyle(
+                                                color: Color(0xFFB8B4AD)),
+                                            enabledBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Color(0xFFB8B4AD)),
+                                            ),
+                                            focusedBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Color(0xFF373430)),
+                                            ),
+                                          ),
+                                          style: TextStyle(
+                                            fontSize: 14.0,
+                                            fontFamily: viewModel.selectedFont['family'] as String?,
+                                            fontWeight: viewModel.selectedFont['weight'] as FontWeight?,
+                                          ),
+                                          controller: _titleController,
+                                          // 텍스트 정렬 적용
+                                          textAlign: _getTextAlign(
+                                              viewModel.textAlign.value),
+                                          onChanged: (value) {
+                                            viewModel.updateTitle(value); // 제목이 변경될 때 ViewModel에 업데이트
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 46,
+                                    child: Row(
+                                      children: [
+                                        const Spacer(),
+                                        Obx(() {
+                                          return Text(
+                                            viewModel.userName.value,
+                                            style: const TextStyle(
+                                              fontSize: 14.0,
+                                              fontFamily: 'KoPubBatangPro',
+                                              fontWeight: FontWeight.w700,
+                                              color: Color(0xFF373430),
+                                            ),
+                                          );
+                                        }),
+                                      ],
+                                    ),
+                                  ),
                                   Expanded(
-                                    child: TextField(
-                                      decoration: const InputDecoration(
-                                        hintText: '제목을 입력해주세요',
-                                        hintStyle: TextStyle(
-                                            color: Color(0xFFB8B4AD)),
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Color(0xFFB8B4AD)),
+                                    child: Stack(
+                                      children: [
+                                        TextField(
+                                          decoration: const InputDecoration(
+                                            hintText: '본문을 입력해주세요',
+                                            hintStyle:
+                                            TextStyle(color: Color(0xFFB8B4AD)),
+                                            border: InputBorder.none,
+                                          ),
+                                          style: TextStyle(
+                                            // 폰트 크기 적용
+                                            fontSize: _getFontSize(
+                                                viewModel.fontSize.value),
+                                            fontFamily: viewModel.selectedFont['family'] as String?,
+                                            fontWeight: viewModel.selectedFont['weight'] as FontWeight?,
+                                          ),
+                                          // 텍스트 정렬 적용
+                                          textAlign: _getTextAlign(
+                                              viewModel.textAlign.value),
+                                          maxLines: null,
+                                          expands: true,
+                                          keyboardType: TextInputType.multiline,
+                                          textInputAction: TextInputAction.newline,
+                                          onChanged: (value) {
+                                            viewModel.updateBodyContent(value); // 본문 내용이 변경될 때 ViewModel에 업데이트
+                                          },
                                         ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Color(0xFF373430)),
-                                        ),
-                                      ),
-                                      style: TextStyle(
-                                        fontSize: 14.0,
-                                        fontFamily: viewModel.selectedFont['family'] as String?,
-                                        fontWeight: viewModel.selectedFont['weight'] as FontWeight?,
-                                      ),
-                                      controller: _titleController,
-                                      // 텍스트 정렬 적용
-                                      textAlign: _getTextAlign(
-                                          viewModel.textAlign.value),
-                                      onChanged: (value) {
-                                        viewModel.updateTitle(value); // 제목이 변경될 때 ViewModel에 업데이트
-                                      },
+                                      ],
                                     ),
                                   ),
                                 ],
-                              ),
-                              SizedBox(
-                                height: 46,
-                                child: Row(
-                                  children: [
-                                    const Spacer(),
-                                    Obx(() {
-                                      return Text(
-                                        viewModel.userName.value,
-                                        style: const TextStyle(
-                                          fontSize: 14.0,
-                                          fontFamily: 'KoPubBatangPro',
-                                          fontWeight: FontWeight.w700,
-                                          color: Color(0xFF373430),
-                                        ),
-                                      );
-                                    }),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Stack(
-                                  children: [
-                                    TextField(
-                                      decoration: const InputDecoration(
-                                        hintText: '본문을 입력해주세요',
-                                        hintStyle:
-                                        TextStyle(color: Color(0xFFB8B4AD)),
-                                        border: InputBorder.none,
-                                      ),
-                                      style: TextStyle(
-                                        // 폰트 크기 적용
-                                        fontSize: _getFontSize(
-                                            viewModel.fontSize.value),
-                                        fontFamily: viewModel.selectedFont['family'] as String?,
-                                        fontWeight: viewModel.selectedFont['weight'] as FontWeight?,
-                                      ),
-                                      // 텍스트 정렬 적용
-                                      textAlign: _getTextAlign(
-                                          viewModel.textAlign.value),
-                                      maxLines: null,
-                                      expands: true,
-                                      keyboardType: TextInputType.multiline,
-                                      textInputAction: TextInputAction.newline,
-                                      onChanged: (value) {
-                                        viewModel.updateBodyContent(value); // 본문 내용이 변경될 때 ViewModel에 업데이트
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          );
-                        }),
+                              );
+                            }),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          // 하단 중앙에 말풍선 추가
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: AnimatedBubbleWidget(comment: '원고가 완성되었다면 버튼을 클릭해주세요.'),
+            ),
+          ),
+        ],
       ),
-      //bottomNavigationBar: Maintab(),
     );
   }
 
