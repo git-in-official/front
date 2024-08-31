@@ -28,21 +28,16 @@ class _MyProfileState extends State<MyProfile> {
       backgroundColor: const Color(0xFFE6E2DB),
       appBar: AppBar(
         backgroundColor: const Color(0xFFE6E2DB),
-        title: Row(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black), // 뒤로가기 아이콘 추가 및 색상 설정
+          onPressed: () {
+            Navigator.pop(context); // 뒤로가기 기능
+          },
+        ),
+        title: const Row(
           children: [
-            // ElevatedButton(
-            //   child:  Text('dddd'),
-            //   onPressed: (){
-            //   Get.offAll(() => EmotionView());
-            // },),
-            // IconButton(
-            //
-            //   onPressed: () {
-            //     Navigator.pop(context);
-            //   },
-            // ),
-            const SizedBox(width: 1),
-            const Text(
+            SizedBox(width: 1),
+            Text(
               '계정 및 프로필',
               style: TextStyle(
                 fontFamily: 'KoPubBatangPro',
