@@ -16,6 +16,7 @@ class UserSentimentTagPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final EmotionAnalysisController emotionController = Get.find();
     final WriteEditViewModel getPoemDetail = Get.find<WriteEditViewModel>();
+    final MainTabController tabController = Get.find();
 
     final ScrollController _scrollController = ScrollController();
 
@@ -185,7 +186,7 @@ class UserSentimentTagPage extends StatelessWidget {
                                         alignment: Alignment.topRight,
                                         child: IconButton(
                                           icon:
-                                              const Icon(Icons.close, size: 24),
+                                          const Icon(Icons.close, size: 24),
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
@@ -222,6 +223,7 @@ class UserSentimentTagPage extends StatelessWidget {
                                           CustomTextButton(
                                             onPressed: () {
                                               Navigator.of(context).pop();
+                                              tabController.pageName.value = 'PoemLoadingPage';
                                             },
                                             text: '낭독없이 탈고하겠습니다.',
                                             isHighlighted: false,
@@ -436,7 +438,7 @@ void _showTagSelectionModal(List<String> apiTags, String apiTagsString,
                                 setModalState(() {
                                   tempSelectedTag.value = tag;
                                   tagSelectionMap.updateAll((key, value) =>
-                                      key == tag ? true : false);
+                                  key == tag ? true : false);
                                 });
                               },
                               child: Container(
@@ -518,7 +520,7 @@ void _showTagSelectionModal(List<String> apiTags, String apiTagsString,
                               }
 
                               final TagEditController tagEdit =
-                                  Get.put(TagEditController());
+                              Get.put(TagEditController());
                               await tagEdit.changeTags(title, apiTags);
 
                               Get.find<EmotionAnalysisController>().update();
