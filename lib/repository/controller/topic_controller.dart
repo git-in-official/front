@@ -1,13 +1,21 @@
 import 'dart:convert';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:http/http.dart' as http;
+
+import '../../ui/view_model/write_edit_view_model.dart';
 
 class TopicController extends GetxController {
   var type = 'title'.obs;
   var topic = ''.obs; // 상태 변수를 추가하여 데이터 저장
   var isLoading = true.obs; // 로딩 상태를 나타내는 변수
+
+  final WriteEditViewModel writeEditViewModel = Get.find();
+
+  final AudioPlayer player = AudioPlayer();
+
 
   TopicController(String initialType) {
     type.value = initialType;
@@ -19,6 +27,7 @@ class TopicController extends GetxController {
     super.onInit();
     fetchData();
   }
+
 
   Future<void> fetchData() async {
     var _baseUrl = 'https://api.leemhoon.com';
@@ -63,18 +72,24 @@ class TopicController extends GetxController {
 
         switch (type.value) {
           case 'title':
+            writeEditViewModel.inspirationId = responseJson['id'];
             topic.value = responseJson['title'];
             break;
           case 'word':
             print(responseJson['word']);
+            writeEditViewModel.inspirationId = responseJson['id'];
+
             topic.value = responseJson['word'];
             break;
           case 'audio':
             print(responseJson['audioUrl']);
+            writeEditViewModel.inspirationId = responseJson['id'];
+
             topic.value = responseJson['audioUrl'];
             break;
           case 'video':
             print(responseJson['videoUrl']);
+            writeEditViewModel.inspirationId = responseJson['id'];
             topic.value = responseJson['videoUrl'];
             break;
           default:
