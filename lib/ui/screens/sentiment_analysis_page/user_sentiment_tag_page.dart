@@ -11,12 +11,18 @@ import '../../../repository/controller/tag_edit_controller.dart';
 import '../../component/custom_text_button.dart';
 import '../../view_model/write_edit_view_model.dart';
 
+class UserSentimentTagPageController extends GetxController {
+  var wantGobak = false.obs;
+}
+
 class UserSentimentTagPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final EmotionAnalysisController emotionController = Get.find();
     final WriteEditViewModel getPoemDetail = Get.find<WriteEditViewModel>();
     final MainTabController tabController = Get.find();
+    final UserSentimentTagPageController setGoback =
+        Get.put(UserSentimentTagPageController());
 
     final ScrollController _scrollController = ScrollController();
 
@@ -30,8 +36,7 @@ class UserSentimentTagPage extends StatelessWidget {
             Row(
               children: [
                 const SizedBox(width: 20),
-                SvgPicture.asset(
-                    'assets/icons/writing_page/icon_test.svg'),
+                SvgPicture.asset('assets/icons/writing_page/icon_test.svg'),
                 const SizedBox(width: 12.0),
                 const Expanded(
                   child: Text(
@@ -111,6 +116,8 @@ class UserSentimentTagPage extends StatelessWidget {
 
             //본문 내용
             Obx(() {
+              emotionController.tempContent.value =
+                  getPoemDetail.bodyContent.value;
               return Expanded(
                 child: Container(
                   width: double.infinity,
@@ -123,7 +130,8 @@ class UserSentimentTagPage extends StatelessWidget {
                       children: [
                         Container(
                           decoration: const BoxDecoration(
-                              color: const Color(0xFFE6E2DB)),
+                            color: Color(0xFFE6E2DB),
+                          ),
                           padding: const EdgeInsets.symmetric(
                               horizontal: 28, vertical: 16),
                           child: Text(
@@ -141,6 +149,7 @@ class UserSentimentTagPage extends StatelessWidget {
                 ),
               );
             }),
+
             Container(
                 height: 74,
                 padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
@@ -148,16 +157,36 @@ class UserSentimentTagPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CustomTextButton(
-                        text: '돌아가기',
-                        hasIcon: true,
-                        width: 152,
-                        height: 44,
-                        icon: Icon(Icons.undo_outlined),
-                        onPressed: () {
-                          //어디로 돌아가죠 ... 다시 글쓰기 페이지? 글을 가지고 ...?
+                    Obx(() => CustomTextButton(
+                          text: '돌아가기',
+                          hasIcon: true,
+                          width: 152,
+                          height: 44,
+                          textStyle: TextStyle(
+                            color: setGoback.wantGobak.value
+                                ? Color(0xFF3B3731)
+                                : Color(0xffE3DED4),
+                          ),
+                          // backgroundColor: setGoback.wantGobak.value
+                          //     ? Color(0xFFE3DED4)
+                          //
+                          //     : Colors.grey,
+                          icon: Icon(Icons.undo_outlined),
+                          onPressed: setGoback.wantGobak.value == true
+                              ? () {
+                                  setGoback.wantGobak.value = false;
 
-                        }),
+                                  emotionController.themes.value =
+                                      emotionController.oldThemes.value;
+
+                                  emotionController.interactions.value =
+                                      emotionController.oldInteractions.value;
+
+                                  getPoemDetail.bodyContent.value =
+                                      emotionController.oldContent.value;
+                                }
+                              : null,
+                        )),
                     CustomTextButton(
                         text: '탈고하기',
                         width: 152,
@@ -189,7 +218,7 @@ class UserSentimentTagPage extends StatelessWidget {
                                         alignment: Alignment.topRight,
                                         child: IconButton(
                                           icon:
-                                          const Icon(Icons.close, size: 24),
+                                              const Icon(Icons.close, size: 24),
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
@@ -226,20 +255,18 @@ class UserSentimentTagPage extends StatelessWidget {
                                           CustomTextButton(
                                             onPressed: () {
                                               Navigator.of(context).pop();
-                                              tabController.pageName.value = 'PoemLoadingPage';
+                                              tabController.pageName.value =
+                                                  'PoemLoadingPage';
                                             },
                                             text: '낭독없이 탈고하겠습니다.',
                                             isHighlighted: false,
-
                                           ),
                                           const SizedBox(height: 16),
                                           CustomTextButton(
                                             onPressed: () {
                                               Navigator.of(context).pop();
-
-                                              ///TODO 연결
-                                              //낭독한 시를 탈고하겠습니다 클릭 시 다음 화면 넘어가게 연결하기!
-                                              tabController.pageName.value = 'RecordingPage';
+                                              tabController.pageName.value =
+                                                  'RecordingPage';
                                             },
                                             text: '낭독한 시를 탈고하겠습니다.',
                                             isHighlighted: true,
@@ -441,7 +468,7 @@ void _showTagSelectionModal(List<String> apiTags, String apiTagsString,
                                 setModalState(() {
                                   tempSelectedTag.value = tag;
                                   tagSelectionMap.updateAll((key, value) =>
-                                  key == tag ? true : false);
+                                      key == tag ? true : false);
                                 });
                               },
                               child: Container(
@@ -523,11 +550,14 @@ void _showTagSelectionModal(List<String> apiTags, String apiTagsString,
                               }
 
                               final TagEditController tagEdit =
-                              Get.put(TagEditController());
+                                  Get.put(TagEditController());
                               await tagEdit.changeTags(title, apiTags);
 
-                              Get.find<EmotionAnalysisController>().update();
+                              final UserSentimentTagPageController setGoback =
+                                  Get.find();
+                              setGoback.wantGobak.value = true;
 
+                              Get.find<EmotionAnalysisController>().update();
                               Get.back();
                             },
                             child: const Text('변경'),

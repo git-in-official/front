@@ -161,7 +161,7 @@ class CircleButton extends StatelessWidget {
             Navigator.of(context).pop();
 
 
-            Future.delayed(Duration(milliseconds: 300), ()  async{
+            Future.delayed(Duration(milliseconds: 300), ()  {
               Get.delete<TopicController>(force: true);
 
               tabController.pageName.value = movePage;

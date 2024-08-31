@@ -10,6 +10,14 @@ class EmotionAnalysisController extends GetxController {
   var themes = <String>[].obs;
   var interactions = <String>[].obs;
 
+  var oldThemes = <String>[].obs;
+  var oldInteractions = <String>[].obs;
+
+  var oldContent = ''.obs;
+  var tempContent = ''.obs;
+
+
+
   // 시 태그 분석을 위해 서버에 요청을 보내는 메서드
   Future<bool> analyzePoem(String title, String content) async {
     try {
