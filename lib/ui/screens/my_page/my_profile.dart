@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:to_morrow_front/repository/controller/maintab_controller.dart';
 import 'package:to_morrow_front/ui/screens/my_page/my_designation.dart';
 import '../../../repository/controller/user_controller.dart';
+import '../../component/bottom_navigation_bar.dart';
 import '../../component/emotion_view.dart';
 
 class MyProfile extends StatefulWidget {
@@ -31,7 +33,10 @@ class _MyProfileState extends State<MyProfile> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black), // 뒤로가기 아이콘 추가 및 색상 설정
           onPressed: () {
-            Navigator.pop(context); // 뒤로가기 기능
+            final MainTabController tabController = Get.find();
+            Get.to(() => Maintab());
+            tabController.pageName.value = tabController.currentPage.value;
+            // Navigator.pop(context); // 뒤로가기 기능
           },
         ),
         title: const Row(

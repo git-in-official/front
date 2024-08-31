@@ -20,6 +20,7 @@ class MainTabController extends GetxController {
 
   //선택 된 pageName
   RxString pageName = 'Home'.obs;
+  RxString currentPage = ''.obs;
 
 
   Future<bool> onWillPop() async {
