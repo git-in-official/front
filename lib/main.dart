@@ -8,6 +8,7 @@ import 'package:to_morrow_front/repository/controller/get_emotion_controller.dar
 import 'package:to_morrow_front/repository/controller/global_controller.dart';
 import 'package:to_morrow_front/repository/controller/login_controller.dart';
 import 'package:to_morrow_front/repository/controller/maintab_controller.dart';
+import 'package:to_morrow_front/repository/controller/sound_write_controller.dart';
 import 'package:to_morrow_front/ui/component/emotion_view.dart';
 import 'package:to_morrow_front/ui/screens/main_page/sound_write.dart';
 import 'package:to_morrow_front/ui/screens/recording_page/recording_page.dart';
@@ -28,6 +29,7 @@ Future<void> main() async {
   Get.put(EmotionViewModel());
   Get.put(EmotionViewController());
   Get.put(WriteEditViewModel());
+  Get.put(SoundWriteController());
 
 
 

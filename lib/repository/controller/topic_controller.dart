@@ -14,9 +14,6 @@ class TopicController extends GetxController {
 
   final WriteEditViewModel writeEditViewModel = Get.find();
 
-  final AudioPlayer player = AudioPlayer();
-
-
   TopicController(String initialType) {
     type.value = initialType;
   }

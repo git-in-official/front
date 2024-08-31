@@ -3,49 +3,32 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:audioplayers/audioplayers.dart';
 
-import 'package:to_morrow_front/ui/screens/write_edit_page/write_edit_view.dart';
-
 import '../../../repository/controller/maintab_controller.dart';
+import '../../../repository/controller/sound_write_controller.dart';
 import '../../../repository/controller/topic_controller.dart';
 
 class SoundWrite extends StatelessWidget {
-  const SoundWrite({super.key});
 
-  @override
+   @override
   Widget build(BuildContext context) {
-    final TopicController _controller = Get.put(TopicController('audio'));
+
+     // Get.delete<TopicController>(force: true);
+     final TopicController _controller = Get.put(TopicController('audio'));
+
+
     final MainTabController tabController = Get.find();
+    final SoundWriteController audioController = Get.find();
 
-    // GetX 상태 관리
-    final RxBool isPlaying = false.obs;
-    final Rx<Duration> position = Duration.zero.obs;
-    final Rx<Duration> duration = Duration.zero.obs;
+    print ("#################### ${_controller.topic.value}");
 
-    // AudioPlayer 인스턴스 생성
-    final AudioPlayer player = AudioPlayer();
-
-    void _setupAudioPlayer() {
-      player.onPlayerStateChanged.listen((PlayerState state) {
-        isPlaying.value = state == PlayerState.playing;
-      });
-
-      player.onPositionChanged.listen((Duration newPosition) {
-        position.value = newPosition;
-      });
-
-      player.onDurationChanged.listen((Duration newDuration) {
-        duration.value = newDuration;
-      });
-    }
-
-    Future<void> _playPauseAudio() async {
+     Future<void> playPauseAudio() async {
       if (_controller.topic.value.isNotEmpty) {
         try {
-          if (isPlaying.value) {
-            await player.pause();
+          if (audioController.isPlaying.value) {
+            await audioController.player.pause();
           } else {
-            await player.play(UrlSource(_controller.topic.value));
-            await player.resume();
+            await audioController.player.play(UrlSource(_controller.topic.value));
+            await audioController.player.resume();
           }
         } catch (e) {
           print('Error playing audio: $e');
@@ -55,12 +38,8 @@ class SoundWrite extends StatelessWidget {
       }
     }
 
-
-    void stopAudio() {
-      player.stop();
-    }
     // 초기화
-    _setupAudioPlayer();
+    audioController.setupAudioPlayer();
 
     return Scaffold(
       backgroundColor: const Color(0xFFE6E2DB),
@@ -89,24 +68,23 @@ class SoundWrite extends StatelessWidget {
                   child: Image.asset('assets/img/sound_pic.png'),
                 ),
                 const SizedBox(height: 60.0),
-               Obx(() {
-                    return Column(
-                      children: [
-                        Slider(
-                          value: position.value.inSeconds.toDouble(),
-                          min: 0.0,
-                          max: duration.value.inSeconds.toDouble(),
-                          onChanged: (value) {
-                            player.seek(Duration(seconds: value.toInt()));
-                            position.value = Duration(seconds: value.toInt());
-                          },
-                          activeColor: Colors.black,
-                          inactiveColor: Colors.grey,
-                        ),
-                      ],
-                    );
-                  }),
-
+                Obx(() {
+                  return Column(
+                    children: [
+                      Slider(
+                        value: audioController.position.value.inSeconds.toDouble(),
+                        min: 0.0,
+                        max: audioController.duration.value.inSeconds.toDouble(),
+                        onChanged: (value) {
+                          audioController.player.seek(Duration(seconds: value.toInt()));
+                          audioController.position.value = Duration(seconds: value.toInt());
+                        },
+                        activeColor: Colors.black,
+                        inactiveColor: Colors.grey,
+                      ),
+                    ],
+                  );
+                }),
                 const SizedBox(height: 10.0),
                 Obx(() {
                   return Container(
@@ -114,7 +92,7 @@ class SoundWrite extends StatelessWidget {
                     height: 48.0,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color:  Color(0xFF373430),
+                      color: Color(0xFF373430),
                       border: Border.all(
                         color: Color(0xFFE6E2DB),
                         width: 1.0,
@@ -124,12 +102,12 @@ class SoundWrite extends StatelessWidget {
                       child: IconButton(
                         padding: EdgeInsets.zero,
                         icon: Icon(
-                          isPlaying.value ? Icons.pause : Icons.play_arrow,
+                          audioController.isPlaying.value ? Icons.pause : Icons.play_arrow,
                           color: Color(0xFFE6E2DB),
                           size: 18.0,
                         ),
                         onPressed: () {
-                          _playPauseAudio();
+                          playPauseAudio();
                         },
                       ),
                     ),
@@ -141,7 +119,7 @@ class SoundWrite extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       _controller.type.value = 'audio';
-                      stopAudio();
+                      audioController.stopAudio();
                       tabController.pageName.value = 'WriteEdit';
                     },
                     style: ElevatedButton.styleFrom(

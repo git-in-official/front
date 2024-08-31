@@ -5,16 +5,18 @@ import 'package:to_morrow_front/repository/controller/maintab_controller.dart';
 import 'package:to_morrow_front/ui/screens/modal_page/EmotionAnalysisModal.dart';
 import 'package:to_morrow_front/ui/view_model/write_edit_view_model.dart';
 import '../../data/model/config/page_route.dart';
-import '../screens/main_page/main_home_page.dart';
+import '../../repository/controller/sound_write_controller.dart';
 import 'circle_button.dart';
 
 class Maintab extends StatelessWidget {
   final MainTabController tabController = Get.find();
   final EmotionViewController controller = Get.find();
-
+  final SoundWriteController audioController = Get.find();
 
   @override
   Widget build(BuildContext context) {
+
+
     return WillPopScope(
       onWillPop: tabController.onWillPop,
       child: Theme(
@@ -50,7 +52,14 @@ class Maintab extends StatelessWidget {
               child: BottomNavigationBar(
                 currentIndex: 0, // 수정된 인덱스
                 onTap: (index) {
+
+
                   if (index == 0) {
+
+                    if (audioController.isPlaying.value) {
+                      audioController.stopAudio();
+                    }
+
                     tabController.pageName.value = 'Home';
                   } else if (index == 1) {
                     if(tabController.isMain.value) {
@@ -66,6 +75,7 @@ class Maintab extends StatelessWidget {
                       );
                     }
                   } else if (index == 2) {
+
                     tabController.showSecondBottomSheet.value =
                     !tabController.showSecondBottomSheet.value;
                   }
@@ -143,6 +153,9 @@ class Maintab extends StatelessWidget {
             ),
             child: InkWell(
               onTap: () {
+
+
+
                 tabController.showSecondBottomSheet.value = false;
               },
               child: Center(
@@ -180,6 +193,11 @@ class Maintab extends StatelessWidget {
   Widget _buildPopupMenu(String label, String image, String movePage) {
     return InkWell(
       onTap: () {
+
+        if (audioController.isPlaying.value) {
+          audioController.stopAudio();
+        }
+
         tabController.showSecondBottomSheet.value = false;
         tabController.pageName.value = movePage;
       },

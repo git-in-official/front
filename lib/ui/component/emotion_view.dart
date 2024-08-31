@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:to_morrow_front/ui/view_model/emotion_view_model.dart';
+import '../../../repository/controller/emotion_view_controller.dart';
+
 import '../../repository/controller/maintab_controller.dart';
 import 'bottom_navigation_bar.dart';
 
@@ -118,9 +120,14 @@ class EmotionView extends GetView<EmotionViewModel> {
                 return GestureDetector(
                   onTap: isButton
                       ? () {
+
                     final MainTabController tabController = Get.find();
                     tabController.selectedEmotion.value = controller.selectedEmotion.value!.title;
+
+                    final EmotionViewController emotionViewController = Get.find();
+                    emotionViewController.sendEmotionToServer(tabController.selectedEmotion.value);
                     Get.to(() => Maintab());
+
                   }
                       : null,
                   child: Container(

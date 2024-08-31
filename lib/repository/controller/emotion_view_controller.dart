@@ -15,7 +15,6 @@ class EmotionViewController extends GetxController {
     var _baseUrl = 'https://api.leemhoon.com/poems';
 
     try {
-
       poems.clear();
       currentIndex.value = 0;
 
@@ -27,7 +26,8 @@ class EmotionViewController extends GetxController {
       );
 
       final authService = AuthService();
-      final token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkxOTY2ZWIyLWQ3OTMtNDVmNi04YjE4LWZkM2ZjZjZkYTZhNyIsImlhdCI6MTcyNDU4OTg1OCwiZXhwIjoxNzI3MTgxODU4fQ.JqZMFiY6xUa7nK7lCRFuUdSwXGhQ8gUzUq6JuCsU22I";
+      final token =
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkxOTY2ZWIyLWQ3OTMtNDVmNi04YjE4LWZkM2ZjZjZkYTZhNyIsImlhdCI6MTcyNDU4OTg1OCwiZXhwIjoxNzI3MTgxODU4fQ.JqZMFiY6xUa7nK7lCRFuUdSwXGhQ8gUzUq6JuCsU22I";
 
       final headers = {
         'Authorization': 'Bearer $token',
@@ -38,18 +38,14 @@ class EmotionViewController extends GetxController {
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
         final List<dynamic> jsonData = jsonDecode(response.body);
-        final List<Poem> newPoems = jsonData.map((poemJson) => Poem.fromJson(poemJson)).toList();
+        final List<Poem> newPoems =
+            jsonData.map((poemJson) => Poem.fromJson(poemJson)).toList();
 
         // 페이지를 업데이트합니다.
         poems.addAll(newPoems);
 
         // 다음 페이지를 위한 인덱스 업데이트
         currentIndex.value += newPoems.length;
-
-        // 감정 정보를 서버에 전송합니다.
-        if (emotion != '모르겠음') {
-          sendEmotionToServer(emotion);
-        }
       } else {
         // 에러 처리
       }
@@ -62,23 +58,30 @@ class EmotionViewController extends GetxController {
     var _baseUrl = 'https://api.leemhoon.com/emotions/select';
 
     try {
-      final uri = Uri.parse(_baseUrl);
-      final token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkxOTY2ZWIyLWQ3OTMtNDVmNi04YjE4LWZkM2ZjZjZkYTZhNyIsImlhdCI6MTcyNDU4OTg1OCwiZXhwIjoxNzI3MTgxODU4fQ.JqZMFiY6xUa7nK7lCRFuUdSwXGhQ8gUzUq6JuCsU22I";
-
-      final headers = {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json',
-      };
-
-      Map<String, String> body = {"emotion": emotion};
-
-      final response =
-      await http.post(uri, headers: headers, body: jsonEncode(body));
-
-      if (response.statusCode >= 200 && response.statusCode < 300) {
-        print('감정선택내역저장api 성공 : ${response.statusCode}');
+      // 감정 정보를 서버에 전송합니다.
+      if (emotion == '모르겠음') {
+        return;
       } else {
-        print('감정선택내역저장api 실패 : ${response.statusCode}');
+
+        final uri = Uri.parse(_baseUrl);
+        final token =
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkxOTY2ZWIyLWQ3OTMtNDVmNi04YjE4LWZkM2ZjZjZkYTZhNyIsImlhdCI6MTcyNDU4OTg1OCwiZXhwIjoxNzI3MTgxODU4fQ.JqZMFiY6xUa7nK7lCRFuUdSwXGhQ8gUzUq6JuCsU22I";
+
+        final headers = {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        };
+
+        Map<String, String> body = {"emotion": emotion};
+
+        final response =
+            await http.post(uri, headers: headers, body: jsonEncode(body));
+
+        if (response.statusCode >= 200 && response.statusCode < 300) {
+          print('감정선택내역저장api 성공 : ${response.statusCode}');
+        } else {
+          print('감정선택내역저장api 실패 : ${response.statusCode}');
+        }
       }
     } catch (e) {
       print('요청 중 예외 발생: $e');

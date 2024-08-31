@@ -154,7 +154,10 @@ class UserSentimentTagPage extends StatelessWidget {
                         width: 152,
                         height: 44,
                         icon: Icon(Icons.undo_outlined),
-                        onPressed: () {}),
+                        onPressed: () {
+                          //어디로 돌아가죠 ... 다시 글쓰기 페이지? 글을 가지고 ...?
+
+                        }),
                     CustomTextButton(
                         text: '탈고하기',
                         width: 152,
@@ -236,7 +239,7 @@ class UserSentimentTagPage extends StatelessWidget {
 
                                               ///TODO 연결
                                               //낭독한 시를 탈고하겠습니다 클릭 시 다음 화면 넘어가게 연결하기!
-                                              //tabController.pageName.value = 'asdfasfasdf';
+                                              tabController.pageName.value = 'RecordingPage';
                                             },
                                             text: '낭독한 시를 탈고하겠습니다.',
                                             isHighlighted: true,

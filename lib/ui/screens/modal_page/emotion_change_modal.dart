@@ -119,6 +119,10 @@ class EmotionChangeModal extends StatelessWidget {
                           tabController.selectedEmotionIndex.value =
                               tempSelectedIndex.value;
                           tabController.selectedEmotion.value = selectedEmotion;
+
+                          final EmotionViewController emotionViewController = Get.find();
+                          emotionViewController.sendEmotionToServer(tabController.selectedEmotion.value);
+
                           Get.to(() => Maintab());
 
                           //모달창 닫고

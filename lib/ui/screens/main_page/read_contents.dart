@@ -1,8 +1,8 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:to_morrow_front/repository/controller/sound_write_controller.dart';
 
-import '../../../repository/controller/bookmark_controller.dart';
 import '../../../repository/controller/bookmark_controller.dart';
 import '../../../repository/controller/maintab_controller.dart';
 import '../../../repository/controller/play_poem_controller.dart';
@@ -12,6 +12,7 @@ import '../modal_page/emotion_change_modal.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ReadWritingPage extends StatelessWidget {
+
   final MainTabController tabController = Get.put(MainTabController());
   final FlutterSecureStorage storage = FlutterSecureStorage();
   final PlayPoemController playPoem = Get.put (PlayPoemController ()); //낭독횟수 카운팅
@@ -42,37 +43,24 @@ class ReadWritingPage extends StatelessWidget {
   final RxBool _isFolded = false.obs;
   final RxDouble _animationValue = 0.0.obs;
 
+
   // AudioPlayer 인스턴스 생성
-  final AudioPlayer player = AudioPlayer();
-  final RxBool isPlaying = false.obs;
-  final Rx<Duration> position = Duration.zero.obs;
-  final Rx<Duration> duration = Duration.zero.obs;
+  final SoundWriteController _audioController = Get.find();
 
 
 
-  void _setupAudioPlayer() {
-    player.onPlayerStateChanged.listen((PlayerState state) {
-      isPlaying.value = state == PlayerState.playing;
-    });
 
-    player.onPositionChanged.listen((Duration newPosition) {
-      position.value = newPosition;
-    });
 
-    player.onDurationChanged.listen((Duration newDuration) {
-      duration.value = newDuration;
-    });
-  }
 
 
 
   Future<void> _playPauseAudio() async {
 
     try {
-      if (isPlaying.value) {
-        await player.pause();
+      if (_audioController.isPlaying.value) {
+        await _audioController.player.pause();
       } else {
-        await player.play(UrlSource(audioUrl!));
+        await _audioController.player.play(UrlSource(audioUrl!));
         await playPoem.fetchData(id);
       }
     } catch (e) {
@@ -125,7 +113,7 @@ class ReadWritingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 초기화
-      _setupAudioPlayer();
+    _audioController.setupAudioPlayer();
 
     return Scaffold(
       backgroundColor: Color(0xffE6E2DB),
@@ -245,7 +233,7 @@ class ReadWritingPage extends StatelessWidget {
                               ),
                               child: Center(
                                 child: Icon(
-                                  isPlaying.value ? Icons.pause : Icons.play_arrow,
+                                  _audioController.isPlaying.value ? Icons.pause : Icons.play_arrow,
                                   color: Color(0xFF373430),
                                   size: 18.0,
                                 ),
@@ -257,12 +245,12 @@ class ReadWritingPage extends StatelessWidget {
                         // 재생 바
                         Expanded(child: Obx(() {
                           return Slider(
-                            value: position.value.inSeconds.toDouble(),
+                            value: _audioController.position.value.inSeconds.toDouble(),
                             min: 0.0,
-                            max: duration.value.inSeconds.toDouble(),
+                            max: _audioController.duration.value.inSeconds.toDouble(),
                             onChanged: (value) {
-                              player.seek(Duration(seconds: value.toInt()));
-                              position.value = Duration(seconds: value.toInt());
+                              _audioController.player.seek(Duration(seconds: value.toInt()));
+                              _audioController.position.value = Duration(seconds: value.toInt());
                             },
                             activeColor: Colors.black,
                             inactiveColor: Colors.grey,
