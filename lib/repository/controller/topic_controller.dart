@@ -72,24 +72,24 @@ class TopicController extends GetxController {
 
         switch (type.value) {
           case 'title':
-            writeEditViewModel.inspirationId = responseJson['id'];
+            writeEditViewModel.inspirationId.value = responseJson['id'];
             topic.value = responseJson['title'];
             break;
           case 'word':
             print(responseJson['word']);
-            writeEditViewModel.inspirationId = responseJson['id'];
+            writeEditViewModel.inspirationId.value = responseJson['id'];
 
             topic.value = responseJson['word'];
             break;
           case 'audio':
             print(responseJson['audioUrl']);
-            writeEditViewModel.inspirationId = responseJson['id'];
+            writeEditViewModel.inspirationId.value = responseJson['id'];
 
             topic.value = responseJson['audioUrl'];
             break;
           case 'video':
             print(responseJson['videoUrl']);
-            writeEditViewModel.inspirationId = responseJson['id'];
+            writeEditViewModel.inspirationId.value = responseJson['id'];
             topic.value = responseJson['videoUrl'];
             break;
           default:
