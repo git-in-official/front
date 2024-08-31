@@ -43,6 +43,7 @@ class _WriteEditViewState extends State<WriteEditView> {
     super.initState();
     tabController.isMain.value = false;
     _titleController = TextEditingController();
+    tabController.currentPage.value = 'WriteEdit';
 
     // 필명 불러오기
     authService.loadServiceName().then((name) {

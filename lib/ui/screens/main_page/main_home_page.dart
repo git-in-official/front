@@ -12,12 +12,16 @@ class HomePage extends StatelessWidget {
   final MainTabController tabController = Get.find();
   final EmotionViewController poemListController = Get.find();
 
+
   HomePage({Key? key, required this.emotion}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    tabController.currentPage.value = 'Home';
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       poemListController.getPoems(emotion);
+
     });
 
     return Scaffold(
