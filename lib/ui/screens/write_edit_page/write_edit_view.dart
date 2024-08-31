@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:to_morrow_front/repository/controller/auth_service.dart';
 import 'package:to_morrow_front/repository/controller/maintab_controller.dart';
@@ -90,9 +91,11 @@ class _WriteEditViewState extends State<WriteEditView> {
                 // 상단 광고 배너 공간
                 Container(
                   height: 66,
-                  color: Colors.grey,
                   width: double.infinity,
-                  child: const Center(child: Text("광고")),
+                  child: SvgPicture.asset(
+                    'assets/images/banner.svg', // 이미지 파일 경로
+                    fit: BoxFit.cover, // 이미지가 컨테이너를 채우도록 설정
+                  ),
                 ),
                 Expanded(
                   child: Row(
