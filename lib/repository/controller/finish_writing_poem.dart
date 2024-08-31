@@ -4,10 +4,10 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:to_morrow_front/ui/view_model/write_edit_view_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 
 import '../../data/model/poem_response.dart';
 import 'auth_service.dart';
-
 
 class FinishWritingPoem extends GetxController {
   final WriteEditViewModel getPoemDetail = Get.find();
@@ -17,65 +17,76 @@ class FinishWritingPoem extends GetxController {
     String url = "$baseUrl/poems";
 
     final authService = AuthService();
-    // final token = await authService.loadServiceTokens();
     final token =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkxOTY2ZWIyLWQ3OTMtNDVmNi04YjE4LWZkM2ZjZjZkYTZhNyIsImlhdCI6MTcyNDU4OTg1OCwiZXhwIjoxNzI3MTgxODU4fQ.JqZMFiY6xUa7nK7lCRFuUdSwXGhQ8gUzUq6JuCsU22I";
 
     final headers = {
       'Authorization': 'Bearer $token',
-      'Content-Type': 'application/json',
     };
 
-    String? base64Audio; //오디오파일 바이너리문자변경
+    final request = http.MultipartRequest('POST', Uri.parse(url))
+      ..headers.addAll(headers);
+
+    request.fields['title'] = getPoemDetail.title.value;
+    request.fields['content'] = getPoemDetail.bodyContent.value;
+    request.fields['textAlign'] = getPoemDetail.textAlign.value;
+    request.fields['textSize'] = getPoemDetail.fontSize.value;
+    request.fields['textFont'] = getPoemDetail.selectedFont['family'];
+    request.fields['originalContent'] =
+        getPoemDetail.originalContent.value.isEmpty
+            ? ''
+            : getPoemDetail.originalContent.value;
+    request.fields['originalTitle'] = getPoemDetail.originalTitle.value.isEmpty
+        ? ''
+        : getPoemDetail.originalTitle.value;
+    request.fields['inspirationId'] = getPoemDetail.inspirationId.value;
+
+    //테마
+    final themes = getPoemDetail.themes.toList();
+    for (int i = 0; i < themes.length; i++) {
+      request.fields['themes[$i]'] = themes[i];
+    }
+
+    //상호작용
+    final interactions = getPoemDetail.interactions.toList();
+    for (int i = 0; i < interactions.length; i++) {
+      request.fields['interactions[$i]'] = interactions[i];
+    }
+
     if (getPoemDetail.audioFile.value.isNotEmpty) {
       final audioFile = File(getPoemDetail.audioFile.value);
       if (await audioFile.exists()) {
         final fileBytes = await audioFile.readAsBytes();
-        base64Audio = base64Encode(fileBytes);
+        request.files.add(
+          http.MultipartFile.fromBytes(
+            'audioFile',
+            fileBytes,
+            filename: 'audio.mp3',
+            contentType: MediaType('audio', 'mp3'),
+          ),
+        );
       }
     }
 
-    Map<String, dynamic> body = {
-      "title": getPoemDetail.title.value,
-      "content": getPoemDetail.bodyContent.value,
-      "themes": getPoemDetail.themes.toList(),
-      "interactions": getPoemDetail.interactions.toList(),
-      "textAlign": getPoemDetail.textAlign.value,
-      "textSize": getPoemDetail.fontSize.value,
-      "textFont": getPoemDetail.selectedFont['family'],
-      "originalContent": getPoemDetail.originalContent.value.isEmpty
-          ? null
-          : getPoemDetail.originalContent.value,
-      "originalTitle": getPoemDetail.originalTitle.value.isEmpty
-          ? null
-          : getPoemDetail.originalTitle.value,
-      "inspirationId": getPoemDetail.inspirationId.value,
-      "audioFile": base64Audio,
-    };
-
     try {
-      final response = await http.post(
-        Uri.parse(url),
-        headers: headers,
-        body: jsonEncode(body),
-      );
+      final response = await request.send();
+      final responseBody = await response.stream.bytesToString();
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        print("성공입니달ㅇ: ${response.body}");
-
-        final poemResponse = PoemResponse.fromJson(jsonDecode(response.body));
+        print("성공: ${responseBody}");
+        final poemResponse = PoemResponse.fromJson(jsonDecode(responseBody));
 
         print("제목: ${poemResponse.title}");
         print("상태: ${poemResponse.status}");
-
-
       } else if (response.statusCode == 400 || response.statusCode == 401) {
-        print("유효성 아니면 검증 실패: ${response.statusCode}");
+        print("유효성 검사 실패 또는 인증 실패: ${response.statusCode}");
+        print("응답 본문: ${responseBody}");
       } else {
-        print("다른에러: ${response.statusCode}");
+        print("서버 오류: ${response.statusCode}");
+        print("응답 본문: ${responseBody}");
       }
     } catch (error) {
-      print("ㄱ걍 에러: $error");
+      print("에러 발생: $error");
     }
   }
 }
