@@ -18,7 +18,6 @@ class PoemLoadingPage extends StatefulWidget {
 class _PoemLoadingPageState extends State<PoemLoadingPage> {
   int stage = 0;
   Timer? timer;
-  int remainingEdits = 1; // 오늘 가능한 탈고 횟수
   String name = ''; // 사용자 이름 저장 변수
   final AuthService _authService = AuthService();
   final FinishWritingPoem _finishWritingPoem = Get.put(FinishWritingPoem());
@@ -56,6 +55,7 @@ class _PoemLoadingPageState extends State<PoemLoadingPage> {
 
   Future<void> _sendPoemData() async {
     print("시 정보를 서버로 전송 중입니다..."); // 전송 시작 시 메시지 출력
+    _finishWritingPoem.remainingEdits.value = 10;
 
     await _finishWritingPoem.donePoem(); // 서버로 데이터 전송
 
@@ -64,12 +64,13 @@ class _PoemLoadingPageState extends State<PoemLoadingPage> {
     });
 
     if (isSendingComplete) {
-      print("시 정보 전송이 완료되었습니다."); // 전송 완료 후 메시지 출력
+      print("시 정보 전송이 완료되었습니다.");
     } else {
-      print("시 정보 전송에 실패했습니다."); // 전송 실패 시 메시지 출력
+      print("시 정보 전송에 실패했습니다.");
     }
   }
 
+  // 확인 누르면 메인으로 이동
   void _onConfirmPressed() {
     if (isSendingComplete) {
       tabController.pageName.value = 'Home';
@@ -210,17 +211,17 @@ class _PoemLoadingPageState extends State<PoemLoadingPage> {
                         ),
                       ),
                       height: 20.0,
-                      width: 142.0,
+                      width: 145.0,
                       alignment: Alignment.center,
-                      child: Text(
-                        '오늘 가능한 탈고 횟수: $remainingEdits회',
+                      child: Obx(() => Text(
+                        '오늘 가능한 탈고 횟수: ${_finishWritingPoem.remainingEdits.value}회',
                         style: const TextStyle(
                           fontSize: 10,
                           fontFamily: 'KoPubBatangPro',
                           color: Color(0xFF373430),
                         ),
                         textAlign: TextAlign.center,
-                      ),
+                      )),
                     ),
                   ),
                 ],

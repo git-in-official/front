@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:to_morrow_front/repository/controller/emotion_view_controller.dart';
 import 'package:to_morrow_front/repository/controller/maintab_controller.dart';
 import 'package:to_morrow_front/ui/screens/modal_page/EmotionAnalysisModal.dart';
+import 'package:to_morrow_front/ui/view_model/write_edit_view_model.dart';
 import '../../data/model/config/page_route.dart';
 import '../screens/main_page/main_home_page.dart';
 import 'circle_button.dart';
@@ -33,7 +34,7 @@ class Maintab extends StatelessWidget {
               index: tabController.rootPageIndex.value,
               children: [
                 currentPage
-                ],
+              ],
             ),
             bottomSheet: Obx(() {
               return tabController.showSecondBottomSheet.value
@@ -52,20 +53,18 @@ class Maintab extends StatelessWidget {
                   if (index == 0) {
                     tabController.pageName.value = 'Home';
                   } else if (index == 1) {
-
                     if(tabController.isMain.value) {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) => CircleMenuDialog(),
                       );
-                    } else {
+                    } else if (Get.find<WriteEditViewModel>().isFormComplete.value) {
+                      // isMain이 false이면서 제목과 본문이 모두 입력되었을 때 EmotionAnalysisModal 표시
                       showDialog(
                         context: context,
                         builder: (BuildContext context) => EmotionAnalysisModal(),
                       );
                     }
-
-
                   } else if (index == 2) {
                     tabController.showSecondBottomSheet.value =
                     !tabController.showSecondBottomSheet.value;
