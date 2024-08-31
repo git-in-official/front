@@ -1,13 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../../repository/controller/audio_controller.dart';
 import '../../../repository/controller/recording_controller.dart';
 import '../../component/custom_text_button.dart';
 import '../modal_page/final_ask_modal.dart';
-
-
 
 class RecordingPage extends StatelessWidget {
   final String title;
@@ -24,10 +24,10 @@ class RecordingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AnimationControllerController animationControllerController =
-    Get.put(AnimationControllerController());
+        Get.put(AnimationControllerController());
 
     final RecordingController recordingController =
-    Get.put(RecordingController());
+        Get.put(RecordingController());
 
     final AudioController audioController = Get.put(AudioController());
 
@@ -43,87 +43,90 @@ class RecordingPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Color(0xffE6E2DB),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: null,
-        backgroundColor: Color(0xffE6E2DB),
-        elevation: 0,
-        scrolledUnderElevation: 0,
-      ),
-      body: Stack(
+      body: SafeArea(
+          child: Stack(
         children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: [
-                Center(
-                  child: Container(
-                    padding: EdgeInsets.fromLTRB(20, 24, 20, 16),
-                    child: Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Color(0xff373430),
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
+          Column(
+            children: [
+              // 상단 광고 배너 공간
+              Container(
+                height: 66,
+                width: double.infinity,
+                child: SvgPicture.asset(
+                  'assets/images/banner.svg', // 이미지 파일 경로
+                  fit: BoxFit.cover, // 이미지가 컨테이너를 채우도록 설정
                 ),
-                SizedBox(height: 16),
-                Align(
-                  alignment: Alignment.centerRight,
+              ),
+              Center(
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(20, 24, 20, 16),
                   child: Text(
-                    '$author',
-                    style: TextStyle(fontSize: 14, color: Color(0xff6D675F)),
+                    title,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Color(0xff373430),
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
-                SizedBox(height: 40),
-                Obx(() {
-                  return Visibility(
-                    visible: recordingController.isVisible.value,
-                    child: Expanded(
-                      child: SingleChildScrollView(
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 28),
-                          child: Text(
-                            contents,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Color(0xff373430),
-                            ),
-                            textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 16),
+              Container(
+                  padding: EdgeInsets.only(right: 20),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      '$author',
+                      style: TextStyle(fontSize: 14, color: Color(0xff6D675F)),
+                    ),
+                  )),
+              SizedBox(height: 36),
+              Obx(() {
+                return Visibility(
+                  visible: recordingController.isVisible.value,
+                  child: Expanded(
+                    child: SingleChildScrollView(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 48),
+                        child: Text(
+                          contents,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xff373430),
                           ),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),
-                    replacement: Container(
-                      width: 320,
-                      height: 224,
-                      child: Scrollbar(
+                  ),
+                  replacement: Container(
+                    width: 320,
+                    height: 224,
+                    child: Scrollbar(
+                        controller: _scrollController,
+                        thumbVisibility: true,
+                        child: ListView(
                           controller: _scrollController,
-                          thumbVisibility: true,
-                          child: ListView(
-                            controller: _scrollController,
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(color: const Color(0xFFE6E2DB)),
-                                padding: EdgeInsets.symmetric(horizontal: 28, vertical: 16),
-                                child: Text(
-                                  contents,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xff373430),
-                                  ),
-                                  textAlign: TextAlign.center,
+                          children: [
+                            Container(
+                              decoration:
+                                  BoxDecoration(color: const Color(0xFFE6E2DB)),
+                              padding: EdgeInsets.fromLTRB(48, 0, 48, 16),
+                              child: Text(
+                                contents,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xff373430),
                                 ),
+                                textAlign: TextAlign.center,
                               ),
-                            ],
-                          )),
-                    ),
-                  );
-                }),
-              ],
-            ),
+                            ),
+                          ],
+                        )),
+                  ),
+                );
+              }),
+            ],
           ),
           Obx(() {
             return Visibility(
@@ -139,7 +142,8 @@ class RecordingPage extends StatelessWidget {
 
                     _animationController.forward();
                     animationControllerController.isAnimating.value = true;
-                    animationControllerController.showStopIcon.value = false; // 녹음 아이콘 표시
+                    animationControllerController.showStopIcon.value =
+                        false; // 녹음 아이콘 표시
                   },
 
                   // 길게 누르던 걸 떼었을 때
@@ -148,7 +152,8 @@ class RecordingPage extends StatelessWidget {
 
                     _animationController.reverse();
                     animationControllerController.isAnimating.value = false;
-                    animationControllerController.showStopIcon.value = true; // Stop 아이콘 표시
+                    animationControllerController.showStopIcon.value =
+                        true; // Stop 아이콘 표시
                   },
 
                   // 정지 아이콘을 한번 탭 했을 때
@@ -233,13 +238,17 @@ class RecordingPage extends StatelessWidget {
                           Expanded(child: Obx(() {
                             return Slider(
                               min: 0,
-                              max: audioController.duration.value.inSeconds.toDouble(),
-                              value: audioController.position.value.inSeconds.toDouble(),
+                              max: audioController.duration.value.inSeconds
+                                  .toDouble(),
+                              value: audioController.position.value.inSeconds
+                                  .toDouble(),
                               inactiveColor: Colors.grey,
                               activeColor: Color(0xff373430),
                               onChanged: (value) async {
-                                audioController.position.value = Duration(seconds: value.toInt());
-                                await audioController.audioPlayer.seek(audioController.position.value);
+                                audioController.position.value =
+                                    Duration(seconds: value.toInt());
+                                await audioController.audioPlayer
+                                    .seek(audioController.position.value);
                               },
                             );
                           })),
@@ -250,7 +259,8 @@ class RecordingPage extends StatelessWidget {
                     SizedBox(height: 22),
                     Container(
                       height: 92,
-                      padding: EdgeInsets.symmetric(vertical: 24, horizontal: 20),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 24, horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -258,9 +268,12 @@ class RecordingPage extends StatelessWidget {
                           CustomTextButton(
                             text: '다시 낭독하기',
                             onPressed: () async {
-                              await audioController.deleteRecording(); // 녹음 파일 삭제
-                              animationControllerController.showStopIcon.value = false; // 녹음 아이콘 표시
-                              recordingController.isVisible.value = true; // 화면 표시
+                              await audioController
+                                  .deleteRecording(); // 녹음 파일 삭제
+                              animationControllerController.showStopIcon.value =
+                                  false; // 녹음 아이콘 표시
+                              recordingController.isVisible.value =
+                                  true; // 화면 표시
                             },
                           ),
                           SizedBox(width: 8),
@@ -270,7 +283,8 @@ class RecordingPage extends StatelessWidget {
                             onPressed: () {
                               showDialog(
                                 context: context,
-                                builder: (BuildContext context) => FinalAskModal(),
+                                builder: (BuildContext context) =>
+                                    FinalAskModal(),
                               );
                             },
                           )
@@ -283,11 +297,10 @@ class RecordingPage extends StatelessWidget {
             );
           }),
         ],
-      ),
+      )),
     );
   }
 }
-
 
 class TestVSync extends TickerProvider {
   @override

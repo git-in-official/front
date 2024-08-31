@@ -55,6 +55,10 @@ class SoundWrite extends StatelessWidget {
       }
     }
 
+
+    void stopAudio() {
+      player.stop();
+    }
     // 초기화
     _setupAudioPlayer();
 
@@ -137,6 +141,7 @@ class SoundWrite extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       _controller.type.value = 'audio';
+                      stopAudio();
                       tabController.pageName.value = 'WriteEdit';
                     },
                     style: ElevatedButton.styleFrom(

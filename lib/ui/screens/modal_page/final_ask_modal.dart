@@ -20,6 +20,9 @@ class FinalAskModal extends StatelessWidget {
     final RecordingController recordingController =
     Get.put(RecordingController());
 
+    final MainTabController tabController = Get.find();
+
+
     return AlertDialog(
       backgroundColor: Color(0xffE6E2DB),
       contentPadding: EdgeInsets.zero,
@@ -62,8 +65,9 @@ class FinalAskModal extends StatelessWidget {
             ),
             SizedBox(height: 20),
             CustomTextButton(text: '낭독 없이 탈고하겠습니다.',  height : 44, width: 203,onPressed: () {
-              final MainTabController tabController = Get.find();
               tabController.pageName.value = 'PoemLoadingPage';
+              Navigator.of(context).pop();
+
 
             }),
             SizedBox(height: 15),
@@ -77,7 +81,12 @@ class FinalAskModal extends StatelessWidget {
             CustomTextButton(
               text: '낭독한 시를 탈고하겠습니다.',
               isHighlighted: true, height : 44, width: 203,
-              onPressed: () {},
+              onPressed: () {
+                tabController.pageName.value = 'PoemLoadingPage';
+                Navigator.of(context).pop();
+
+
+              },
             ),
             SizedBox(height: 24),
           ],

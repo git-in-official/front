@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:to_morrow_front/ui/screens/main_page/read_contents.dart';
 import '../../../repository/controller/emotion_view_controller.dart';
@@ -24,9 +25,14 @@ class HomePage extends StatelessWidget {
       body: SafeArea(
           child: Column(
               children: [
+                // 상단 광고 배너 공간
                 Container(
                   height: 66,
-                  color: Colors.grey,
+                  width: double.infinity,
+                  child: SvgPicture.asset(
+                    'assets/images/banner.svg', // 이미지 파일 경로
+                    fit: BoxFit.cover, // 이미지가 컨테이너를 채우도록 설정
+                  ),
                 ),
                 Expanded(
                   child: Obx(() {
