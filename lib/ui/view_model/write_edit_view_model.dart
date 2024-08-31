@@ -3,11 +3,11 @@ import 'package:get/get.dart';
 
 class WriteEditViewModel extends GetxController {
 
-  // 텍스트 정렬 -> 0(기본), 1(가운데), 2(오른쪽)
-  var textAlign = 0.obs;
+  // 텍스트 정렬 -> 'left', 'center', 'right'
+  var textAlign = 'left'.obs;
 
-  // 폰트 크기 -> 0(기본), 1(큰), 2(작은)
-  var fontSize = 0.obs;
+  // 폰트 크기 -> 14(기본), 16(큰), 12(작은)
+  var fontSize = 14.0.obs;
 
   // 선택된 폰트 패밀리
   var selectedFont = <String, Object>{
@@ -20,7 +20,6 @@ class WriteEditViewModel extends GetxController {
   var tempSelectedFont = <String, Object>{}.obs;
 
   // 사용자 이름을 관리할 변수
-
   var userName = ''.obs;
 
   // 제목 저장 변수
@@ -28,6 +27,9 @@ class WriteEditViewModel extends GetxController {
 
   // 본문 내용 저장 변수
   var bodyContent = ''.obs;
+
+  // 제목과 본문이 모두 입력되었는지 확인하는 변수
+  var isFormComplete = false.obs;
 
   // 원본 내용
   var originalContent = ''.obs;
@@ -51,16 +53,33 @@ class WriteEditViewModel extends GetxController {
   void onInit() {
     super.onInit();
     tempSelectedFont.value = Map<String, Object>.from(selectedFont);
+
+    // 제목 또는 본문이 변경될 때마다 isFormComplete 상태를 업데이트
+    everAll([title, bodyContent], (_) {
+      checkFormCompletion();
+    });
   }
 
   // 텍스트 정렬 변경
   void toggleTextAlign() {
-    textAlign.value = (textAlign.value + 1) % 3;
+    if (textAlign.value == 'left') {
+      textAlign.value = 'center';
+    } else if (textAlign.value == 'center') {
+      textAlign.value = 'right';
+    } else {
+      textAlign.value = 'left';
+    }
   }
 
   // 폰트 크기 변경
   void toggleFontSize() {
-    fontSize.value = (fontSize.value + 1) % 3;
+    if (fontSize.value == 14.0) {
+      fontSize.value = 16.0;
+    } else if (fontSize.value == 16.0) {
+      fontSize.value = 12.0;
+    } else {
+      fontSize.value = 14.0;
+    }
   }
 
   // 폰트 변경 적용
@@ -76,11 +95,18 @@ class WriteEditViewModel extends GetxController {
   // 제목 업데이트
   void updateTitle(String newTitle) {
     title.value = newTitle;
+    checkFormCompletion();
   }
 
   // 본문 내용 업데이트
   void updateBodyContent(String newContent) {
     bodyContent.value = newContent;
+    checkFormCompletion();
+  }
+
+  // 제목과 본문이 모두 입력되었는지 확인하는 함수
+  void checkFormCompletion() {
+    isFormComplete.value = title.value.isNotEmpty && bodyContent.value.isNotEmpty;
   }
 
   // 원본 내용 업데이트
@@ -125,8 +151,8 @@ class WriteEditViewModel extends GetxController {
 
   // 값 초기화
   void resetValues() {
-    textAlign.value = 0;
-    fontSize.value = 0;
+    textAlign.value = 'left';
+    fontSize.value = 14.0;
     selectedFont.value = {
       "family": "KoPubBatangPro",
       "weight": FontWeight.w400,

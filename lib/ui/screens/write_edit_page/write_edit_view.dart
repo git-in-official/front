@@ -301,11 +301,11 @@ class _WriteEditViewState extends State<WriteEditView> {
   }
 
   // 텍스트 정렬 변경
-  TextAlign _getTextAlign(int value) {
+  TextAlign _getTextAlign(String value) {
     switch (value) {
-      case 1:
+      case 'center':
         return TextAlign.center;
-      case 2:
+      case 'right':
         return TextAlign.right;
       default:
         return TextAlign.left;
@@ -313,15 +313,8 @@ class _WriteEditViewState extends State<WriteEditView> {
   }
 
   // 폰트 크기 변경
-  double _getFontSize(int value) {
-    switch (value) {
-      case 1:
-        return 16.0; // 큰 폰트 크기
-      case 2:
-        return 12.0; // 작은 폰트 크기
-      default:
-        return 14.0; // 기본 폰트 크기
-    }
+  double _getFontSize(double value) {
+    return value;
   }
 
   // 글꼴 변경

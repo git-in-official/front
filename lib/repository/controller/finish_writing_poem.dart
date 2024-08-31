@@ -11,6 +11,7 @@ import 'auth_service.dart';
 
 class FinishWritingPoem extends GetxController {
   final WriteEditViewModel getPoemDetail = Get.find();
+  RxInt remainingEdits = 0.obs;
 
   Future<void> donePoem() async {
     String baseUrl = "https://api.leemhoon.com";
@@ -30,12 +31,12 @@ class FinishWritingPoem extends GetxController {
     request.fields['title'] = getPoemDetail.title.value;
     request.fields['content'] = getPoemDetail.bodyContent.value;
     request.fields['textAlign'] = getPoemDetail.textAlign.value;
-    request.fields['textSize'] = getPoemDetail.fontSize.value;
-    request.fields['textFont'] = getPoemDetail.selectedFont['family'];
+    request.fields['textSize'] = getPoemDetail.fontSize.value.toString();
+    request.fields['textFont'] = getPoemDetail.selectedFont['family'] as String;
     request.fields['originalContent'] =
-        getPoemDetail.originalContent.value.isEmpty
-            ? ''
-            : getPoemDetail.originalContent.value;
+    getPoemDetail.originalContent.value.isEmpty
+        ? ''
+        : getPoemDetail.originalContent.value;
     request.fields['originalTitle'] = getPoemDetail.originalTitle.value.isEmpty
         ? ''
         : getPoemDetail.originalTitle.value;
@@ -72,9 +73,19 @@ class FinishWritingPoem extends GetxController {
       final response = await request.send();
       final responseBody = await response.stream.bytesToString();
 
+      print("Response Body: $responseBody"); // 응답 본문 출력
+      print("Response Status Code: ${response.statusCode}"); // 상태 코드 출력
+
       if (response.statusCode >= 200 && response.statusCode < 300) {
         print("성공: ${responseBody}");
         final poemResponse = PoemResponse.fromJson(jsonDecode(responseBody));
+
+        // 남은 탈고 횟수 가져오기
+        final responseJson = jsonDecode(responseBody);
+        remainingEdits.value = responseJson['count'] ?? 0;
+
+        // 남은 탈고 횟수 출력
+        print("오늘 가능한 탈고 횟수: ${remainingEdits.value}");
 
         print("제목: ${poemResponse.title}");
         print("상태: ${poemResponse.status}");
