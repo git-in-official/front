@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:to_morrow_front/ui/screens/my_page/my_designation.dart';
 import '../../../repository/controller/user_controller.dart';
+import '../../component/emotion_view.dart';
 
 class MyProfile extends StatefulWidget {
   const MyProfile({super.key});
@@ -29,12 +30,17 @@ class _MyProfileState extends State<MyProfile> {
         backgroundColor: const Color(0xFFE6E2DB),
         title: Row(
           children: [
-            IconButton(
-              icon: const Icon(Icons.arrow_back_ios_new),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
+            // ElevatedButton(
+            //   child:  Text('dddd'),
+            //   onPressed: (){
+            //   Get.offAll(() => EmotionView());
+            // },),
+            // IconButton(
+            //
+            //   onPressed: () {
+            //     Navigator.pop(context);
+            //   },
+            // ),
             const SizedBox(width: 1),
             const Text(
               '계정 및 프로필',
@@ -183,7 +189,57 @@ class _MyProfileState extends State<MyProfile> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                contentPadding: EdgeInsets.zero,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(24.0),
+                                ),
+                                content: Container(
+                                  width: 100.0,
+                                  height: 100.0,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFE6E2DB),
+                                    borderRadius: BorderRadius.circular(24.0),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      // 닫기 버튼
+                                      Align(
+                                        alignment: Alignment.topRight,
+                                        child: IconButton(
+                                          icon:
+                                          const Icon(Icons.close, size: 24),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ),
+                                      // 텍스트 메시지
+                                      const Flexible(
+                                        child: Text(
+                                          '기능 구현 준비중입니다. ^^;',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontFamily: 'KoPubBatangPro',
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16.0,
+                                            color: Color(0xFF373430),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF373430),
                           shape: RoundedRectangleBorder(
