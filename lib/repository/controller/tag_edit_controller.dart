@@ -39,9 +39,15 @@ class TagEditController extends GetxController {
     final EmotionAnalysisController emotionController = Get.find();
 
     if (which == '테마') {
+      emotionController.oldThemes.value = emotionController.themes.value;
+      emotionController.oldInteractions.value  = emotionController.interactions.value;
+      emotionController.oldContent.value = getPoemDetail.bodyContent.value;
       emotionController.themes.value = changeTags;
     }
     else {
+      emotionController.oldThemes.value = emotionController.themes.value;
+      emotionController.oldInteractions.value = emotionController.interactions.value;
+      emotionController.oldContent.value = getPoemDetail.bodyContent.value;
       emotionController.interactions.value = changeTags;
     }
 
