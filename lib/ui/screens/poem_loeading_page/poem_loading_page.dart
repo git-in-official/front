@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:to_morrow_front/repository/controller/auth_service.dart';
+import 'package:to_morrow_front/repository/controller/finish_writing_poem.dart';
+import 'package:to_morrow_front/repository/controller/maintab_controller.dart';
 
 class PoemLoadingPage extends StatefulWidget {
   const PoemLoadingPage({super.key});
@@ -17,13 +20,17 @@ class _PoemLoadingPageState extends State<PoemLoadingPage> {
   Timer? timer;
   int remainingEdits = 1; // 오늘 가능한 탈고 횟수
   String name = ''; // 사용자 이름 저장 변수
-  final AuthService _authService = AuthService(); // AuthService 인스턴스 생성
+  final AuthService _authService = AuthService();
+  final FinishWritingPoem _finishWritingPoem = Get.put(FinishWritingPoem());
+  final MainTabController tabController = Get.find();
+  bool isSendingComplete = false;
 
   @override
   void initState() {
     super.initState();
     _loadUserName(); // 사용자 이름 로드
     startAnimation();
+    _sendPoemData();
   }
 
   Future<void> _loadUserName() async {
@@ -45,6 +52,28 @@ class _PoemLoadingPageState extends State<PoemLoadingPage> {
         stage = (stage + 1) % 3; // "교 -> 교정 -> 교정중" 반복
       });
     });
+  }
+
+  Future<void> _sendPoemData() async {
+    print("시 정보를 서버로 전송 중입니다..."); // 전송 시작 시 메시지 출력
+
+    await _finishWritingPoem.donePoem(); // 서버로 데이터 전송
+
+    setState(() {
+      isSendingComplete = true; // 전송 완료 시 상태 업데이트
+    });
+
+    if (isSendingComplete) {
+      print("시 정보 전송이 완료되었습니다."); // 전송 완료 후 메시지 출력
+    } else {
+      print("시 정보 전송에 실패했습니다."); // 전송 실패 시 메시지 출력
+    }
+  }
+
+  void _onConfirmPressed() {
+    if (isSendingComplete) {
+      tabController.pageName.value = 'Home';
+    }
   }
 
   @override
@@ -147,7 +176,8 @@ class _PoemLoadingPageState extends State<PoemLoadingPage> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      // 서버 전송 완료되면 버튼 활성화
+                      onPressed: isSendingComplete ? _onConfirmPressed : null,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF373430),
                         shape: RoundedRectangleBorder(
