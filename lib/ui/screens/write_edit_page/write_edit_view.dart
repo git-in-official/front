@@ -288,14 +288,20 @@ class _WriteEditViewState extends State<WriteEditView> {
             ),
           ),
           // 하단 중앙에 말풍선 추가
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: AnimatedBubbleWidget(comment: '원고가 완성되었다면 버튼을 클릭해주세요.'),
-            ),
-          ),
+          // 하단 중앙에 말풍선 추가 - isFormComplete에 따라 표시 여부 결정
+          Obx(() {
+            return viewModel.isFormComplete.value
+                ? Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: AnimatedBubbleWidget(
+                    comment: '원고가 완성되었다면 버튼을 클릭해주세요.'),
+              ),
+            )
+                : SizedBox.shrink();
+          }),
         ],
       ),
     );
