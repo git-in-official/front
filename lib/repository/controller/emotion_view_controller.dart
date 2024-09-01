@@ -64,8 +64,10 @@ class EmotionViewController extends GetxController {
       } else {
 
         final uri = Uri.parse(_baseUrl);
-        final token =
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkxOTY2ZWIyLWQ3OTMtNDVmNi04YjE4LWZkM2ZjZjZkYTZhNyIsImlhdCI6MTcyNDU4OTg1OCwiZXhwIjoxNzI3MTgxODU4fQ.JqZMFiY6xUa7nK7lCRFuUdSwXGhQ8gUzUq6JuCsU22I";
+        final AuthService authService = AuthService(); // AuthService 인스턴스화
+
+        final token = await authService.loadServiceTokens(); // 서비스 토큰 불러오기
+
 
         final headers = {
           'Authorization': 'Bearer $token',

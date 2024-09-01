@@ -15,9 +15,8 @@ class TagEditController extends GetxController {
     String url = "$baseUrl/poems/tag";
 
     final authService = AuthService();
-    // final token = await authService.loadServiceTokens();
-    final token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkxOTY2ZWIyLWQ3OTMtNDVmNi04YjE4LWZkM2ZjZjZkYTZhNyIsImlhdCI6MTcyNDU4OTg1OCwiZXhwIjoxNzI3MTgxODU4fQ.JqZMFiY6xUa7nK7lCRFuUdSwXGhQ8gUzUq6JuCsU22I";
+    final token = await authService.loadServiceTokens();
+
 
     final headers = {
       'Authorization': 'Bearer $token',

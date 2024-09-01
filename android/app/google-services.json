@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "385581118113-6rfg9nj4e8kod1q77fv387mrdhnugvmo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gitinofficial.to_morrow_front",
+            "certificate_hash": "30cb13e0f99c42027578e229ba077c23f5217c9a"
+          }
+        },
+        {
+          "client_id": "385581118113-kh58u06766mgrvkda2soqel7lmsv3erg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gitinofficial.to_morrow_front",
+            "certificate_hash": "39bb136ca085c1aa801d534b6ff3972d17ddc76c"
+          }
+        },
+        {
           "client_id": "385581118113-otfgf38o6rfnd1jmov2q4p300748fqbr.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -37,6 +53,13 @@
             {
               "client_id": "385581118113-jms2jsluk3e241c0ar20utvvmc5mibqh.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "385581118113-ok9iugs2pmfjlv1etqb813mrr072hu58.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gitinofficial.toMorrowFront"
+              }
             }
           ]
         }

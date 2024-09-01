@@ -6,6 +6,7 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:http/http.dart' as http;
 
 import '../../ui/view_model/write_edit_view_model.dart';
+import 'auth_service.dart';
 
 class TopicController extends GetxController {
   var type = 'title'.obs;
@@ -51,8 +52,8 @@ class TopicController extends GetxController {
     try {
       final uri = Uri.parse('$_baseUrl$restUrl');
 
-      final token =
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkxOTY2ZWIyLWQ3OTMtNDVmNi04YjE4LWZkM2ZjZjZkYTZhNyIsImlhdCI6MTcyNDU4OTg1OCwiZXhwIjoxNzI3MTgxODU4fQ.JqZMFiY6xUa7nK7lCRFuUdSwXGhQ8gUzUq6JuCsU22I";
+      final authService = AuthService();
+      final token = await authService.loadServiceTokens();
 
       final headers = {
         'Authorization': 'Bearer $token',

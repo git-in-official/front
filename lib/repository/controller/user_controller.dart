@@ -4,10 +4,9 @@ import 'package:get/get.dart';
 import 'package:to_morrow_front/repository/controller/auth_service.dart';
 import 'package:http/http.dart' as http;
 
-// GetX의 컨트롤러를 사용하기 위해 GetxController를 상속합니다.
 class UserController extends GetxController {
-  final String _baseUrl = 'https://api.leemhoon.com'; // API의 기본 URL
-  final Future<String?> accessToken = AuthService().loadServiceTokens(); // AuthService에서 액세스 토큰을 가져옵니다.
+  final String _baseUrl = 'https://api.leemhoon.com';
+  final Future<String?> accessToken = AuthService().loadServiceTokens(); // AuthService에서 액세스 토큰
 
   var profileData = {}.obs; // 사용자 프로필 데이터를 관찰 가능한 상태로 저장
   var achievementsList = {}.obs;
