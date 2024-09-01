@@ -4,6 +4,7 @@ import 'highlight_text.dart';
 const Color defaultHighlightColor = Color(0xffD2FF40);
 const Color defaultForegroundColor = Color(0xFF3B3731);
 const Color defaultBackgroundColor = Color(0xFFE3DED4);
+const Color defaultBorderColor = Color(0xFF373430); // 테두리의 기본 색상
 
 class CustomTextButton extends StatelessWidget {
   final String text;
@@ -17,6 +18,7 @@ class CustomTextButton extends StatelessWidget {
   final TextStyle? textStyle;
   final Color foregroundColor;
   final Color backgroundColor;
+  final Color borderColor; // 새로 추가된 프로퍼티
 
   const CustomTextButton({
     required this.text,
@@ -30,6 +32,7 @@ class CustomTextButton extends StatelessWidget {
     this.textStyle,
     this.foregroundColor = defaultForegroundColor,
     this.backgroundColor = defaultBackgroundColor,
+    this.borderColor = defaultBorderColor, // 기본 테두리 색상 설정
     Key? key,
   }) : super(key: key);
 
@@ -47,7 +50,7 @@ class CustomTextButton extends StatelessWidget {
       style: TextButton.styleFrom(
         foregroundColor: foregroundColor,
         backgroundColor: backgroundColor,
-        side: BorderSide(color: Color(0xFF373430), width: 1),
+        side: BorderSide(color: borderColor, width: 1), // 테두리 색상 설정
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),

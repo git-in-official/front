@@ -166,19 +166,31 @@ class UserSentimentTagPage extends StatelessWidget {
                           textStyle: TextStyle(
                             color: setGoback.wantGobak.value
                                 ? Color(0xFF3B3731)
-                                : Color(0xFF3B3731),
+                                : Color(0xFF7F7B75),
                           ),
+                          borderColor: setGoback.wantGobak.value
+                              ? Color(0xFF3B3731)
+                              : Color(0xFF7F7B75),
                           // backgroundColor: setGoback.wantGobak.value
                           //     ? Color(0xFFE3DED4)
                           //
                           //     : Colors.grey,
-                          icon: Icon(Icons.undo),
-                          onPressed: () {
-                            final MainTabController tabController = Get.find();
-                            Get.to(() => Maintab());
-                            tabController.pageName.value = tabController.currentPage.value;
-                          }
-                        )),
+                      icon: Icon(Icons.undo_outlined),
+                      onPressed: setGoback.wantGobak.value == true
+                          ? () {
+                        setGoback.wantGobak.value = false;
+
+                        emotionController.themes.value =
+                            emotionController.oldThemes.value;
+
+                        emotionController.interactions.value =
+                            emotionController.oldInteractions.value;
+
+                        getPoemDetail.bodyContent.value =
+                            emotionController.oldContent.value;
+                      }
+                          : null,
+                    )),
                     CustomTextButton(
                         text: '탈고하기',
                         width: 152,
