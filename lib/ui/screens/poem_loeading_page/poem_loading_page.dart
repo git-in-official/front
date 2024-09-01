@@ -82,7 +82,7 @@ class PoemLoadingPage extends StatelessWidget {
                       SizedBox(
                         width: 38,
                         child: Text(
-                          _getStageText(_finishWritingPoem.stage.value),
+                          '교정중',
                           key: ValueKey<int>(_finishWritingPoem.stage.value),
                           textAlign: TextAlign.start,
                           style: const TextStyle(
