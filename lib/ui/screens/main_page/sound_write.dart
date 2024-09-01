@@ -19,7 +19,7 @@ class SoundWrite extends StatelessWidget {
     final MainTabController tabController = Get.find();
     final SoundWriteController audioController = Get.find();
 
-    print ("#################### ${_controller.topic.value}");
+     tabController.currentPage.value = 'SoundWrite';
 
      Future<void> playPauseAudio() async {
       if (_controller.topic.value.isNotEmpty) {

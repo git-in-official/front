@@ -14,6 +14,7 @@ class WordWritingMaterial extends StatelessWidget {
   Widget build(BuildContext context) {
     final TopicController _controller = Get.put(TopicController('word'));
     final MainTabController tabController = Get.find();
+    tabController.currentPage.value = 'WordWritingMaterial';
 
     return Scaffold(
       backgroundColor: const Color(0xFFE6E2DB),

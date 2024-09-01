@@ -52,6 +52,8 @@ class VideoWrite extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    tabController.currentPage.value = 'VideoWrite';
+
     return Scaffold(
       backgroundColor: const Color(0xFFE6E2DB),
       body: SafeArea(
