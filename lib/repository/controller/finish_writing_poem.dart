@@ -11,7 +11,10 @@ import 'auth_service.dart';
 
 class FinishWritingPoem extends GetxController {
   final WriteEditViewModel getPoemDetail = Get.find();
-  RxInt remainingEdits = 5.obs;
+  RxInt remainingEdits = 0.obs;
+  var isSendingComplete = false.obs;
+  var stage = 0.obs;
+
 
   Future<void> donePoem() async {
     String baseUrl = "https://api.leemhoon.com";
@@ -73,13 +76,8 @@ class FinishWritingPoem extends GetxController {
       final response = await request.send();
       final responseBody = await response.stream.bytesToString();
 
-      print("Response Body: $responseBody"); // 응답 본문 출력
-      print("Response Status Code: ${response.statusCode}"); // 상태 코드 출력
-
-
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        print("성공: ${responseBody}");
-        final poemResponse = PoemResponse.fromJson(jsonDecode(responseBody));
+
 
         // (2) 서버 응답에서 'count' 값을 가져와 remainingEdits에 저장
         final responseJson = jsonDecode(responseBody);
@@ -87,10 +85,8 @@ class FinishWritingPoem extends GetxController {
 
         // (3) 남은 탈고 횟수 출력
         print("오늘 가능한 탈고 횟수: ${remainingEdits.value}");
+        isSendingComplete.value = true;
 
-
-        print("제목: ${poemResponse.title}");
-        print("상태: ${poemResponse.status}");
       } else if (response.statusCode == 400 || response.statusCode == 401) {
         print("유효성 검사 실패 또는 인증 실패: ${response.statusCode}");
         print("응답 본문: ${responseBody}");
