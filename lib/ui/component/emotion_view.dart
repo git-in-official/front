@@ -7,11 +7,10 @@ import '../../repository/controller/maintab_controller.dart';
 import 'bottom_navigation_bar.dart';
 
 class EmotionView extends GetView<EmotionViewModel> {
-  const EmotionView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<EmotionViewModel>();
+    final EmotionViewModel controller = Get.put(EmotionViewModel());
 
     return Scaffold(
       backgroundColor: const Color(0xFFE6E2DB),

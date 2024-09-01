@@ -26,7 +26,6 @@ Future<void> main() async {
   Get.put(GlobalController());
   Get.put(LoginController());
   Get.put(MainTabController());
-  Get.put(EmotionViewModel());
   Get.put(EmotionViewController());
   Get.put(WriteEditViewModel());
   Get.put(SoundWriteController());

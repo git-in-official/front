@@ -132,6 +132,34 @@ class RecordingPage extends StatelessWidget {
             return Visibility(
               visible: recordingController.isVisible.value,
               child: Positioned(
+                  right: 0,
+                  left: 0,
+                  bottom: 8,
+                  child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 82.5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 3),
+                      decoration: BoxDecoration(
+                        color: Color(0XFF373430),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      height: 30.0,
+                      alignment: Alignment.center,
+                      child: Text(
+                        '녹음하는 동안 녹음버튼을 “꾹” 눌러주세요',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontFamily: 'KoPubBatangPro',
+                          color: Color(0xFFE6E2DB),
+                        ),
+                        textAlign: TextAlign.center,
+                      ))),
+            );
+          }),
+          Obx(() {
+            return Visibility(
+              visible: recordingController.isVisible.value,
+              child: Positioned(
                 right: 6,
                 bottom: 8,
                 child: GestureDetector(
