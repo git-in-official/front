@@ -8,6 +8,7 @@ import '../../../repository/controller/emotion_analysis_controller.dart';
 import '../../../repository/controller/get_tags_controller.dart';
 import '../../../repository/controller/maintab_controller.dart';
 import '../../../repository/controller/tag_edit_controller.dart';
+import '../../component/bottom_navigation_bar.dart';
 import '../../component/custom_text_button.dart';
 import '../../view_model/write_edit_view_model.dart';
 
@@ -165,27 +166,18 @@ class UserSentimentTagPage extends StatelessWidget {
                           textStyle: TextStyle(
                             color: setGoback.wantGobak.value
                                 ? Color(0xFF3B3731)
-                                : Color(0xffE3DED4),
+                                : Color(0xFF3B3731),
                           ),
                           // backgroundColor: setGoback.wantGobak.value
                           //     ? Color(0xFFE3DED4)
                           //
                           //     : Colors.grey,
-                          icon: Icon(Icons.undo_outlined),
-                          onPressed: setGoback.wantGobak.value == true
-                              ? () {
-                                  setGoback.wantGobak.value = false;
-
-                                  emotionController.themes.value =
-                                      emotionController.oldThemes.value;
-
-                                  emotionController.interactions.value =
-                                      emotionController.oldInteractions.value;
-
-                                  getPoemDetail.bodyContent.value =
-                                      emotionController.oldContent.value;
-                                }
-                              : null,
+                          icon: Icon(Icons.undo),
+                          onPressed: () {
+                            final MainTabController tabController = Get.find();
+                            Get.to(() => Maintab());
+                            tabController.pageName.value = tabController.currentPage.value;
+                          }
                         )),
                     CustomTextButton(
                         text: '탈고하기',
