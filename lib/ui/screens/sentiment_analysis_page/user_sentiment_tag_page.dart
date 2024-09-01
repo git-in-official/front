@@ -300,7 +300,6 @@ class UserSentimentTagPage extends StatelessWidget {
         children: [
           Container(
             padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
-            width: 63.0,
             height: 36.0,
             decoration: BoxDecoration(
               color: const Color(0xFFD0CDC8),
