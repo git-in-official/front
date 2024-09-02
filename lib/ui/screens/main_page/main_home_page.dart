@@ -5,6 +5,7 @@ import 'package:to_morrow_front/ui/screens/main_page/read_contents.dart';
 import '../../../repository/controller/emotion_view_controller.dart';
 import '../../../repository/controller/maintab_controller.dart';
 import '../../../filp/page_flip_widget.dart';
+import '../../component/speech_bubble.dart';
 
 class HomePage extends StatelessWidget {
   final String emotion;
@@ -50,25 +51,24 @@ class HomePage extends StatelessWidget {
                       backgroundColor: Color(0xffE6E2DB),
                       isRightSwipe: false,
                       children: <Widget>[
-                        for (var poem in poemListController.poems)
+                        for (int index = 0; index < poemListController.poems.length; index++)
                           ReadWritingPage(
-                            title: poem.title,
-                            author: poem.authorName,
-                            contents: poem.content,
-                            isScrapped : poem.isScrapped.obs,
-
-                            textAlign : poem.textAlign,
-                            textSize : poem.textSize.toDouble(),
-                            textFont : poem.textFont,
-                            audioUrl : poem.audioUrl,
-                            id : poem.id
-
-
+                            title: poemListController.poems[index].title,
+                            author: poemListController.poems[index].authorName,
+                            contents: poemListController.poems[index].content,
+                            isScrapped: poemListController.poems[index].isScrapped.obs,
+                            textAlign: poemListController.poems[index].textAlign,
+                            textSize: poemListController.poems[index].textSize.toDouble(),
+                            textFont: poemListController.poems[index].textFont,
+                            audioUrl: poemListController.poems[index].audioUrl,
+                            id: poemListController.poems[index].id,
+                            putAnimationWidget: index >= 2 && poemListController.poems.length >= 3,
                           ),
                       ],
                     );
                   }
-                }),)
+                }),),
+
               ])
       ),
     );
