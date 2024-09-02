@@ -68,6 +68,9 @@ dependencies:
   path: ^1.8.0
   video_player: ^2.9.1
 
+# 앱 아이콘 설정
+  flutter_launcher_icons: ^0.13.1
+
 
 dev_dependencies:
   flutter_test:
