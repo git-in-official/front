@@ -146,7 +146,7 @@ class RecordingPage extends StatelessWidget {
                       height: 30.0,
                       alignment: Alignment.center,
                       child: Text(
-                        '녹음하는 동안 녹음버튼을 “꾹” 눌러주세요',
+                        '낭독이 끝날때까지 녹음버튼을 계속 눌러주세요.',
                         style: const TextStyle(
                           fontSize: 14,
                           fontFamily: 'KoPubBatangPro',
