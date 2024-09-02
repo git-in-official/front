@@ -159,62 +159,6 @@ class RecordingPage extends StatelessWidget {
           Obx(() {
             return Visibility(
               visible: recordingController.isVisible.value,
-              child: Positioned(
-                right: 6,
-                bottom: 8,
-                child: GestureDetector(
-                  // 길게 눌렀을 때
-                  onLongPress: () async {
-                    // 녹음 시작
-                    await audioController.record();
-
-                    _animationController.forward();
-                    animationControllerController.isAnimating.value = true;
-                    animationControllerController.showStopIcon.value =
-                        false; // 녹음 아이콘 표시
-                  },
-
-                  // 길게 누르던 걸 떼었을 때
-                  onLongPressUp: () async {
-                    await audioController.stop();
-
-                    _animationController.reverse();
-                    animationControllerController.isAnimating.value = false;
-                    animationControllerController.showStopIcon.value =
-                        true; // Stop 아이콘 표시
-                  },
-
-                  // 정지 아이콘을 한번 탭 했을 때
-                  onTap: () async {
-                    // 로컬에 저장
-                    await audioController.saveRecordingLocally();
-
-                    if (!animationControllerController.isAnimating.value &&
-                        animationControllerController.showStopIcon.value) {
-                      recordingController.isVisible.value = false; // 숨기기
-                    }
-                  },
-                  child: ScaleTransition(
-                    scale: _animation,
-                    child: Container(
-                      width: 36,
-                      height: 36,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.all(Radius.circular(50)),
-                      ),
-                      child: SvgPicture.asset(
-                        animationControllerController.showStopIcon.value
-                            ? 'assets/images/stop.svg'
-                            : 'assets/images/mic.svg',
-                        width: 24,
-                        height: 24,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
               replacement: Positioned(
                 bottom: 0,
                 left: 0,
@@ -320,6 +264,68 @@ class RecordingPage extends StatelessWidget {
                       ),
                     )
                   ],
+                ),
+              ),
+              child: Positioned(
+                right: 6,
+                bottom: 8,
+                child: GestureDetector(
+                  // 길게 눌렀을 때
+                  onLongPress: () async {
+                    // 녹음 시작
+                    await audioController.record();
+
+                    _animationController.forward();
+                    animationControllerController.isAnimating.value = true;
+                    animationControllerController.showStopIcon.value =
+                        false; // 녹음 아이콘 표시
+                  },
+
+                  // 길게 누르던 걸 떼었을 때
+                  onLongPressUp: () async {
+                    await audioController.stop();
+
+                    _animationController.reverse();
+                    animationControllerController.isAnimating.value = false;
+                    animationControllerController.showStopIcon.value =
+                        true; // Stop 아이콘 표시
+                  },
+
+                  // 정지 아이콘을 한번 탭 했을 때
+                  onTap: () async {
+                    // 로컬에 저장
+                    await audioController.saveRecordingLocally();
+
+                    if (!animationControllerController.isAnimating.value &&
+                        animationControllerController.showStopIcon.value) {
+                      recordingController.isVisible.value = false; // 숨기기
+                    }
+                  },
+                  child: ScaleTransition(
+                    scale: _animation,
+                    child: Container(
+                      width: 36,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.all(Radius.circular(50)),
+                      ),
+                        child : Icon(
+                          animationControllerController.showStopIcon.value ?
+                          Icons.stop  : Icons.mic,
+                          size: 24,
+                          color: Colors.white,
+                        )
+                      // child: SvgPicture.asset(
+                      //   animationControllerController.showStopIcon.value
+                      //       ? 'assets/images/stop.svg'
+                      //       : 'assets/images/mic.svg',
+                      //   width: 24,
+                      //   height: 24,
+                      //   color: Colors.white,
+                      // ),
+                    ),
+                  ),
                 ),
               ),
             );
