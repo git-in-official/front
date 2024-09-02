@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:get/get.dart';
 import 'package:to_morrow_front/ui/view_model/write_edit_view_model.dart';
@@ -14,6 +15,14 @@ class FinishWritingPoem extends GetxController {
   RxInt remainingEdits = 0.obs;
   var isSendingComplete = false.obs;
   var stage = 0.obs;
+
+  String generateFontString(Map<String, Object> font) {
+    final family = font['family'] as String;
+    final weight = (font['weight'] as FontWeight).index;
+    final name = font['name'] as String;
+
+    return '$family-$weight-$name';
+  }
 
 
   Future<void> donePoem() async {
@@ -34,11 +43,11 @@ class FinishWritingPoem extends GetxController {
     request.fields['content'] = getPoemDetail.bodyContent.value;
     request.fields['textAlign'] = getPoemDetail.textAlign.value;
     request.fields['textSize'] = getPoemDetail.fontSize.value.toString();
-    request.fields['textFont'] = getPoemDetail.selectedFont['family'] as String;
+    request.fields['textFont'] = generateFontString(getPoemDetail.selectedFont);
     request.fields['originalContent'] =
-        getPoemDetail.originalContent.value.isEmpty
-            ? ''
-            : getPoemDetail.originalContent.value;
+    getPoemDetail.originalContent.value.isEmpty
+        ? ''
+        : getPoemDetail.originalContent.value;
     request.fields['originalTitle'] = getPoemDetail.originalTitle.value.isEmpty
         ? ''
         : getPoemDetail.originalTitle.value;
