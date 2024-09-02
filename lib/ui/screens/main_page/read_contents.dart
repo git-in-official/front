@@ -116,6 +116,13 @@ class ReadWritingPage extends StatelessWidget {
       _animationValue.value = 0.0;
     }
 
+    // 폰트 정보 분리
+    final fontParts = _parseFontString(textFont);
+    final fontFamily = fontParts['family'] ?? 'KoPubBatangPro';
+    final fontWeight = fontParts['weight'] != null
+        ? FontWeight.values[int.parse(fontParts['weight']!)]
+        : FontWeight.normal;
+
     return Scaffold(
       backgroundColor: Color(0xffE6E2DB),
       appBar: AppBar(
@@ -139,7 +146,8 @@ class ReadWritingPage extends StatelessWidget {
                         title,
                         style: TextStyle(
                           fontSize: 16,
-                          fontFamily: textFont ?? 'KoPubBatangPro',
+                          fontFamily: fontFamily ?? 'KoPubBatangPro',
+                          fontWeight: fontWeight,
                           color: Color(0xff373430),
                         ),
                         textAlign: TextAlign.center,
@@ -166,7 +174,8 @@ class ReadWritingPage extends StatelessWidget {
                       child: Text(
                         contents,
                         style: TextStyle(
-                          fontFamily: textFont ?? 'KoPubBatangPro',
+                          fontFamily: fontFamily ?? 'KoPubBatangPro',
+                          fontWeight: fontWeight,
                           fontSize: textSize ?? 14,
                           color: Color(0xff373430),
                         ),
@@ -344,6 +353,16 @@ class ReadWritingPage extends StatelessWidget {
         );
       }),
     );
+  }
+  // 폰트 문자열을 분리하는 함수
+  Map<String, String?> _parseFontString(String? fontString) {
+    if (fontString == null) return {};
+    final parts = fontString.split('-');
+    return {
+      'family': parts.length > 0 ? parts[0] : null,
+      'weight': parts.length > 1 ? parts[1] : null,
+      'name': parts.length > 2 ? parts[2] : null,
+    };
   }
 }
 
