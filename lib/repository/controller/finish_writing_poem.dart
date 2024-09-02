@@ -12,7 +12,7 @@ import 'auth_service.dart';
 
 class FinishWritingPoem extends GetxController {
   final WriteEditViewModel getPoemDetail = Get.find();
-  RxInt remainingEdits = 0.obs;
+  RxnInt remainingEdits = RxnInt();
   var isSendingComplete = false.obs;
   var stage = 0.obs;
 
@@ -89,7 +89,7 @@ class FinishWritingPoem extends GetxController {
 
         // (2) 서버 응답에서 'count' 값을 가져와 remainingEdits에 저장
         final responseJson = jsonDecode(responseBody);
-        remainingEdits.value = responseJson['count'] ?? 0;
+        remainingEdits.value = responseJson['count'];
 
         // (3) 남은 탈고 횟수 출력
         print("API 통신 오늘 가능한 탈고 횟수: ${remainingEdits.value}");

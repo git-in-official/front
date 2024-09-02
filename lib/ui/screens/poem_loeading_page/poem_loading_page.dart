@@ -85,7 +85,7 @@ class PoemLoadingPage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        width: 38,
+                        width: 42,
                       child :
                       AnimatedTextKit(animatedTexts: [
                         TyperAnimatedText(' 교정중',

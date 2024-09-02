@@ -6,13 +6,18 @@ import 'package:to_morrow_front/repository/controller/maintab_controller.dart';
 import 'package:to_morrow_front/ui/screens/modal_page/EmotionAnalysisModal.dart';
 import 'package:to_morrow_front/ui/view_model/write_edit_view_model.dart';
 import '../../data/model/config/page_route.dart';
+import '../../repository/controller/circle_button_controller.dart';
 import '../../repository/controller/sound_write_controller.dart';
+import '../screens/modal_page/Inspiration_done_modal.dart';
 import 'circle_button.dart';
 
 class Maintab extends StatelessWidget {
   final MainTabController tabController = Get.find();
   final EmotionViewController controller = Get.find();
   final SoundWriteController audioController = Get.find();
+
+  final CircleButtonController _controller =
+  Get.put(CircleButtonController());
 
   @override
   Widget build(BuildContext context) {
@@ -67,11 +72,17 @@ class Maintab extends StatelessWidget {
                     tabController.showSecondBottomSheet.value = false;
 
                     if(tabController.isMain.value) {
+
+                      _controller.canWritePoem.value ?
                       showDialog(
+                      context: context,
+                      builder: (BuildContext context) => CircleMenuDialog(),
+                      ) : showDialog(
                         context: context,
-                        builder: (BuildContext context) => CircleMenuDialog(),
+                        builder: (BuildContext context) => (InspirationDoneModal()),
                       );
-                    } else if (Get.find<WriteEditViewModel>().isFormComplete.value) {
+                    }
+                    else if (Get.find<WriteEditViewModel>().isFormComplete.value) {
                       // isMain이 false이면서 제목과 본문이 모두 입력되었을 때 EmotionAnalysisModal 표시
                       showDialog(
                         context: context,

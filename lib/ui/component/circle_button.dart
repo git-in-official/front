@@ -143,7 +143,7 @@ class CircleButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final MainTabController tabController = Get.find();
     final CircleButtonController _controller =
-        Get.put(CircleButtonController());
+        Get.find();
 
     final SoundWriteController audioController = Get.find();
 
@@ -167,11 +167,6 @@ class CircleButton extends StatelessWidget {
 
               tabController.pageName.value = movePage;
             });
-          } else {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) => (InspirationDoneModal()),
-            );
           }
         },
         child: Column(
