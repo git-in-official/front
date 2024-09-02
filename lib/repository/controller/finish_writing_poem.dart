@@ -83,7 +83,7 @@ class FinishWritingPoem extends GetxController {
         remainingEdits.value = responseJson['count'] ?? 0;
 
         // (3) 남은 탈고 횟수 출력
-        print("오늘 가능한 탈고 횟수: ${remainingEdits.value}");
+        print("API 통신 오늘 가능한 탈고 횟수: ${remainingEdits.value}");
         isSendingComplete.value = true;
 
       } else if (response.statusCode == 400 || response.statusCode == 401) {
