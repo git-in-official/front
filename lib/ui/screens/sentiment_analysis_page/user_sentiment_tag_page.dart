@@ -7,13 +7,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../repository/controller/emotion_analysis_controller.dart';
 import '../../../repository/controller/get_tags_controller.dart';
 import '../../../repository/controller/maintab_controller.dart';
-import '../../../repository/controller/tag_edit_controller.dart';
-import '../../component/bottom_navigation_bar.dart';
 import '../../component/custom_text_button.dart';
 import '../../view_model/write_edit_view_model.dart';
+import '../modal_page/wait_for_change_theme.dart';
 
 class UserSentimentTagPageController extends GetxController {
-  var wantGobak = false.obs;
+  var wantGobak = false.obs; //돌아가기 버튼을 위한 상태변화 감지 변수
+
 }
 
 class UserSentimentTagPage extends StatelessWidget {
@@ -164,38 +164,47 @@ class UserSentimentTagPage extends StatelessWidget {
                           width: 152,
                           height: 44,
                           textStyle: TextStyle(
+                            fontFamily: 'KoPubBatangPro',
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16,
+                            height: 1.125,
+                            // CSS의 line-height와 동일
                             color: setGoback.wantGobak.value
                                 ? Color(0xFF3B3731)
-                                : Color(0xFF7F7B75),
+                                : Color(0xFF7F7B75), // 버튼 텍스트 색상
                           ),
                           borderColor: setGoback.wantGobak.value
                               ? Color(0xFF3B3731)
                               : Color(0xFF7F7B75),
-                          // backgroundColor: setGoback.wantGobak.value
-                          //     ? Color(0xFFE3DED4)
-                          //
-                          //     : Colors.grey,
-                      icon: Icon(Icons.undo_outlined),
-                      onPressed: setGoback.wantGobak.value == true
-                          ? () {
-                        setGoback.wantGobak.value = false;
+                          icon: Icon(Icons.undo_outlined),
+                          onPressed: setGoback.wantGobak.value == true
+                              ? () {
+                                  setGoback.wantGobak.value = false;
 
-                        emotionController.themes.value =
-                            emotionController.oldThemes.value;
+                                  emotionController.themes.value =
+                                      emotionController.oldThemes.value;
 
-                        emotionController.interactions.value =
-                            emotionController.oldInteractions.value;
+                                  emotionController.interactions.value =
+                                      emotionController.oldInteractions.value;
 
-                        getPoemDetail.bodyContent.value =
-                            emotionController.oldContent.value;
-                      }
-                          : null,
-                    )),
+                                  getPoemDetail.bodyContent.value =
+                                      emotionController.oldContent.value;
+                                }
+                              : null,
+                        )),
                     CustomTextButton(
                         text: '탈고하기',
                         width: 152,
                         height: 44,
                         isHighlighted: true,
+                        textStyle: TextStyle(
+                          fontFamily: 'KoPubBatangPro',
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16,
+                          height: 1.125,
+                          // CSS의 line-height와 동일
+                          color: Color(0xFF3B3731), // 버튼 텍스트 색상
+                        ),
                         //탈고하기 버튼 클릭 시 모달창
                         onPressed: () {
                           showDialog(
@@ -313,7 +322,7 @@ class UserSentimentTagPage extends StatelessWidget {
               child: Text(
                 title,
                 style: const TextStyle(
-                  fontFamily: 'KoPub Batang',
+                  fontFamily: 'KoPubBatangPro',
                   fontSize: 14.0,
                   fontWeight: FontWeight.w400,
                   color: Color(0xFF373430),
@@ -350,7 +359,7 @@ class UserSentimentTagPage extends StatelessWidget {
                               Text(
                                 taggedString,
                                 style: const TextStyle(
-                                  fontFamily: 'KoPub Batang',
+                                  fontFamily: 'KoPubBatangPro',
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.w400,
                                   color: Color(0xFF373430),
@@ -544,7 +553,11 @@ void _showTagSelectionModal(List<String> apiTags, String apiTagsString,
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
                             ),
-                            onPressed: () async {
+                            onPressed:
+
+                                () async {
+
+                              // 새로운 리스트로 변경하고
                               if (apiTags.contains(apiTagsString)) {
                                 apiTags.remove(apiTagsString);
                                 if (tempSelectedTag.value.isNotEmpty) {
@@ -552,16 +565,14 @@ void _showTagSelectionModal(List<String> apiTags, String apiTagsString,
                                 }
                               }
 
-                              final TagEditController tagEdit =
-                                  Get.put(TagEditController());
-                              await tagEdit.changeTags(title, apiTags);
-
-                              final UserSentimentTagPageController setGoback =
-                                  Get.find();
-                              setGoback.wantGobak.value = true;
-
-                              Get.find<EmotionAnalysisController>().update();
                               Get.back();
+
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) =>
+                                    WaitingInfoModal(title, apiTags),
+                              );
+
                             },
                             child: const Text('변경'),
                           ),
