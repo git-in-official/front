@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../repository/controller/emotion_view_controller.dart';
@@ -186,7 +187,7 @@ class EmotionButton extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Image.asset(
+          SvgPicture.asset(
             imagePath,
             width: 20,
             height: 20,

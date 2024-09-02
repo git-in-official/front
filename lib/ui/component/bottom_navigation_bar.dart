@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:to_morrow_front/repository/controller/emotion_view_controller.dart';
 import 'package:to_morrow_front/repository/controller/maintab_controller.dart';
@@ -88,7 +89,7 @@ class Maintab extends StatelessWidget {
                     icon: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset('assets/images/home.svg', width: 24, height: 24),
+                        SvgPicture.asset('assets/images/home.svg', width: 24, height: 24),
                         const Text('홈으로', style: TextStyle(fontSize: 10)),
                       ],
                     ),
@@ -98,7 +99,7 @@ class Maintab extends StatelessWidget {
                     icon: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset('assets/images/home_ment.svg', width: 44, height: 44),
+                        SvgPicture.asset('assets/images/home_ment.svg', width: 44, height: 44),
                       ],
                     ),
                     label: '',
@@ -107,7 +108,7 @@ class Maintab extends StatelessWidget {
                     icon: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset('assets/images/menu.svg', width: 24, height: 24),
+                        SvgPicture.asset('assets/images/menu.svg', width: 24, height: 24),
                         const Text('메뉴', style: TextStyle(fontSize: 10)),
                       ],
                     ),
@@ -207,7 +208,7 @@ class Maintab extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(image, width: 24, height: 24),
+            SvgPicture.asset(image, width: 24, height: 24),
             Text(
               label,
               style: const TextStyle(

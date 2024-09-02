@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class MyDisableAchievement extends StatelessWidget {
   const MyDisableAchievement({super.key});
@@ -39,7 +40,7 @@ class MyDisableAchievement extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(height: 124.0,),
-              Image.asset(
+              SvgPicture.asset(
                 'assets/img/badge_number_one.svg',
                 height: 201.0,
                 width: 187.0,

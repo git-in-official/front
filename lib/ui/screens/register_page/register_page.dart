@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:to_morrow_front/repository/controller/login_controller.dart';
@@ -188,7 +189,7 @@ class _AnimatedPositionedLogoState extends State<AnimatedPositionedLogo> {
                       ],
                     );
                   },
-                  child: Image.asset('assets/images/logo_large.svg'),
+                  child: SvgPicture.asset('assets/images/logo_large.svg'),
                 );
               },
             ),

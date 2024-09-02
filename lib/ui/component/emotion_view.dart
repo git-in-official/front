@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:to_morrow_front/ui/view_model/emotion_view_model.dart';
 import '../../../repository/controller/emotion_view_controller.dart';
@@ -76,7 +77,7 @@ class EmotionView extends GetView<EmotionViewModel> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   // 이모티콘
-                                  Image.asset(
+                                  SvgPicture.asset(
                                     emotion.iconPath,
                                     height: 24,
                                     color: isSelected ? const Color(0xFFE6E2DB) : const Color(0xFF373430),

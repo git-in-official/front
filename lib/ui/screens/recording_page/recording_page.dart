@@ -203,7 +203,7 @@ class RecordingPage extends StatelessWidget {
                         color: Colors.black,
                         borderRadius: BorderRadius.all(Radius.circular(50)),
                       ),
-                      child: Image.asset(
+                      child: SvgPicture.asset(
                         animationControllerController.showStopIcon.value
                             ? 'assets/images/stop.svg'
                             : 'assets/images/mic.svg',

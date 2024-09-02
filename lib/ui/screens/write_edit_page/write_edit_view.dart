@@ -122,7 +122,7 @@ class _WriteEditViewState extends State<WriteEditView> {
                                   ),
                                 ),
                                 child: IconButton(
-                                  icon: Image.asset(
+                                  icon: SvgPicture.asset(
                                     'assets/img/format_align_left.svg',
                                     width: 24,
                                   ),
@@ -145,7 +145,7 @@ class _WriteEditViewState extends State<WriteEditView> {
                                   ),
                                 ),
                                 child: IconButton(
-                                  icon: Image.asset(
+                                  icon: SvgPicture.asset(
                                     'assets/img/format_size.svg',
                                     width: 24,
                                   ),
@@ -168,7 +168,7 @@ class _WriteEditViewState extends State<WriteEditView> {
                                   ),
                                 ),
                                 child: IconButton(
-                                  icon: Image.asset(
+                                  icon: SvgPicture.asset(
                                     'assets/img/brand_family.svg',
                                     width: 24,
                                   ),

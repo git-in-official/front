@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:to_morrow_front/repository/controller/circle_button_controller.dart';
 import 'package:to_morrow_front/ui/component/speech_bubble.dart';
@@ -110,7 +111,7 @@ class CircleMenu extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).pop();
                     },
-                    child: Image.asset(
+                    child: SvgPicture.asset(
                       'assets/images/icon.svg',
                       width: 24,
                       height: 24,
@@ -176,7 +177,7 @@ class CircleButton extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
+            SvgPicture.asset(
               imagePath,
               color: Color(0xff373430),
               width: 24,
