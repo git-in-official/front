@@ -338,7 +338,7 @@ class ReadWritingPage extends StatelessWidget {
                 height: 24,
               ),
               SizedBox(width: 8),
-              Text('감정선택', style: TextStyle(fontSize: 14, fontFamily: 'KoPub Batang'),   ),
+              Text('감정선택', style: TextStyle(fontSize: 14, fontFamily: 'KoPubBatangPro')  ),
             ],
           ),
         );

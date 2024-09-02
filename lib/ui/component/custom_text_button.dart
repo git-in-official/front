@@ -39,7 +39,7 @@ class CustomTextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextStyle defaultTextStyle = TextStyle(
-      fontFamily: 'KoPub Batang',
+      fontFamily: 'KoPubBatangPro',
       fontWeight: FontWeight.w700,
       fontSize: 16,
       height: 1.125, // CSS의 line-height와 동일

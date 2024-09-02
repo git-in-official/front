@@ -52,7 +52,7 @@ class EmotionChangeModal extends StatelessWidget {
                 '작가님의 기분에 맞춰\n시를 보여드리고 싶어요.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontFamily: 'KoPub Batang',
+                  fontFamily: 'KoPubBatangPro',
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                   color: Colors.black,

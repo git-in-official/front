@@ -39,7 +39,7 @@ class InspirationDoneModal extends StatelessWidget {
               '두 편의 시를 풀어주셨네요.\n다른 이들의 시를 감상해보세요.',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontFamily: 'KoPub Batang',
+                fontFamily: 'KoPubBatangPro',
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
                 color: Colors.black,

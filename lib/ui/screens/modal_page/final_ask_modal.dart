@@ -58,7 +58,7 @@ class FinalAskModal extends StatelessWidget {
               '탈고 후에는 수정이 어렵습니다.\n낭독하신 원고를 제출하시겠습니까?',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontFamily: 'KoPub Batang',
+                fontFamily: 'KoPubBatangPro',
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),

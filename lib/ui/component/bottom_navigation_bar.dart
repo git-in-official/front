@@ -55,6 +55,7 @@ class Maintab extends StatelessWidget {
 
 
                   if (index == 0) {
+                    tabController.showSecondBottomSheet.value = false;
 
                     if (audioController.isPlaying.value) {
                       audioController.stopAudio();
@@ -62,6 +63,8 @@ class Maintab extends StatelessWidget {
 
                     tabController.pageName.value = 'Home';
                   } else if (index == 1) {
+                    tabController.showSecondBottomSheet.value = false;
+
                     if(tabController.isMain.value) {
                       showDialog(
                         context: context,
@@ -153,9 +156,6 @@ class Maintab extends StatelessWidget {
             ),
             child: InkWell(
               onTap: () {
-
-
-
                 tabController.showSecondBottomSheet.value = false;
               },
               child: Center(
