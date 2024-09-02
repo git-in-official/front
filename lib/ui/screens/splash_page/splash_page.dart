@@ -190,8 +190,8 @@ class _AnimatedSlideTextState extends State<AnimatedSlideText>
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return Stack(children: <Widget>[
-              SvgPicture.asset(
-                'assets/images/poem_background.svg',
+              Image.asset(
+                'assets/images/poem_background.png',
                 fit: BoxFit.fill,
                 // fit : BoxFit.cover,
                 height: 104,
@@ -311,8 +311,8 @@ class _AnimatedLogin extends State<AnimatedLogin>
                   onTap: () {
                     loginController.signInWithGoogle();
                   },
-                  child: SvgPicture.asset(
-                    'assets/images/google_login.svg',
+                  child: Image.asset(
+                    'assets/images/google_login.png',
                     width: 48,
                     height: 48,
                   ),
@@ -326,7 +326,7 @@ class _AnimatedLogin extends State<AnimatedLogin>
                       MaterialPageRoute(builder: (context) => Maintab()),
                     );
                   },
-                  child: SvgPicture.asset('assets/images/apple_login.svg',
+                  child: Image.asset('assets/images/apple_login.png',
                       width: 48, height: 48),
                 ),
               ],
