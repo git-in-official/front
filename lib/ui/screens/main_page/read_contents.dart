@@ -7,15 +7,15 @@ import '../../../repository/controller/bookmark_controller.dart';
 import '../../../repository/controller/maintab_controller.dart';
 import '../../../repository/controller/play_poem_controller.dart';
 import '../../component/page_fold.dart';
+import '../../component/speech_bubble.dart';
 import '../modal_page/emotion_change_modal.dart';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ReadWritingPage extends StatelessWidget {
-
   final MainTabController tabController = Get.put(MainTabController());
   final FlutterSecureStorage storage = FlutterSecureStorage();
-  final PlayPoemController playPoem = Get.put (PlayPoemController ()); //낭독횟수 카운팅
+  final PlayPoemController playPoem = Get.put(PlayPoemController()); //낭독횟수 카운팅
 
   final String title;
   final String author; //작가명
@@ -26,6 +26,7 @@ class ReadWritingPage extends StatelessWidget {
   final String? audioUrl;
   final RxBool isScrapped;
   final String id; //시 아이디
+  final bool putAnimationWidget;
 
   ReadWritingPage({
     Key? key,
@@ -37,18 +38,17 @@ class ReadWritingPage extends StatelessWidget {
     this.textFont,
     this.audioUrl,
     required this.isScrapped,
-    required this.id
+    required this.id,
+    required this.putAnimationWidget,
   }) : super(key: key);
 
   final RxBool _isFolded = false.obs;
   final RxDouble _animationValue = 0.0.obs;
 
-
   // AudioPlayer 인스턴스 생성
   final SoundWriteController _audioController = Get.find();
 
   Future<void> _playPauseAudio() async {
-
     try {
       if (_audioController.isPlaying.value) {
         await _audioController.player.pause();
@@ -62,8 +62,6 @@ class ReadWritingPage extends StatelessWidget {
   }
 
   void _toggleFold(BuildContext context) {
-
-
     if (_isFolded.value) {
       customSnackBar(context, true);
 
@@ -74,8 +72,6 @@ class ReadWritingPage extends StatelessWidget {
     }
     _isFolded.value = !_isFolded.value;
     isScrapped.value = !isScrapped.value;
-
-
   }
 
   void customSnackBar(BuildContext context, bool isFolded) {
@@ -94,9 +90,8 @@ class ReadWritingPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(8.0),
             ),
             child: Text(
-              isScrapped.value ? '북마크가 설정 되었습니다' :'북마크가 해제 되었습니다',
-
-                style: TextStyle(color: Colors.white),
+              isScrapped.value ? '북마크가 설정 되었습니다' : '북마크가 해제 되었습니다',
+              style: TextStyle(color: Colors.white),
               textAlign: TextAlign.center,
             ),
           ),
@@ -114,7 +109,7 @@ class ReadWritingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // 초기화
     _audioController.setupAudioPlayer();
-    print ( isScrapped.value);
+    print(isScrapped.value);
     if (isScrapped.value) {
       _animationValue.value = 0.16;
     } else {
@@ -144,6 +139,7 @@ class ReadWritingPage extends StatelessWidget {
                         title,
                         style: TextStyle(
                           fontSize: 16,
+                          fontFamily: textFont ?? 'KoPubBatangPro',
                           color: Color(0xff373430),
                         ),
                         textAlign: TextAlign.center,
@@ -155,7 +151,11 @@ class ReadWritingPage extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     child: Text(
                       author,
-                      style: TextStyle(fontSize: 14, color: Color(0xff6D675F)),
+                      style: TextStyle(
+                        fontFamily: textFont ?? 'KoPubBatangPro',
+                        fontSize: textSize ?? 14,
+                          color: Color(0xff6D675F)
+                      ),
                     ),
                   ),
                   SizedBox(height: 40),
@@ -166,6 +166,7 @@ class ReadWritingPage extends StatelessWidget {
                       child: Text(
                         contents,
                         style: TextStyle(
+                          fontFamily: textFont ?? 'KoPubBatangPro',
                           fontSize: textSize ?? 14,
                           color: Color(0xff373430),
                         ),
@@ -176,15 +177,18 @@ class ReadWritingPage extends StatelessWidget {
                 ],
               ),
             ),
-
             Obx(() {
               return FoldedCornerContainer(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
                 backgroundColor: Colors.transparent,
                 cornerColor: Color(0xffE6E2DB),
-                foldAmount: isScrapped.value ? _animationValue.value = 0.16 :_animationValue.value = 0.0,
-                lineAnimation: isScrapped.value ? _animationValue.value = 0.16 :_animationValue.value = 0.0,
+                foldAmount: isScrapped.value
+                    ? _animationValue.value = 0.16
+                    : _animationValue.value = 0.0,
+                lineAnimation: isScrapped.value
+                    ? _animationValue.value = 0.16
+                    : _animationValue.value = 0.0,
               );
             }),
             Positioned(
@@ -194,9 +198,9 @@ class ReadWritingPage extends StatelessWidget {
                 onTap: () {
                   _toggleFold(context);
 
-                  final BookMarkController   bookMarkController =  Get.put (BookMarkController());
-                bookMarkController.fetchData(id);
-
+                  final BookMarkController bookMarkController =
+                      Get.put(BookMarkController());
+                  bookMarkController.fetchData(id);
                 },
                 child: Obx(() {
                   final color = isScrapped.value ? Colors.black : null;
@@ -238,7 +242,9 @@ class ReadWritingPage extends StatelessWidget {
                               ),
                               child: Center(
                                 child: Icon(
-                                  _audioController.isPlaying.value ? Icons.pause : Icons.play_arrow,
+                                  _audioController.isPlaying.value
+                                      ? Icons.pause
+                                      : Icons.play_arrow,
                                   color: Color(0xFF373430),
                                   size: 18.0,
                                 ),
@@ -250,12 +256,16 @@ class ReadWritingPage extends StatelessWidget {
                         // 재생 바
                         Expanded(child: Obx(() {
                           return Slider(
-                            value: _audioController.position.value.inSeconds.toDouble(),
+                            value: _audioController.position.value.inSeconds
+                                .toDouble(),
                             min: 0.0,
-                            max: _audioController.duration.value.inSeconds.toDouble(),
+                            max: _audioController.duration.value.inSeconds
+                                .toDouble(),
                             onChanged: (value) {
-                              _audioController.player.seek(Duration(seconds: value.toInt()));
-                              _audioController.position.value = Duration(seconds: value.toInt());
+                              _audioController.player
+                                  .seek(Duration(seconds: value.toInt()));
+                              _audioController.position.value =
+                                  Duration(seconds: value.toInt());
                             },
                             activeColor: Colors.black,
                             inactiveColor: Colors.grey,
@@ -266,6 +276,15 @@ class ReadWritingPage extends StatelessWidget {
                     ),
                   ),
                 )),
+            Positioned(
+              bottom: 0,
+                left: 116,
+                right: 116,
+                child: Visibility(
+                    visible: putAnimationWidget == true,
+                    child: AnimatedBubbleWidget(
+                      comment: '글감을 선택하여 집필해보세요',
+                    )))
           ],
         ),
       ),
@@ -309,7 +328,6 @@ class ReadWritingPage extends StatelessWidget {
             ? getImagePath(selectedEmotion)
             : 'assets/images/icon-happy.png'; // 기본 이미지
 
-
         return Container(
           padding: EdgeInsets.symmetric(vertical: 11, horizontal: 20),
           child: Row(
@@ -320,14 +338,13 @@ class ReadWritingPage extends StatelessWidget {
                 height: 24,
               ),
               SizedBox(width: 8),
-              Text('감정선택', style: TextStyle(fontSize: 14)),
+              Text('감정선택', style: TextStyle(fontSize: 14, fontFamily: 'KoPub Batang'),   ),
             ],
           ),
         );
       }),
     );
   }
-
 }
 
 TextAlign parseTextAlign(String? textAlign) {
