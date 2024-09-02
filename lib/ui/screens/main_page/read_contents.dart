@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:to_morrow_front/repository/controller/sound_write_controller.dart';
 
@@ -13,7 +14,6 @@ import '../modal_page/emotion_change_modal.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ReadWritingPage extends StatelessWidget {
-
   final MainTabController tabController = Get.put(MainTabController());
   final FlutterSecureStorage storage = FlutterSecureStorage();
   final PlayPoemController playPoem = Get.put(PlayPoemController()); //낭독횟수 카운팅
@@ -43,9 +43,6 @@ class ReadWritingPage extends StatelessWidget {
     required this.putAnimationWidget,
   }) : super(key: key);
 
-  final RxBool _isFolded = false.obs;
-  final RxDouble _animationValue = 0.0.obs;
-
   // AudioPlayer 인스턴스 생성
   final SoundWriteController _audioController = Get.find();
 
@@ -60,22 +57,6 @@ class ReadWritingPage extends StatelessWidget {
     } catch (e) {
       print('Error playing audio: $e');
     }
-  }
-
-  //북마크 삼각형 접는 부분
-  // final RxBool _isFolded = false.obs; -> 접을 껀지 말껀지 false 면 안접어 (북마크아님) / true 면 접어 (북마크)
-  // final RxDouble _animationValue = 0.0.obs; -> 0 이면 북마크 아님, 0이상은 북마크임
-
-  void _toggleFold(BuildContext context) {
-    if (isScrapped.value == false) {
-      customSnackBar(context); // 북마크 해지 되었다 말하기
-      _animationValue.value = 0.0; // 북마크 아님
-    } else {
-      _animationValue.value = 0.16; //북마크임
-      customSnackBar(context); // 북마크 처리 되었다.
-    }
-    // _isFolded.value = !_isFolded.value;
-    // isScrapped.value = !isScrapped.value;
   }
 
   void customSnackBar(BuildContext context) {
@@ -113,12 +94,6 @@ class ReadWritingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // 초기화
     _audioController.setupAudioPlayer();
-    print(isScrapped.value);
-    if (isScrapped.value) {
-      _animationValue.value = 0.16;
-    } else {
-      _animationValue.value = 0.0;
-    }
 
     // 폰트 정보 분리
     final fontParts = _parseFontString(textFont);
@@ -136,106 +111,135 @@ class ReadWritingPage extends StatelessWidget {
         elevation: 0,
         flexibleSpace: _buildEmotionSelector(context),
       ),
-      body: Container(
-        child: Stack(
+      body:
+    // Container(
+    //     child:
+    Stack(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: EdgeInsets.symmetric(horizontal: 48),
               child: Column(
+                // mainAxisAlignment: MainAxisAlignment.start,
+                // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Center(
-                    child: Container(
-                      padding: EdgeInsets.fromLTRB(20, 24, 20, 16),
-                      child: Text(
-                        title,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: fontFamily ?? 'KoPubBatangPro',
-                          fontWeight: fontWeight,
-                          color: Color(0xff373430),
-                        ),
-                        textAlign: TextAlign.center,
+                  // Center(
+                  //   child:
+                  Container(
+                    // width: 320,
+                    height: 67,
+                    padding: EdgeInsets.fromLTRB(28, 24, 28, 16),
+                    child: Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: fontFamily,
+                        fontWeight: fontWeight,
+                        color: Color(0xff373430),
                       ),
+                      textAlign: parseTextAlign(textAlign),
                     ),
                   ),
                   SizedBox(height: 16),
                   Align(
                     alignment: Alignment.centerRight,
+                    // child : Container (
+                    //   padding: EdgeInsets.only(right: 20),
                     child: Text(
                       author,
                       style: TextStyle(
-                        fontFamily: textFont ?? 'KoPubBatangPro',
-                        fontSize: textSize ?? 14,
-                          color: Color(0xff6D675F)
-                      ),
-                    ),
-                  ),
+                          fontFamily: textFont ?? 'KoPubBatangPro',
+                          fontSize: textSize ?? 14,
+                          color: Color(0xff6D675F)),
+                    // ),
+                  )),
                   SizedBox(height: 40),
                   Expanded(
-                      child: SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 10.0),
-                      child: Text(
-                        contents,
-                        style: TextStyle(
-                          fontFamily: fontFamily ?? 'KoPubBatangPro',
-                          fontWeight: fontWeight,
-                          fontSize: textSize ?? 14,
-                          color: Color(0xff373430),
-                        ),
-                        textAlign: parseTextAlign(textAlign),
-                      ),
-                    ),
-                  )),
+                      child: Container(
+                        // width: 320,
+                          child: SingleChildScrollView(
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: 10.0, left: 28, right: 28),
+                              child: Text(
+                                contents,
+                                style: TextStyle(
+                                  fontFamily: fontFamily,
+                                  fontWeight: fontWeight,
+                                  fontSize: textSize ?? 14,
+                                  color: Color(0xff373430),
+                                ),
+                                textAlign: parseTextAlign(textAlign),
+                              ),
+                            ),
+                          ))),
                 ],
               ),
             ),
-
-
-
-            Obx(() {
-              return FoldedCornerContainer(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                backgroundColor: Colors.transparent,
-                cornerColor: Color(0xffE6E2DB),
-                foldAmount: isScrapped.value
-                    ? _animationValue.value = 0.16
-                    : _animationValue.value = 0.0,
-                lineAnimation: isScrapped.value
-                    ? _animationValue.value = 0.16
-                    : _animationValue.value = 0.0,
-              );
-            }),
             Positioned(
-              left: 4,
-              bottom: 4,
-              child: GestureDetector(
-                onTap: () {
-                  if (isScrapped.value == false) {
-                    _animationValue.value = 0.16; // 북마크 아님
-                    customSnackBar(context); // 북마크 해지 되었다 말하기
-                  } else {
-                    _animationValue.value = 0.10; //북마크임
-                    customSnackBar(context); // 북마크 처리 되었다.
-                  }
+              bottom: 0,
+              child: Obx(() {
+                if (isScrapped.value) {
+                  return Container(
+                    width: 60,
+                    height: 60,
+                    child: CustomPaint(
+                      painter: DiagonalLinePainter(),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            left: 5,
+                            bottom: 4,
+                            child: GestureDetector(
+                              onTap: () {
+                                customSnackBar(context);
+                                isScrapped.value = !isScrapped.value;
 
-                  isScrapped.value = !isScrapped.value;
-
-                  final BookMarkController bookMarkController =
-                      Get.put(BookMarkController());
-                  bookMarkController.fetchData(id);
-                },
-                child: Obx(() {
-                  final color = isScrapped.value ? Colors.black : null;
-                  return Image.asset(
-                    'assets/images/bookmark.svg',
-                    width: 21,
-                    height: 25,
-                    color: color,
+                                final BookMarkController bookMarkController =
+                                    Get.put(BookMarkController());
+                                bookMarkController.fetchData(id);
+                              },
+                              child: SvgPicture.asset(
+                                'assets/images/bookmark.svg',
+                                width: 21,
+                                height: 25,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   );
-                }),
-              ),
+                } else {
+                  return Container(
+                    width: 60,
+                    height: 60,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          left: 5,
+                          bottom: 4,
+                          child: GestureDetector(
+                            onTap: () {
+                              customSnackBar(context);
+                              isScrapped.value = !isScrapped.value;
+                              final BookMarkController bookMarkController =
+                                  Get.put(BookMarkController());
+                              bookMarkController.fetchData(id);
+                            },
+                            child: SvgPicture.asset(
+                              'assets/images/bookmark.svg',
+                              width: 21,
+                              height: 25,
+                              color: null,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              }),
             ),
             Positioned(
                 bottom: 60,
@@ -301,7 +305,7 @@ class ReadWritingPage extends StatelessWidget {
                   ),
                 )),
             Positioned(
-              bottom: 0,
+                bottom: 0,
                 left: 116,
                 right: 116,
                 child: Visibility(
@@ -311,7 +315,7 @@ class ReadWritingPage extends StatelessWidget {
                     )))
           ],
         ),
-      ),
+      // ),
     );
   }
 
@@ -356,19 +360,21 @@ class ReadWritingPage extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 11, horizontal: 20),
           child: Row(
             children: [
-              Image.asset(
+              SvgPicture.asset(
                 imagePath,
                 width: 24,
                 height: 24,
               ),
               SizedBox(width: 8),
-              Text('감정선택', style: TextStyle(fontSize: 14, fontFamily: 'KoPubBatangPro')  ),
+              Text('감정선택',
+                  style: TextStyle(fontSize: 14, fontFamily: 'KoPubBatangPro')),
             ],
           ),
         );
       }),
     );
   }
+
   // 폰트 문자열을 분리하는 함수
   Map<String, String?> _parseFontString(String? fontString) {
     if (fontString == null) return {};
@@ -391,5 +397,27 @@ TextAlign parseTextAlign(String? textAlign) {
       return TextAlign.center;
     default:
       return TextAlign.start;
+  }
+}
+
+class DiagonalLinePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paintWhiteArea = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.fill;
+
+    Path path = Path();
+    path.moveTo(0, 0);
+    path.lineTo(size.width, 0);
+    path.lineTo(size.width, size.height);
+    path.close();
+
+    canvas.drawPath(path, paintWhiteArea);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
   }
 }
