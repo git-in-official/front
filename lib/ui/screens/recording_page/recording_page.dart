@@ -138,15 +138,15 @@ class RecordingPage extends StatelessWidget {
                   child: Container(
                       margin: EdgeInsets.symmetric(horizontal: 82.5),
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 3),
+                          horizontal: 12, vertical: 5),
                       decoration: BoxDecoration(
                         color: Color(0XFF373430),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      height: 30.0,
+                      // height: 30.0,
                       alignment: Alignment.center,
                       child: Text(
-                        '낭독이 끝날때까지 녹음버튼을 계속 눌러주세요.',
+                        '낭독이 끝날때까지 \n녹음버튼을 계속 눌러주세요.',
                         style: const TextStyle(
                           fontSize: 14,
                           fontFamily: 'KoPubBatangPro',
