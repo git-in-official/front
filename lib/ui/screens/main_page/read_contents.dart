@@ -119,13 +119,14 @@ class ReadWritingPage extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 48),
               child: Column(
-                // mainAxisAlignment: MainAxisAlignment.start,
-                // crossAxisAlignment: CrossAxisAlignment.start,
+                //mainAxisAlignment: MainAxisAlignment.start,
+                //crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   // Center(
                   //   child:
                   Container(
                     // width: 320,
+                    //alignment: Alignment.centerLeft,
                     height: 67,
                     padding: EdgeInsets.fromLTRB(28, 24, 28, 16),
                     child: Text(
@@ -136,7 +137,7 @@ class ReadWritingPage extends StatelessWidget {
                         fontWeight: fontWeight,
                         color: Color(0xff373430),
                       ),
-                      textAlign: parseTextAlign(textAlign),
+                      //textAlign: TextAlign.left,
                     ),
                   ),
                   SizedBox(height: 16),
