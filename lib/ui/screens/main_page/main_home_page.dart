@@ -62,7 +62,7 @@ class HomePage extends StatelessWidget {
                             textFont: poemListController.poems[index].textFont,
                             audioUrl: poemListController.poems[index].audioUrl,
                             id: poemListController.poems[index].id,
-                            putAnimationWidget: index >= 2 && poemListController.poems.length >= 3,
+                            putAnimationWidget: index % 3 == 0,
                           ),
                       ],
                     );
