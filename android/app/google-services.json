@@ -38,6 +38,14 @@
           }
         },
         {
+          "client_id": "385581118113-t1tl5ll1tbr52ocn5ph2oph4vcjd5vpj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gitinofficial.to_morrow_front",
+            "certificate_hash": "8776f40f053b4f9ddda201aa8a026848bd5566ea"
+          }
+        },
+        {
           "client_id": "385581118113-jms2jsluk3e241c0ar20utvvmc5mibqh.apps.googleusercontent.com",
           "client_type": 3
         }

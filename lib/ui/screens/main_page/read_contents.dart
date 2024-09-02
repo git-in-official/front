@@ -13,6 +13,7 @@ import '../modal_page/emotion_change_modal.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ReadWritingPage extends StatelessWidget {
+
   final MainTabController tabController = Get.put(MainTabController());
   final FlutterSecureStorage storage = FlutterSecureStorage();
   final PlayPoemController playPoem = Get.put(PlayPoemController()); //낭독횟수 카운팅
@@ -61,20 +62,23 @@ class ReadWritingPage extends StatelessWidget {
     }
   }
 
-  void _toggleFold(BuildContext context) {
-    if (_isFolded.value) {
-      customSnackBar(context, true);
+  //북마크 삼각형 접는 부분
+  // final RxBool _isFolded = false.obs; -> 접을 껀지 말껀지 false 면 안접어 (북마크아님) / true 면 접어 (북마크)
+  // final RxDouble _animationValue = 0.0.obs; -> 0 이면 북마크 아님, 0이상은 북마크임
 
-      _animationValue.value = 0.0;
+  void _toggleFold(BuildContext context) {
+    if (isScrapped.value == false) {
+      customSnackBar(context); // 북마크 해지 되었다 말하기
+      _animationValue.value = 0.0; // 북마크 아님
     } else {
-      _animationValue.value = 0.16;
-      customSnackBar(context, false);
+      _animationValue.value = 0.16; //북마크임
+      customSnackBar(context); // 북마크 처리 되었다.
     }
-    _isFolded.value = !_isFolded.value;
-    isScrapped.value = !isScrapped.value;
+    // _isFolded.value = !_isFolded.value;
+    // isScrapped.value = !isScrapped.value;
   }
 
-  void customSnackBar(BuildContext context, bool isFolded) {
+  void customSnackBar(BuildContext context) {
     final overlay = Overlay.of(context);
     final overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
@@ -177,6 +181,9 @@ class ReadWritingPage extends StatelessWidget {
                 ],
               ),
             ),
+
+
+
             Obx(() {
               return FoldedCornerContainer(
                 width: MediaQuery.of(context).size.width,
@@ -196,7 +203,15 @@ class ReadWritingPage extends StatelessWidget {
               bottom: 4,
               child: GestureDetector(
                 onTap: () {
-                  _toggleFold(context);
+                  if (isScrapped.value == false) {
+                    _animationValue.value = 0.16; // 북마크 아님
+                    customSnackBar(context); // 북마크 해지 되었다 말하기
+                  } else {
+                    _animationValue.value = 0.10; //북마크임
+                    customSnackBar(context); // 북마크 처리 되었다.
+                  }
+
+                  isScrapped.value = !isScrapped.value;
 
                   final BookMarkController bookMarkController =
                       Get.put(BookMarkController());
@@ -345,6 +360,7 @@ class ReadWritingPage extends StatelessWidget {
       }),
     );
   }
+
 }
 
 TextAlign parseTextAlign(String? textAlign) {
