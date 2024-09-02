@@ -40,7 +40,7 @@ class MyDisableAchievement extends StatelessWidget {
             children: [
               SizedBox(height: 124.0,),
               Image.asset(
-                'assets/img/badge_number_one.png',
+                'assets/img/badge_number_one.svg',
                 height: 201.0,
                 width: 187.0,
               ),

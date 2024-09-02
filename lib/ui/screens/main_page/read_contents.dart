@@ -229,7 +229,7 @@ class ReadWritingPage extends StatelessWidget {
                 child: Obx(() {
                   final color = isScrapped.value ? Colors.black : null;
                   return Image.asset(
-                    'assets/images/bookmark.png',
+                    'assets/images/bookmark.svg',
                     width: 21,
                     height: 25,
                     color: color,
@@ -319,21 +319,21 @@ class ReadWritingPage extends StatelessWidget {
   String getImagePath(String emotion) {
     switch (emotion) {
       case '기쁨':
-        return 'assets/images/icon-happy.png';
+        return 'assets/images/icon-happy.svg';
       case '슬픔':
-        return 'assets/images/icon-sad.png';
+        return 'assets/images/icon-sad.svg';
       case '두려움':
-        return 'assets/images/icon-fear.png';
+        return 'assets/images/icon-fear.svg';
       case '분노':
-        return 'assets/images/icon-anger.png';
+        return 'assets/images/icon-anger.svg';
       case '기대':
-        return 'assets/images/icon-expect.png';
+        return 'assets/images/icon-expect.svg';
       case '신뢰':
-        return 'assets/images/icon-trust.png';
+        return 'assets/images/icon-trust.svg';
       case '모르겠음':
-        return 'assets/images/icon-dontno.png';
+        return 'assets/images/icon-dontno.svg';
       default:
-        return 'assets/images/icon-happy.png';
+        return 'assets/images/icon-happy.svg';
     }
   }
 
@@ -350,7 +350,7 @@ class ReadWritingPage extends StatelessWidget {
 
         final imagePath = selectedEmotion != null
             ? getImagePath(selectedEmotion)
-            : 'assets/images/icon-happy.png'; // 기본 이미지
+            : 'assets/images/icon-happy.svg'; // 기본 이미지
 
         return Container(
           padding: EdgeInsets.symmetric(vertical: 11, horizontal: 20),

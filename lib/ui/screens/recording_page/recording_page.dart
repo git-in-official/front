@@ -205,8 +205,8 @@ class RecordingPage extends StatelessWidget {
                       ),
                       child: Image.asset(
                         animationControllerController.showStopIcon.value
-                            ? 'assets/images/stop.png'
-                            : 'assets/images/mic.png',
+                            ? 'assets/images/stop.svg'
+                            : 'assets/images/mic.svg',
                         width: 24,
                         height: 24,
                         color: Colors.white,

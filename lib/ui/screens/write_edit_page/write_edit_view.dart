@@ -123,7 +123,7 @@ class _WriteEditViewState extends State<WriteEditView> {
                                 ),
                                 child: IconButton(
                                   icon: Image.asset(
-                                    'assets/img/format_align_left.png',
+                                    'assets/img/format_align_left.svg',
                                     width: 24,
                                   ),
                                   onPressed: viewModel.toggleTextAlign,
@@ -146,7 +146,7 @@ class _WriteEditViewState extends State<WriteEditView> {
                                 ),
                                 child: IconButton(
                                   icon: Image.asset(
-                                    'assets/img/format_size.png',
+                                    'assets/img/format_size.svg',
                                     width: 24,
                                   ),
                                   onPressed: viewModel.toggleFontSize,
@@ -169,7 +169,7 @@ class _WriteEditViewState extends State<WriteEditView> {
                                 ),
                                 child: IconButton(
                                   icon: Image.asset(
-                                    'assets/img/brand_family.png',
+                                    'assets/img/brand_family.svg',
                                     width: 24,
                                   ),
                                   onPressed: () {

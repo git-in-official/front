@@ -43,7 +43,7 @@ class EmotionModel {
   static EmotionModel defaultUnknownEmotion() {
     return EmotionModel(
       title: '모르겠음',
-      iconPath: 'assets/img/uncertainty.png',
+      iconPath: 'assets/img/icon-dontno.svg',
       detail: [],
     );
   }

@@ -61,7 +61,7 @@ class CircleMenu extends StatelessWidget {
             Positioned(
               top: 33,
               child: CircleButton(
-                imagePath: 'assets/images/title.png',
+                imagePath: 'assets/images/title.svg',
                 label: "제목",
                 movePage: 'TitleWritingMaterial',
               ),
@@ -69,7 +69,7 @@ class CircleMenu extends StatelessWidget {
             Positioned(
               bottom: 33,
               child: CircleButton(
-                imagePath: 'assets/images/sounds.png',
+                imagePath: 'assets/images/sounds.svg',
                 label: "소리",
                 movePage: 'SoundWrite',
               ),
@@ -77,7 +77,7 @@ class CircleMenu extends StatelessWidget {
             Positioned(
               left: 33,
               child: CircleButton(
-                imagePath: 'assets/images/word.png',
+                imagePath: 'assets/images/word.svg',
                 label: "단어",
                 movePage: 'WordWritingMaterial',
               ),
@@ -85,7 +85,7 @@ class CircleMenu extends StatelessWidget {
             Positioned(
               right: 33,
               child: CircleButton(
-                imagePath: 'assets/images/media.png',
+                imagePath: 'assets/images/media.svg',
                 label: "영상",
                 movePage: 'VideoWrite',
               ),
@@ -111,7 +111,7 @@ class CircleMenu extends StatelessWidget {
                       Navigator.of(context).pop();
                     },
                     child: Image.asset(
-                      'assets/images/icon.png',
+                      'assets/images/icon.svg',
                       width: 24,
                       height: 24,
                     ),

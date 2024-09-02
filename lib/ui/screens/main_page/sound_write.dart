@@ -65,7 +65,7 @@ class SoundWrite extends StatelessWidget {
                 ),
                 const SizedBox(height: 76.0),
                 Container(
-                  child: Image.asset('assets/img/sound_pic.png'),
+                  child: Image.asset('assets/img/sound_pic.svg'),
                 ),
                 const SizedBox(height: 60.0),
                 Obx(() {

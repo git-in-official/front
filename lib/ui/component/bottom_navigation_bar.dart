@@ -88,7 +88,7 @@ class Maintab extends StatelessWidget {
                     icon: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset('assets/images/home.png', width: 24, height: 24),
+                        Image.asset('assets/images/home.svg', width: 24, height: 24),
                         const Text('홈으로', style: TextStyle(fontSize: 10)),
                       ],
                     ),
@@ -98,7 +98,7 @@ class Maintab extends StatelessWidget {
                     icon: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset('assets/images/home-ment.png', width: 44, height: 44),
+                        Image.asset('assets/images/home_ment.svg', width: 44, height: 44),
                       ],
                     ),
                     label: '',
@@ -107,7 +107,7 @@ class Maintab extends StatelessWidget {
                     icon: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset('assets/images/menu.png', width: 24, height: 24),
+                        Image.asset('assets/images/menu.svg', width: 24, height: 24),
                         const Text('메뉴', style: TextStyle(fontSize: 10)),
                       ],
                     ),
@@ -178,10 +178,10 @@ class Maintab extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                _buildPopupMenu('마이페이지', 'assets/images/mypage.png', 'Profile'),
-                _buildPopupMenu('작업실', 'assets/images/study-lamp.png', 'Profile'),
-                _buildPopupMenu('도서관', 'assets/images/library.png', 'Profile'),
-                _buildPopupMenu('스토어', 'assets/images/store.png', 'Profile'),
+                _buildPopupMenu('마이페이지', 'assets/images/mypage.svg', 'Profile'),
+                _buildPopupMenu('작업실', 'assets/images/study-lamp.svg', 'Profile'),
+                _buildPopupMenu('도서관', 'assets/images/library.svg', 'Profile'),
+                _buildPopupMenu('스토어', 'assets/images/store.svg', 'Profile'),
               ],
             ),
           )

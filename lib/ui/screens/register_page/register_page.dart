@@ -188,7 +188,7 @@ class _AnimatedPositionedLogoState extends State<AnimatedPositionedLogo> {
                       ],
                     );
                   },
-                  child: Image.asset('assets/images/logo_large.png'),
+                  child: Image.asset('assets/images/logo_large.svg'),
                 );
               },
             ),

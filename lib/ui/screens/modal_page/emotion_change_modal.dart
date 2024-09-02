@@ -70,13 +70,13 @@ class EmotionChangeModal extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(14, 24, 14, 24),
                   itemBuilder: (context, index) {
                     final imagePaths = [
-                      'assets/images/icon-happy.png',
-                      'assets/images/icon-sad.png',
-                      'assets/images/icon-fear.png',
-                      'assets/images/icon-anger.png',
-                      'assets/images/icon-expect.png',
-                      'assets/images/icon-trust.png',
-                      'assets/images/icon-dontno.png',
+                      'assets/images/icon-happy.svg',
+                      'assets/images/icon-sad.svg',
+                      'assets/images/icon-fear.svg',
+                      'assets/images/icon-anger.svg',
+                      'assets/images/icon-expect.svg',
+                      'assets/images/icon-trust.svg',
+                      'assets/images/icon-dontno.svg',
                     ];
                     final labels = [
                       '기쁨',
