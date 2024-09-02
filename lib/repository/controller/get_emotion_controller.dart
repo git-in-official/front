@@ -41,21 +41,21 @@ class GetEmotionController extends GetxController {
   String _getIconPathForEmotion(String emotion) {
     switch (emotion) {
       case '기쁨':
-        return 'assets/img/joy.svg';
+        return 'assets/images/icon-happy.svg';
       case '슬픔':
-        return 'assets/img/sadness.svg';
+        return 'assets/images/icon-sad.svg';
       case '두려움':
-        return 'assets/img/fear.svg';
+        return 'assets/images/icon-fear.svg';
       case '분노':
-        return 'assets/img/anger.svg';
+        return 'assets/images/icon-anger.svg';
       case '기대':
-        return 'assets/img/anticipation.svg';
+        return 'assets/images/icon-expect.svg';
       case '신뢰':
-        return 'assets/img/trust.svg';
+        return 'assets/images/icon-trust.svg';
       case '모르겠음':
-        return 'assets/img/uncertainty.svg';
+        return 'assets/images/icon-dontno.svg';
       default:
-        return 'assets/img/joy.svg';
+        return 'assets/images/icon-happy.svg';
     }
   }
 }
