@@ -158,10 +158,16 @@ class WriteEditViewModel extends GetxController {
       "weight": FontWeight.w400,
       "name": "KoPub Batang Medium"
     };
-    bodyContent.value = '';
-    /*inspirationId.value = '';
-    audioFile.value = '';
-    themes.clear();
-    interactions.clear();*/
+    tempSelectedFont.value = Map<String, Object>.from(selectedFont);  // 임시 선택된 폰트도 초기화
+    title.value = '';  // 제목 초기화
+    bodyContent.value = '';  // 본문 내용 초기화
+    isFormComplete.value = false;  // 폼 완료 상태 초기화
+    originalContent.value = '';  // 원본 내용 초기화
+    originalTitle.value = '';  // 원본 제목 초기화
+    inspirationId.value = '';  // 영감 ID 초기화
+    audioFile.value = '';  // 오디오 파일 초기화
+    themes.clear();  // 테마 리스트 초기화
+    interactions.clear();  // 인터랙션 리스트 초기화
+
   }
 }

@@ -317,18 +317,18 @@ class _AnimatedLogin extends State<AnimatedLogin>
                     height: 48,
                   ),
                 ),
-                SizedBox(width: 20),
-                GestureDetector(
-                  onTap: () {
-                    // loginController.signOut();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Maintab()),
-                    );
-                  },
-                  child: Image.asset('assets/images/apple_login.png',
-                      width: 48, height: 48),
-                ),
+                // SizedBox(width: 20),
+                // GestureDetector(
+                //   onTap: () {
+                //     // loginController.signOut();
+                //     // Navigator.push(
+                //     //   context,
+                //     //   MaterialPageRoute(builder: (context) => Maintab()),
+                //     // );
+                //   },
+                //   child: Image.asset('assets/images/apple_login.png',
+                //       width: 48, height: 48),
+                // ),
               ],
             )
           ],

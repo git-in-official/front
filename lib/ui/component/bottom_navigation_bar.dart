@@ -190,10 +190,10 @@ class Maintab extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                _buildPopupMenu('마이페이지', 'assets/images/mypage.svg', 'Profile'),
-                _buildPopupMenu('작업실', 'assets/images/study-lamp.svg', 'Profile'),
-                _buildPopupMenu('도서관', 'assets/images/library.svg', 'Profile'),
-                _buildPopupMenu('스토어', 'assets/images/store.svg', 'Profile'),
+                _buildPopupMenu('마이페이지', 'assets/images/mypage.svg', 'Profile', context),
+                _buildPopupMenu('작업실', 'assets/images/study-lamp.svg', '', context),
+                _buildPopupMenu('도서관', 'assets/images/library.svg', '', context),
+                _buildPopupMenu('스토어', 'assets/images/store.svg', '', context),
               ],
             ),
           )
@@ -202,7 +202,7 @@ class Maintab extends StatelessWidget {
     );
   }
 
-  Widget _buildPopupMenu(String label, String image, String movePage) {
+  Widget _buildPopupMenu(String label, String image, String movePage, BuildContext context) {
     return InkWell(
       onTap: () {
 
@@ -211,7 +211,14 @@ class Maintab extends StatelessWidget {
         }
 
         tabController.showSecondBottomSheet.value = false;
-        tabController.pageName.value = movePage;
+
+        if (movePage == '' && movePage.isEmpty) {
+          customSnackBar(context);
+        } else {
+          tabController.pageName.value = movePage;
+        }
+
+
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -233,4 +240,36 @@ class Maintab extends StatelessWidget {
       ),
     );
   }
+
+  void customSnackBar(BuildContext context) {
+    final overlay = Overlay.of(context);
+    final overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        top: MediaQuery.of(context).size.height * 0.76,
+        left: 20.0,
+        right: 20.0,
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(55, 52, 48, 0.8),
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: Text(
+             '서비스 준비 중',
+              style: TextStyle(color: Colors.white),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+      ),
+    );
+    overlay.insert(overlayEntry);
+
+    Future.delayed(Duration(seconds: 2), () {
+      overlayEntry.remove();
+    });
+  }
+
 }

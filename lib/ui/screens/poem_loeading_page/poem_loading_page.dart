@@ -20,8 +20,11 @@ class PoemLoadingPage extends StatelessWidget {
   }
 
   void _onConfirmPressed() {
+    writeEditViewModel.resetValues();
     Get.offAll(() => Maintab());
     tabController.pageName.value = "Home";
+
+
   }
 
 
